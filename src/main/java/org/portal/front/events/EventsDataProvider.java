@@ -1,6 +1,6 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
-import org.portal.backend.data.model.Event;
+import org.portal.back.model.Event;
 import com.vaadin.flow.data.provider.ListDataProvider;
 
 import java.util.Collection;

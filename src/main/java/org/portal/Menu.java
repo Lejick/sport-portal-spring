@@ -59,9 +59,9 @@ public class Menu extends FlexLayout {
             VaadinSession.getCurrent().getSession().invalidate();
             UI.getCurrent().getPage().reload();
         });
-        Label userName = new Label(CurrentUser.get());
+    /*    Label userName = new Label(CurrentUser.get());
         userName.setWidth("100%");
-        add(userName);
+        add(userName);*/
         logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         add(logoutButton);
     }

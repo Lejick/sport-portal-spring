@@ -1,7 +1,7 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
 import com.vaadin.flow.component.grid.Grid;
-import org.portal.backend.data.model.Event;
+import org.portal.back.model.Event;
 
 /**
  * Grid of products, handling the visual presentation and filtering of a set of

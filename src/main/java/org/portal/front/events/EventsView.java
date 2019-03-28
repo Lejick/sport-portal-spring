@@ -1,17 +1,13 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
 import org.portal.MainLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
-import org.portal.backend.DataService;
-import org.portal.backend.data.model.Event;
-import org.portal.backend.data.model.League;
+import org.portal.back.DataService;
+import org.portal.back.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 @Route(value = "Tennis_Events", layout = MainLayout.class)
 @Component

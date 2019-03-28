@@ -1,6 +1,6 @@
-package org.portal.model.leagues;
+package org.portal.front.leagues;
 
-import org.portal.backend.data.model.League;
+import org.portal.back.model.League;
 import com.vaadin.flow.component.grid.Grid;
 
 /**

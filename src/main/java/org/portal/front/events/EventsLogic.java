@@ -1,7 +1,7 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
 
-import org.portal.backend.data.model.Event;
+import org.portal.back.model.Event;
 
 import java.io.Serializable;
 

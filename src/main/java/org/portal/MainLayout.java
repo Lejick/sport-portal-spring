@@ -7,7 +7,7 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import org.portal.model.leagues.LeaguesView;
+import org.portal.front.leagues.LeaguesView;
 
 @HtmlImport("css/shared-styles.html")
 @Theme(value = Lumo.class)
@@ -16,6 +16,7 @@ public class MainLayout extends FlexLayout implements RouterLayout {
     private Menu menu;
 
     public MainLayout() {
+
         setSizeFull();
         setClassName("main-layout");
 

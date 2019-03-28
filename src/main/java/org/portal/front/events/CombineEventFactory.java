@@ -1,9 +1,9 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
-import org.portal.backend.data.model.LineEvent;
-import org.portal.backend.pinnacle.api.enums.BET_TYPE;
-import org.portal.backend.pinnacle.api.enums.SIDE_TYPE;
-import org.portal.backend.pinnacle.api.enums.TEAM_TYPE;
+import org.portal.back.model.LineEvent;
+import org.portal.back.pinnacle.api.enums.BET_TYPE;
+import org.portal.back.pinnacle.api.enums.SIDE_TYPE;
+import org.portal.back.pinnacle.api.enums.TEAM_TYPE;
 
 import java.util.ArrayList;
 import java.util.Collections;

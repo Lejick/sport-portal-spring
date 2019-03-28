@@ -1,12 +1,12 @@
-package org.portal.model.leagues;
+package org.portal.front.leagues;
 
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.portal.MainLayout;
-import org.portal.backend.DataService;
-import org.portal.backend.data.model.League;
+import org.portal.back.DataService;
+import org.portal.back.model.League;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;

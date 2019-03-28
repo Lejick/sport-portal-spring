@@ -1,6 +1,6 @@
 package org.portal.authentication;
 
-import org.portal.backend.data.model.Logins;
+import org.portal.back.model.Logins;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;

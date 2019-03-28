@@ -1,6 +1,6 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
-import org.portal.backend.data.model.LineEvent;
+import org.portal.back.model.LineEvent;
 
 import java.util.Date;
 

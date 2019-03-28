@@ -4,7 +4,7 @@ package org.portal.authentication;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.portal.backend.util.DualLogger;
+import org.portal.back.util.DualLogger;
 
 /**
  * Default mock implementation of {@link AccessControl}. This implementation

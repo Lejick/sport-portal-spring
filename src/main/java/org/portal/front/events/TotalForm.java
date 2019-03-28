@@ -1,11 +1,11 @@
-package org.portal.model.events;
+package org.portal.front.events;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.portal.backend.data.model.Event;
+import org.portal.back.model.Event;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
