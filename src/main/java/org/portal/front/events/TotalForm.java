@@ -77,7 +77,7 @@ public class TotalForm extends Div {
                 under.getStyle().set("color", "black");
                 under.setWidth(stdWidth);
 
-                if (currentTotal.compareTo(nextTotal) == 0 &&
+                if (nextTotal!=null && currentTotal.compareTo(nextTotal) == 0 &&
                         nextOver.compareTo(currentOver) < 0) {
                     over.setText(over.getText() + "(" + currentOver.subtract(nextOver) + ")");
                     under.setText(under.getText() + "(" + currentUnder.subtract(nextUnder) + ")");
@@ -85,7 +85,7 @@ public class TotalForm extends Div {
                     over.getStyle().set("color", "green");
                 }
 
-                if (currentTotal.compareTo(nextTotal) == 0 &&
+                if (nextTotal!=null && currentTotal.compareTo(nextTotal) == 0 &&
                         nextOver.compareTo(currentOver) > 0) {
                     over.setText(over.getText() + "(" + currentOver.subtract(nextOver) + ")");
                     under.setText(under.getText() + "(" + currentUnder.subtract(nextUnder) + ")");

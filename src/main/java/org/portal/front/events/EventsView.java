@@ -1,30 +1,33 @@
 package org.portal.front.events;
 
+import com.vaadin.flow.data.provider.DataProvider;
+import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.portal.back.model.League;
+
+import java.util.Collection;
 
 @Route(value = "Tennis_Events", layout = MainLayout.class)
-@Component
 public class EventsView extends HorizontalLayout
         implements HasUrlParameter<String> {
     private EventsLogic viewLogic = new EventsLogic(this);
-    private EventsDataProvider dataProvider;
     private EventsGrid grid;
     private MoneyLineForm moneyLineForm;
     private TotalForm totalForm;
-
-    @Autowired
-    DataService dataService;
+    private DataService ds = ContextProvider.getBean(DataService.class);
 
     @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
-
+    public void setParameter(BeforeEvent event, @OptionalParameter String leagueName) {
+        if (leagueName != null) {
+            Collection<Event> events = ds.getEvents(leagueName);
+            grid.setDataProvider(new EventsDataProvider(events) {
+            });
+        }
     }
 
     public void showOdds(Event eventModelTennis) {
@@ -38,7 +41,6 @@ public class EventsView extends HorizontalLayout
     public EventsView() {
         setSizeFull();
         grid = new EventsGrid();
-        //   grid.setDataProvider(new EventsDataProvider());
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);

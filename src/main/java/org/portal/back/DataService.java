@@ -7,6 +7,7 @@ import org.portal.back.model.Event;
 import org.portal.back.model.League;
 import org.portal.back.pinnacle.Constants;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,21 +21,19 @@ public class DataService implements Serializable {
     @PersistenceContext
     protected EntityManager em;
 
+    @Transactional
     public Collection<Event> getEvents(String leagueName) {
         Date now = Calendar.getInstance().getTime();
 
-        em.getTransaction().begin();
         List<Event> events = em.createQuery(
                 "SELECT e FROM Event e where league_name=:name AND starts>:now AND sport_id=:sportId ORDER BY starts, home", Event.class)
                 .setParameter("name", leagueName)
                 .setParameter("now", now)
                 .setParameter("sportId", sportId)
                 .getResultList();
-        em.getTransaction().commit();
-        em.close();
         return events;
     }
-
+    @Transactional
     public Event getEventById(Long eventId) {
         Event result = new Event();
 
@@ -48,7 +47,7 @@ public class DataService implements Serializable {
         return result;
 
     }
-
+    @Transactional
     public Collection<League> getAllLeagues() {
         Date now = Calendar.getInstance().getTime();
         List events = em.createQuery(

@@ -18,33 +18,10 @@ import org.portal.authentication.CurrentUser;
 
 public class Menu extends FlexLayout {
 
-    private static final String SHOW_TABS = "show-tabs";
     private Tabs tabs;
 
     public Menu() {
         setClassName("menu-bar");
-
-        // Button for toggling the menu visibility on small screens
-        final Button showMenu = new Button("Menu", event -> {
-            if (tabs.getClassNames().contains(SHOW_TABS)) {
-                tabs.removeClassName(SHOW_TABS);
-            } else {
-                tabs.addClassName(SHOW_TABS);
-            }
-        });
-        showMenu.setClassName("menu-button");
-        showMenu.addThemeVariants(ButtonVariant.LUMO_SMALL);
-        showMenu.setIcon(new Icon(VaadinIcon.MENU));
-        add(showMenu);
-
-        // header of the menu
-        final HorizontalLayout top = new HorizontalLayout();
-        top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
-        top.setClassName("menu-header");
-
-        Label title = new Label("Sport");
-        top.add(title);
-        add(top);
 
         // container for the navigation buttons, which are added by addView()
         tabs = new Tabs();
@@ -53,17 +30,17 @@ public class Menu extends FlexLayout {
         add(tabs);
 
         // logout menu item
-        Button logoutButton = new Button("Logout",
+   /*     Button logoutButton = new Button("Logout",
                 VaadinIcon.SIGN_OUT.create());
         logoutButton.addClickListener(event -> {
             VaadinSession.getCurrent().getSession().invalidate();
             UI.getCurrent().getPage().reload();
-        });
+        });*/
     /*    Label userName = new Label(CurrentUser.get());
         userName.setWidth("100%");
         add(userName);*/
-        logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        add(logoutButton);
+       /* logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        add(logoutButton);*/
     }
 
     /**

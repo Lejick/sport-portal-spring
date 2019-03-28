@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableScheduling
-@EnableJpaRepositories("org.portal.back.data.front")
+@EnableJpaRepositories("org.portal.back.model")
 public class Application extends SpringBootServletInitializer  {
 
     public static void main(String[] args) {
