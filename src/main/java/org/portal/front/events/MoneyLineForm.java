@@ -93,16 +93,22 @@ public class MoneyLineForm extends Div {
 
                 if (homeNextPrice != null && homePrice.compareTo(homeNextPrice) < 0) {
                     home.setText(home.getText() + "(" + homePrice.subtract(homeNextPrice) + ")");
-                    away.setText(away.getText() + "(+" + awayPrice.subtract(awayNextPrice) + ")");
                     home.getStyle().set("color", "red");
-                    away.getStyle().set("color", "green");
                 }
 
                 if (homeNextPrice != null && homePrice.compareTo(homeNextPrice) > 0) {
                     home.setText(home.getText() + "(+" + homePrice.subtract(homeNextPrice) + ")");
-                    away.setText(away.getText() + "(" + awayPrice.subtract(awayNextPrice) + ")");
                     home.getStyle().set("color", "green");
+                }
+
+                if (awayNextPrice != null && awayPrice.compareTo(awayNextPrice) < 0) {
+                    away.setText(away.getText() + "(+" + awayPrice.subtract(awayNextPrice) + ")");
                     away.getStyle().set("color", "red");
+                }
+
+                if (awayNextPrice != null && awayPrice.compareTo(awayNextPrice) > 0) {
+                    away.setText(away.getText() + "(" + awayPrice.subtract(awayNextPrice) + ")");
+                    away.getStyle().set("color", "green");
                 }
 
                 if (homeNextMax != null && homeMax.compareTo(homeNextMax) < 0) {

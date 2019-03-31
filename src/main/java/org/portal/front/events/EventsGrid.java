@@ -27,13 +27,5 @@ public class EventsGrid extends Grid<Event> {
                 .setHeader("League")
                 .setFlexGrow(20)
                 .setSortable(false);
-        addColumn(Event::getBlank)
-                .setHeader("     ")
-                .setFlexGrow(20)
-                .setSortable(false);
-        addColumn(Event::getBlank)
-                .setHeader("     ")
-                .setFlexGrow(20)
-                .setSortable(false);
     }
 }

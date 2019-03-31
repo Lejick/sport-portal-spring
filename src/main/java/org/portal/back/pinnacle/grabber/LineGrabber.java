@@ -1,9 +1,6 @@
 package org.portal.back.pinnacle.grabber;
 
-import org.portal.back.model.Event;
-import org.portal.back.model.EventRepository;
-import org.portal.back.model.LineEvent;
-import org.portal.back.model.LineEventRepository;
+import org.portal.back.model.*;
 import org.portal.back.pinnacle.api.dataobjects.Fixtures;
 import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
@@ -14,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Optional;
 
 public class LineGrabber extends AbstractGrabber {
     @Autowired
@@ -21,6 +19,9 @@ public class LineGrabber extends AbstractGrabber {
 
     @Autowired
     LineEventRepository lineEventRepository;
+
+    @Autowired
+    OddsRepository oddsRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(LineGrabber.class);
 
@@ -30,22 +31,32 @@ public class LineGrabber extends AbstractGrabber {
 
 
     public void grab() {
-        PinnacleConnector fixtureConnector = new PinnacleConnector();
-        PinnacleConnector oddsConnector = new PinnacleConnector();
-        LOGGER.info("Start to get fixtures for sportId="+sportId);
-        Fixtures fixtures = fixtureConnector.getFixtures(sportId);
-        Odds odds = oddsConnector.getOdds(sportId);
-        LOGGER.info("Start to get odds for sportId="+sportId);
         now = getCurrentTime();
+        LOGGER.info("Start to get fixtures for sportId="+sportId);
+        PinnacleConnector fixtureConnector = new PinnacleConnector();
+        Fixtures fixtures = fixtureConnector.getFixtures(sportId);
+
+
+
+        LOGGER.info("Start to get odds for sportId=" + sportId);
+        PinnacleConnector oddsConnector = new PinnacleConnector();
+        Odds odds = oddsConnector.getOdds(sportId);
+
+
+        org.portal.back.model.Odds modelOdds = new org.portal.back.model.Odds();
+        modelOdds.setOddsDate(now);
+        modelOdds.setSport_id(sportId);
+        oddsRepository.save(modelOdds);
+
+
         for (Odds.League league : odds.leagues()) {
             Fixtures.League fixLeague = findLeagueById(fixtures, league.id());
             if (fixLeague != null) {
-
                 for (Odds.Event event : league.events()) {
                     Fixtures.Event fixEvent = findEventById(fixtures, event.id());
                     if (fixEvent != null) {
                         updateEvent(event.id(), fixEvent.home(), fixEvent.away(), Date.from(fixEvent.starts()),
-                                league.id(), fixLeague.name(), event);
+                                league.id(), fixLeague.name(), event,modelOdds);
 
                     }
                 }
@@ -80,10 +91,12 @@ public class LineGrabber extends AbstractGrabber {
 
     @Transactional
     public void updateEvent(long eventId, String home, String away, Date eventStart,
-                            long leagueId, String leagueName, Odds.Event oddsEvent) {
-        Event emh = em.find(Event.class, eventId);
-        if (emh == null) {
-            emh = new Event();
+                            long leagueId, String leagueName, Odds.Event oddsEvent, org.portal.back.model.Odds modelOdds) {
+        Event emh = new Event();
+        Optional<Event> opt = eventRepository.findById(eventId);
+        if (opt.isPresent()) {
+            emh = opt.get();
+        } else {
             emh.setId(eventId);
             emh.setHome(home);
             emh.setAway(away);
@@ -91,8 +104,9 @@ public class LineGrabber extends AbstractGrabber {
             emh.setLeague_id(leagueId);
             emh.setLeague_name(leagueName);
             emh.setStarts(eventStart);
-            eventRepository.save(emh);
         }
+        emh.setOdds(modelOdds);
+        eventRepository.save(emh);
         if (oddsEvent.periods().get(0).moneyline().isPresent()) {
             insertMoneyLineInBase(oddsEvent, emh, leagueId);
         }

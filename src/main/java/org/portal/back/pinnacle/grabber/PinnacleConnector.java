@@ -8,11 +8,13 @@ import org.portal.back.pinnacle.api.dataobjects.Fixtures;
 import org.portal.back.pinnacle.api.dataobjects.Line;
 import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
-import org.portal.back.util.DualLogger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class PinnacleConnector {
-    private static final DualLogger LOGGER = new DualLogger(PinnacleConnector.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PinnacleConnector.class);
 
     private String username = Constants.USER;
     private String password = Constants.PASS;
@@ -22,12 +24,39 @@ public class PinnacleConnector {
             PinnacleAPI api = PinnacleAPI.open(username, password);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
-            parameter.isLive(false);
-
             Fixtures fixtures = api.getFixturesAsObject(parameter);
             return fixtures;
         } catch (PinnacleException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage(),ex);
+        }
+        return null;
+    }
+
+    public Fixtures getFixturesLive(int sportId) {
+        try {
+            PinnacleAPI api = PinnacleAPI.open(username, password);
+            Parameter parameter = Parameter.newInstance();
+            parameter.sportId(sportId);
+            parameter.isLive(true);
+            Fixtures fixtures = api.getFixturesAsObject(parameter);
+            return fixtures;
+        } catch (PinnacleException ex) {
+            LOGGER.error(ex.getMessage(),ex);
+        }
+        return null;
+    }
+
+    public Odds getOddsLive(int sportId) {
+        try {
+            PinnacleAPI api = PinnacleAPI.open(username, password);
+            Parameter parameter = Parameter.newInstance();
+            parameter.sportId(sportId);
+            parameter.isLive(true);
+            parameter.oddsFormat(ODDS_FORMAT.DECIMAL);
+            Odds odds = api.getOddsAsObject(parameter);
+            return odds;
+        } catch (PinnacleException ex) {
+            LOGGER.error(ex.getMessage(),ex);
         }
         return null;
     }
@@ -41,7 +70,7 @@ public class PinnacleConnector {
             Odds odds = api.getOddsAsObject(parameter);
             return odds;
         } catch (PinnacleException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage(),ex);
         }
         return null;
     }
@@ -63,7 +92,7 @@ public class PinnacleConnector {
                 return line;
             }
         } catch (PinnacleException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage(),ex);
         }
 
         return null;

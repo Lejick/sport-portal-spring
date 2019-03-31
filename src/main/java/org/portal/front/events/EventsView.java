@@ -1,6 +1,5 @@
 package org.portal.front.events;
 
-import com.vaadin.flow.data.provider.DataProvider;
 import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -8,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
-import org.portal.back.model.League;
 
 import java.util.Collection;
 
@@ -33,7 +31,7 @@ public class EventsView extends HorizontalLayout
     public void showOdds(Event eventModelTennis) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(eventModelTennis);
-        totalForm.setVisible(true);
+        totalForm.setVisible(false);
         totalForm.showOdds(eventModelTennis);
 
     }

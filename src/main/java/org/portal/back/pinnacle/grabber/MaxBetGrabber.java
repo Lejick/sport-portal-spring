@@ -1,51 +1,53 @@
 package org.portal.back.pinnacle.grabber;
 
 import org.portal.back.model.Event;
+import org.portal.back.model.EventRepository;
 import org.portal.back.model.LineEvent;
-import org.portal.back.pinnacle.api.dataobjects.Fixtures;
+import org.portal.back.model.LineEventRepository;
 import org.portal.back.pinnacle.api.dataobjects.Line;
+import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
-import org.portal.back.util.DualLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.Optional;
 
 public class MaxBetGrabber extends AbstractGrabber {
-    private static Fixtures fixtures;
-    private DualLogger LOGGER = new DualLogger(MaxBetGrabber.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MaxBetGrabber.class);
 
     public MaxBetGrabber(int sportId) {
         super(sportId);
     }
 
+    @Autowired
+    EventRepository eventRepository;
+
+    @Autowired
+    LineEventRepository lineEventRepository;
+
+    @Override
     public void grab() {
-        if (fixtures != null) {
-            LOGGER.info("Initiate Max Bet Grabber");
-            now = getCurrentTime();
-            for (int i = 0; i < fixtures.league().size(); ) {
-                Fixtures.League fixLeague = fixtures.league().get(i);
-                if (fixLeague != null) {
-                    for (int j = 0; j < fixLeague.events().size(); ) {
-                        Fixtures.Event fixEvent = fixLeague.events().get(j);
-                        if (fixEvent != null && Date.from(fixEvent.starts()).after(now)) {
-                                LOGGER.info("Update Max Bet  L: " + fixLeague.name() + " E: " + fixEvent.home() + "/" + fixEvent.away());
-                                updateEvent(fixEvent.id(), fixLeague.id());
-                                j++;
-                            }
-                        }
-                    }
-                    i++;
-                }
+        LOGGER.info("Start to get odds for sportId=" + sportId);
+        PinnacleConnector oddsConnector = new PinnacleConnector();
+        long leagueId=0L;
+        long eventId=0L;
+        Odds odds = oddsConnector.getOdds(sportId);
+        for(Odds.League league:odds.leagues()){
+            leagueId=league.id();
+            for(Odds.Event event:league.events()){
+                eventId=event.id();
+                LOGGER.info("Update Max Bet  Event id: " + eventId);
+                updateEvent(eventId, leagueId);
             }
-            LOGGER.info("Release Max Bet Grabber");
         }
 
-    public void setFixtures(Fixtures fixtures) {
-        this.fixtures = fixtures;
     }
 
     public void updateEvent(long eventId, long leagueId) {
-        Event emh = em.find(Event.class, eventId);
-        if (emh == null) {
+        Optional<Event> emh = eventRepository.findById(eventId);
+        if (!emh.isPresent()) {
             return;
         }
 
@@ -53,8 +55,8 @@ public class MaxBetGrabber extends AbstractGrabber {
         LineEvent fixLineTeam2 = getTennisMoneyLineEvent(eventId, TEAM_TYPE.TEAM_2, now, leagueId);
         now = getCurrentTime();
         if (fixLineTeam1 != null && fixLineTeam2 != null) {
-            updateDBLineEvent(emh, fixLineTeam1, now, TEAM_TYPE.TEAM_1);
-            updateDBLineEvent(emh, fixLineTeam2, now, TEAM_TYPE.TEAM_2);
+            updateDBLineEvent(emh.get(), fixLineTeam1, now, TEAM_TYPE.TEAM_1);
+            updateDBLineEvent(emh.get(), fixLineTeam2, now, TEAM_TYPE.TEAM_2);
         }
 
     }
@@ -64,12 +66,12 @@ public class MaxBetGrabber extends AbstractGrabber {
         LineEvent dbEvent = emh.getLastMoneyLine(teamType.toAPI());
         LineEvent line = LineEntityFactory.createMoneyLine(fixLine.getPrice(), fixLine.getMax_bet(), teamType, oddsTime, emh);
         if (dbEvent == null) {
-            em.merge(line);
+            lineEventRepository.save(line);
         } else {
             if (dbEvent.getMax_bet() == null || dbEvent.getMax_bet().compareTo(line.getMax_bet()) != 0) {
                 dbEvent.setMax_bet(fixLine.getMax_bet());
                 dbEvent.setPrice(fixLine.getPrice());
-                em.merge(dbEvent);
+                lineEventRepository.save(dbEvent);
             }
         }
     }

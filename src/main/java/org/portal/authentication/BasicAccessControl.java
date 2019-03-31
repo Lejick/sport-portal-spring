@@ -4,7 +4,8 @@ package org.portal.authentication;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.portal.back.util.DualLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default mock implementation of {@link AccessControl}. This implementation
@@ -12,7 +13,7 @@ import org.portal.back.util.DualLogger;
  * administrator.
  */
 public class BasicAccessControl implements AccessControl {
-    private static final DualLogger LOGGER =new DualLogger(AccessControl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(BasicAccessControl.class);
 
     @Override
     public boolean signIn(String username, String password) {
@@ -34,7 +35,7 @@ public class BasicAccessControl implements AccessControl {
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
             loginSuccess = actualPass.equals(sb.toString());
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.info("logging for user : " + username);
         if (loginSuccess) {

@@ -23,12 +23,12 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<Event> getEvents(String leagueName) {
-        Date now = Calendar.getInstance().getTime();
-
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from odds").getSingleResult();
         List<Event> events = em.createQuery(
-                "SELECT e FROM Event e where league_name=:name AND starts>:now AND sport_id=:sportId ORDER BY starts, home", Event.class)
+                "SELECT e FROM Event e where league_name=:name AND (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId ORDER BY starts, home", Event.class)
                 .setParameter("name", leagueName)
-                .setParameter("now", now)
+                .setParameter("max", max.intValue())
+                .setParameter("pre", max.intValue()-1)
                 .setParameter("sportId", sportId)
                 .getResultList();
         return events;
@@ -47,12 +47,15 @@ public class DataService implements Serializable {
         return result;
 
     }
+
     @Transactional
     public Collection<League> getAllLeagues() {
-        Date now = Calendar.getInstance().getTime();
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from odds").getSingleResult();
+
         List events = em.createQuery(
-                "SELECT (e.league_name), min(starts) FROM Event e where starts>:now AND sport_id=:sportId group by league_name order by league_name")
-                .setParameter("now", now)
+                "SELECT (e.league_name), min(starts) FROM Event e where (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId group by league_name order by league_name")
+                .setParameter("max",   max.intValue())
+                .setParameter("pre", max.intValue()-1)
                 .setParameter("sportId", sportId)
                 .getResultList();
         List<League> leagues = new ArrayList<>();

@@ -11,21 +11,6 @@ import com.vaadin.flow.component.grid.Grid;
 public class LeaguesGrid extends Grid<League> {
 
     public LeaguesGrid() {
-       /* LineGrabber lineTennisGrabber = GrabberFactory.getTennisLineGrabber();
-        MaxBetGrabber maxGrabber = GrabberFactory.getTennisMaxBetGrabber();
-
-        if(!lineTennisGrabber.isRunning()) {
-            Thread thread = new Thread(lineTennisGrabber);
-            thread.run();
-        }
-
-        if(!maxGrabber.isRunning()) {
-            Thread thread = new Thread(maxGrabber);
-            thread.run();
-        }
-*/
-
-     //   new Thread(() -> GrabberFactory.getTennisMaxBetGrabber().run()).start();
 
         setSizeFull();
         addColumn(League::getName)

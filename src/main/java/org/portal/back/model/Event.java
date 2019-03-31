@@ -26,6 +26,10 @@ public class Event {
     @OneToMany(mappedBy = "event",fetch = FetchType.EAGER)
     private List<LineEvent> lineEvents;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "actual_fix_id",nullable = false)
+    Odds odds;
+
     @Column
     Date starts;
 
@@ -164,4 +168,14 @@ public class Event {
         }
         return null;
     }
+
+
+    public Odds getOdds() {
+        return odds;
+    }
+
+    public void setOdds(Odds odds) {
+        this.odds = odds;
+    }
+
 }
