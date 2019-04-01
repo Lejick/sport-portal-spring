@@ -10,6 +10,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
@@ -18,14 +19,13 @@ import org.portal.authentication.CurrentUser;
 
 public class Menu extends FlexLayout {
 
-    private Tabs tabs;
+    private VerticalLayout tabs;
 
     public Menu() {
         setClassName("menu-bar");
 
         // container for the navigation buttons, which are added by addView()
-        tabs = new Tabs();
-        tabs.setOrientation(Tabs.Orientation.VERTICAL);
+        tabs = new VerticalLayout();
         setFlexGrow(1, tabs);
         add(tabs);
 
@@ -48,14 +48,11 @@ public class Menu extends FlexLayout {
      *
      * @param viewClass that has a {@code Route} annotation
      * @param caption   view caption in the menu
-     * @param icon      view icon in the menu
      */
-    public void addView(Class<? extends Component> viewClass, String caption,
-                        Icon icon) {
+    public void addView(Class<? extends Component> viewClass, String caption) {
         Tab tab = new Tab();
         RouterLink routerLink = new RouterLink(null, viewClass);
         routerLink.setClassName("menu-link");
-        routerLink.add(icon);
         routerLink.add(new Span(caption));
         tab.add(routerLink);
         tabs.add(tab);

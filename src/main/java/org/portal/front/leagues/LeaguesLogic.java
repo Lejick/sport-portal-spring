@@ -6,7 +6,7 @@ import org.portal.front.events.EventsView;
 
 import java.io.Serializable;
 
-public class LeaguesLogic implements Serializable {
+public abstract class LeaguesLogic implements Serializable {
 
 
     public void init() {

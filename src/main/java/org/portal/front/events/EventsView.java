@@ -7,26 +7,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
+import org.portal.back.pinnacle.Constants;
 
 import java.util.Collection;
 
-@Route(value = "Tennis_Events", layout = MainLayout.class)
-public class EventsView extends HorizontalLayout
-        implements HasUrlParameter<String> {
-    private EventsLogic viewLogic = new EventsLogic(this);
-    private EventsGrid grid;
-    private MoneyLineForm moneyLineForm;
-    private TotalForm totalForm;
-    private DataService ds = ContextProvider.getBean(DataService.class);
 
-    @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String leagueName) {
-        if (leagueName != null) {
-            Collection<Event> events = ds.getEvents(leagueName);
-            grid.setDataProvider(new EventsDataProvider(events) {
-            });
-        }
-    }
+public abstract class EventsView extends HorizontalLayout
+        implements HasUrlParameter<String> {
+    protected EventsLogic viewLogic = new EventsLogic(this);
+    protected EventsGrid grid;
+    protected MoneyLineForm moneyLineForm;
+    protected TotalForm totalForm;
+    protected DataService ds = ContextProvider.getBean(DataService.class);
+
+
 
     public void showOdds(Event eventModelTennis) {
         moneyLineForm.setVisible(true);

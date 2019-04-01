@@ -8,14 +8,12 @@ import org.portal.back.pinnacle.api.dataobjects.Line;
 import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Optional;
 
-public class MaxBetGrabber extends AbstractGrabber {
-    private final Logger LOGGER = LoggerFactory.getLogger(MaxBetGrabber.class);
+public abstract class MaxBetGrabber extends AbstractGrabber {
 
     public MaxBetGrabber(int sportId) {
         super(sportId);
@@ -29,7 +27,7 @@ public class MaxBetGrabber extends AbstractGrabber {
 
     @Override
     public void grab() {
-        LOGGER.info("Start to get odds for sportId=" + sportId);
+        getLogger().info("Start to get odds for sportId=" + sportId);
         PinnacleConnector oddsConnector = new PinnacleConnector();
         long leagueId=0L;
         long eventId=0L;
@@ -38,12 +36,14 @@ public class MaxBetGrabber extends AbstractGrabber {
             leagueId=league.id();
             for(Odds.Event event:league.events()){
                 eventId=event.id();
-                LOGGER.info("Update Max Bet  Event id: " + eventId);
+                getLogger().info("Update Max Bet  Event id: " + eventId);
                 updateEvent(eventId, leagueId);
             }
         }
 
     }
+
+    protected abstract Logger getLogger();
 
     public void updateEvent(long eventId, long leagueId) {
         Optional<Event> emh = eventRepository.findById(eventId);

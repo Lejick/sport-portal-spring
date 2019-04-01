@@ -13,12 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 
-@Route(value = "Tennis_Leagues", layout = MainLayout.class)
-public class LeaguesView extends HorizontalLayout
+public abstract class LeaguesView extends HorizontalLayout
         implements HasUrlParameter<String> {
-    private LeaguesLogic viewLogic = new LeaguesLogic();
-   private DataService ds = ContextProvider.getBean(DataService.class);
-    public static final String VIEW_NAME = "Tennis";
+
     private LeaguesGrid grid;
 
     @Override
@@ -26,13 +23,11 @@ public class LeaguesView extends HorizontalLayout
     }
 
     public LeaguesView() {
-
-        LeaguesDataProvider dataProvider = new LeaguesDataProvider(ds.getAllLeagues());
         setSizeFull();
         grid = new LeaguesGrid();
-        grid.setDataProvider(dataProvider);
+        grid.setDataProvider(getDataProvider());
         grid.asSingleSelect().addValueChangeListener(
-                event -> viewLogic.rowSelected(event.getValue()));
+                event -> getLeaguesLogic().rowSelected(event.getValue()));
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
@@ -40,7 +35,11 @@ public class LeaguesView extends HorizontalLayout
         barAndGridLayout.expand(grid);
 
         add(barAndGridLayout);
-        viewLogic.init();
+        getLeaguesLogic().init();
     }
+
+    protected abstract LeaguesLogic getLeaguesLogic();
+
+    protected abstract LeaguesDataProvider getDataProvider();
 
 }

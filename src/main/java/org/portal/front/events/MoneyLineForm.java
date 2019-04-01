@@ -111,20 +111,20 @@ public class MoneyLineForm extends Div {
                     away.getStyle().set("color", "green");
                 }
 
-                if (homeNextMax != null && homeMax.compareTo(homeNextMax) < 0) {
+                if (homeNextMax != null && homeMax != null && homeMax.compareTo(homeNextMax) < 0) {
                     max_home.getStyle().set("color", "red");
                 }
 
-                if (homeNextMax != null && homeMax.compareTo(homeNextMax) > 0) {
+                if (homeNextMax != null && homeMax != null && homeMax.compareTo(homeNextMax) > 0) {
                     max_home.getStyle().set("color", "green");
                 }
 
 
-                if (awayNextMax != null && awayMax.compareTo(awayNextMax) < 0) {
+                if (awayNextMax != null && awayMax != null && awayMax.compareTo(awayNextMax) < 0) {
                     max_away.getStyle().set("color", "red");
                 }
 
-                if (awayNextMax != null && awayMax.compareTo(awayNextMax) > 0) {
+                if (awayNextMax != null && awayMax != null && awayMax.compareTo(awayNextMax) > 0) {
                     max_away.getStyle().set("color", "green");
                 }
 
