@@ -23,7 +23,7 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<Event> getEvents(String leagueName, int sportId) {
-        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from odds").getSingleResult();
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from Odds").getSingleResult();
         List<Event> events = em.createQuery(
                 "SELECT e FROM Event e where league_name=:name AND (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId ORDER BY starts, home", Event.class)
                 .setParameter("name", leagueName)
@@ -61,7 +61,7 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<League> getAllLeagues(int sportId) {
-        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from odds").getSingleResult();
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from Odds").getSingleResult();
 
         List events = em.createQuery(
                 "SELECT (e.league_name), min(starts) FROM Event e where (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId group by league_name order by league_name")

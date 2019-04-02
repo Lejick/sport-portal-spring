@@ -34,9 +34,15 @@ public class MoneyLineForm extends Div {
 
         content.removeAll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
         Button totalButton = new Button("Total");
-        totalButton.addClickListener(event -> change());
+        totalButton.addClickListener(event -> changeToTotal());
+        Button spreadButton = new Button("Spread");
+        spreadButton.addClickListener(event -> changeToSpread());
+
         content.add(totalButton);
+        content.add(spreadButton);
         Label homeHeader = new Label("Home");
         homeHeader.setWidth(stdWidth);
         Label maxHomeHeader = new Label("Max $ Home");
@@ -137,10 +143,19 @@ public class MoneyLineForm extends Div {
         }
     }
 
-    private void change() {
+    private void changeToTotal() {
         setVisible(false);
+        eventsView.getSpreadForm().setVisible(false);
         eventsView.getTotalForm().setVisible(true);
 
     }
+
+    private void changeToSpread() {
+        setVisible(false);
+        eventsView.getTotalForm().setVisible(false);
+        eventsView.getSpreadForm().setVisible(true);
+
+    }
+
 }
 

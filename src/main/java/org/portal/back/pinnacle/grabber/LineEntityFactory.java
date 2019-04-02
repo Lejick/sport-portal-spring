@@ -42,6 +42,22 @@ public class LineEntityFactory {
         lineEvent.setTotal(total);
         lineEvent.setEvent(emh);
         return lineEvent;
-
     }
+
+    public static LineEvent createSpread(BigDecimal price, Date date, BigDecimal spread, TEAM_TYPE teamType, Event emh) {
+        PERIOD period = PERIOD.TENNIS_MATCH;
+        ODDS_FORMAT oddsFormat = ODDS_FORMAT.DECIMAL;
+        BET_TYPE betType = BET_TYPE.SPREAD;
+        LineEvent lineEvent = new LineEvent();
+        lineEvent.setBet_type(betType.toAPI());
+        lineEvent.setOdds_format(oddsFormat.toAPI());
+        lineEvent.setPeriod_number(Integer.valueOf(period.toAPI()));
+        lineEvent.setPrice(price);
+        lineEvent.setCheckDate(date);
+        lineEvent.setTeam_type(teamType.toAPI());
+        lineEvent.setSpread(spread);
+        lineEvent.setEvent(emh);
+        return lineEvent;
+    }
+
 }

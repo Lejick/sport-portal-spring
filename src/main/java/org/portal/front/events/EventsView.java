@@ -18,6 +18,7 @@ public abstract class EventsView extends HorizontalLayout
     protected EventsGrid grid;
     protected MoneyLineForm moneyLineForm;
     protected TotalForm totalForm;
+    protected SpreadForm spreadForm;
     protected DataService ds = ContextProvider.getBean(DataService.class);
 
 
@@ -25,6 +26,8 @@ public abstract class EventsView extends HorizontalLayout
     public void showOdds(Event eventModelTennis) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(eventModelTennis);
+        spreadForm.setVisible(false);
+        spreadForm.showOdds(eventModelTennis);
         totalForm.setVisible(false);
         totalForm.showOdds(eventModelTennis);
 
@@ -36,18 +39,23 @@ public abstract class EventsView extends HorizontalLayout
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);
+        spreadForm = new SpreadForm(this);
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
         barAndGridLayout.setSizeFull();
         barAndGridLayout.expand(grid);
         add(barAndGridLayout);
-        add(totalForm, moneyLineForm);
+        add(totalForm, moneyLineForm,spreadForm);
         viewLogic.init();
     }
 
     public MoneyLineForm getMoneyLineForm() {
         return moneyLineForm;
+    }
+
+    public SpreadForm getSpreadForm() {
+        return spreadForm;
     }
 
     public void setMoneyLineForm(MoneyLineForm moneyLineForm) {

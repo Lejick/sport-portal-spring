@@ -111,7 +111,7 @@ public class LineGrabber extends AbstractGrabber {
             insertMoneyLineInBase(oddsEvent, emh, leagueId);
         }
         if (oddsEvent.periods().get(0).spreads().size() > 0) {
-            createSpread(oddsEvent, emh, leagueId, eventId);
+            createSpread(oddsEvent, emh);
         }
         if (oddsEvent.periods().get(0).totals().size() > 0) {
             createTotal(oddsEvent, emh);
@@ -139,7 +139,25 @@ public class LineGrabber extends AbstractGrabber {
         }
     }
 
-    private void createSpread(Odds.Event oddsEvent, Event emh, long leagueId, long eventId) {
+    private void createSpread(Odds.Event oddsEvent, Event emh) {
+        for (Odds.Spread spread : oddsEvent.periods().get(0).spreads()) {
+            LineEvent spreadHome = LineEntityFactory.createSpread(spread.home(), now, spread.hdp(),TEAM_TYPE.TEAM_1, emh);
+            LineEvent spreadAway = LineEntityFactory.createSpread(spread.away(), now, spread.hdp(),TEAM_TYPE.TEAM_2, emh);
+            LineEvent spreadHomeDB = emh.getLastSpread(spread.hdp(), TEAM_TYPE.TEAM_1.toAPI());
+            LineEvent spreadAwayDB = emh.getLastSpread(spread.hdp(), TEAM_TYPE.TEAM_2.toAPI());
+            if (spreadHomeDB == null || spreadHome.getPrice().compareTo(spreadHomeDB.getPrice()) != 0) {
+                lineEventRepository.save(spreadHome);
+            } else {
+                spreadHomeDB.setCheckDate(now);
+                lineEventRepository.save(spreadHomeDB);
+            }
+            if (spreadAwayDB == null || spreadAway.getPrice().compareTo(spreadAwayDB.getPrice()) != 0) {
+                lineEventRepository.save(spreadAway);
+            } else {
+                spreadAwayDB.setCheckDate(now);
+                lineEventRepository.save(spreadAwayDB);
+            }
+        }
     }
 
     private void insertMoneyLineInBase(Odds.Event oddsEvent, Event emh, long leagueId) {

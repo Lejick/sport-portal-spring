@@ -158,10 +158,24 @@ public class Event {
     public LineEvent getLastTotal(BigDecimal totalPoint, String sideType) {
         if (getLineEvents().size() > 2) {
             for (LineEvent lineEvent : lineEvents) {
-                if (lineEvent.getSide_type() != null
+                if (lineEvent.getSide_type() != null && lineEvent.getTotal()!=null
                         && lineEvent.getTotal().compareTo(totalPoint)==0
                         && lineEvent.getSide_type().equals(sideType)
                         && lineEvent.getBet_type().equals(BET_TYPE.TOTAL_POINTS.toAPI())) {
+                    return lineEvent;
+                }
+            }
+        }
+        return null;
+    }
+
+    public LineEvent getLastSpread(BigDecimal spread, String teamType) {
+        if (getLineEvents().size() > 2) {
+            for (LineEvent lineEvent : lineEvents) {
+                if (lineEvent.getTeam_type() != null && lineEvent.getSpread()!=null
+                        && lineEvent.getSpread().compareTo(spread)==0
+                        &&  lineEvent.getTeam_type().equals(teamType)
+                        && lineEvent.getBet_type().equals(BET_TYPE.SPREAD.toAPI())) {
                     return lineEvent;
                 }
             }
