@@ -1,6 +1,7 @@
-package org.portal.back.pinnacle.grabber;
+package org.portal.back.pinnacle.tennis;
 
 import org.portal.back.pinnacle.Constants;
+import org.portal.back.pinnacle.grabber.MaxBetGrabber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

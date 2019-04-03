@@ -1,6 +1,7 @@
-package org.portal.back.pinnacle.grabber;
+package org.portal.back.pinnacle.tennis;
 
 import org.portal.back.pinnacle.Constants;
+import org.portal.back.pinnacle.grabber.LineGrabber;
 import org.springframework.stereotype.Service;
 
 @Service

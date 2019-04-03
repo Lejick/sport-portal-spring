@@ -23,7 +23,10 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<Event> getEvents(String leagueName, int sportId) {
-        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from Odds").getSingleResult();
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery
+                ("select MAX(id) from Odds where sport_id=:sportId")
+                .setParameter("sportId", sportId)
+                .getSingleResult();
         List<Event> events = em.createQuery(
                 "SELECT e FROM Event e where league_name=:name AND (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId ORDER BY starts, home", Event.class)
                 .setParameter("name", leagueName)
@@ -61,7 +64,9 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<League> getAllLeagues(int sportId) {
-        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery("select MAX(id) from Odds").getSingleResult();
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery
+                ("select MAX(id) from Odds where sport_id=:sportId")
+                .setParameter("sportId", sportId).getSingleResult();
 
         List events = em.createQuery(
                 "SELECT (e.league_name), min(starts) FROM Event e where (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId group by league_name order by league_name")
@@ -82,8 +87,26 @@ public class DataService implements Serializable {
     @Transactional
     public Collection<League> getAllLeaguesHistory(int sportId) {
         List events = em.createQuery(
-                "SELECT (e.league_name), min(starts) FROM Event e where sport_id=:sportId group by league_name order by league_name")
+                "SELECT (e.league_name), min(starts) FROM Event e where sport_id=:sportId group by league_name order by starts")
                 .setParameter("sportId", sportId)
+                .setMaxResults(200)
+                .getResultList();
+        List<League> leagues = new ArrayList<>();
+        for (Object event : events) {
+            Object[] resArr = (Object[]) event;
+            League league = new League((String) resArr[0]);
+            league.setStarts((Date) resArr[1]);
+            leagues.add(league);
+        }
+        return leagues;
+    }
+
+    @Transactional
+    public Collection<League> findLeagueByName(int sportId, String leagueName) {
+        List events = em.createQuery(
+                "SELECT (e.league_name), min(starts) FROM Event e where sport_id=:sportId and league_name like '%:lName%' group by league_name order by starts")
+                .setParameter("sportId", sportId)
+                .setParameter("lName", leagueName)
                 .setMaxResults(100)
                 .getResultList();
         List<League> leagues = new ArrayList<>();

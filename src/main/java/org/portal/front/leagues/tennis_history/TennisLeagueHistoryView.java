@@ -1,11 +1,13 @@
-package org.portal.front.leagues;
+package org.portal.front.leagues.tennis_history;
 
 import com.vaadin.flow.router.Route;
 import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import org.portal.back.DataService;
 import org.portal.back.pinnacle.Constants;
-import org.portal.front.leagues.tennis_history.TennisLeaguesHistoryLogic;
+import org.portal.front.leagues.LeaguesDataProvider;
+import org.portal.front.leagues.LeaguesLogic;
+import org.portal.front.leagues.LeaguesView;
 
 @Route(value = "Tennis_Leagues_History", layout = MainLayout.class)
 public class TennisLeagueHistoryView extends LeaguesView {

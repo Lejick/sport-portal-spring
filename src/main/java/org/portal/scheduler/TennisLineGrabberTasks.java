@@ -1,6 +1,6 @@
 package org.portal.scheduler;
 
-import org.portal.back.pinnacle.grabber.TennisLineGrabber;
+import org.portal.back.pinnacle.tennis.TennisLineGrabber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

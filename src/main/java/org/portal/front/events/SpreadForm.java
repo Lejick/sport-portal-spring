@@ -91,7 +91,7 @@ public class SpreadForm extends Div {
                 }
 
                 if (nextSpread!=null && currentSpread.compareTo(nextSpread) == 0 &&
-                        nextSpread.compareTo(currentSpread) > 0) {
+                        nextHome.compareTo(currentHome) > 0) {
                     home.setText(home.getText() + "(" + currentHome.subtract(nextHome) + ")");
                     away.setText(away.getText() + "(" + currentAway.subtract(nextAway) + ")");
                     home.getStyle().set("color", "red");
