@@ -10,7 +10,7 @@ public class SoccerLineGrabberTasks {
     @Autowired
     SoccerLineGrabber soccerLineGrabber;
 
-    @Scheduled(fixedDelay = 60*1000)
+    @Scheduled(fixedDelay = 120*1000, initialDelay = 60*1000)
     public void grabTennisLine() {
         soccerLineGrabber.grab();
     }

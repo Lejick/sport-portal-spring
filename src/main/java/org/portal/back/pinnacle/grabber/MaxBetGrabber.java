@@ -1,9 +1,6 @@
 package org.portal.back.pinnacle.grabber;
 
-import org.portal.back.model.Event;
-import org.portal.back.model.EventRepository;
-import org.portal.back.model.LineEvent;
-import org.portal.back.model.LineEventRepository;
+import org.portal.back.model.*;
 import org.portal.back.pinnacle.api.dataobjects.Line;
 import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
@@ -25,10 +22,15 @@ public abstract class MaxBetGrabber extends AbstractGrabber {
     @Autowired
     LineEventRepository lineEventRepository;
 
+    @Autowired
+    PinaccRepository pinaccRepository;
+
     @Override
     public void grab() {
+        String credentials = pinaccRepository.findById(1L).get().getPassed();
+
         getLogger().info("Start to get odds for sportId=" + sportId);
-        PinnacleConnector oddsConnector = new PinnacleConnector();
+        PinnacleConnector oddsConnector = new PinnacleConnector(credentials);
         long leagueId=0L;
         long eventId=0L;
         Odds odds = oddsConnector.getOdds(sportId);
@@ -77,7 +79,8 @@ public abstract class MaxBetGrabber extends AbstractGrabber {
     }
 
     private LineEvent getTennisMoneyLineEvent(long eventId, TEAM_TYPE teamType, Date date, long leagueId) {
-        PinnacleConnector tennisMLConnector = new PinnacleConnector();
+        String credentials = pinaccRepository.findById(1L).get().getPassed();
+        PinnacleConnector tennisMLConnector = new PinnacleConnector(credentials);
         Line line = tennisMLConnector.getLine(eventId, teamType, PERIOD.TENNIS_MATCH, BET_TYPE.MONEYLINE, sportId, leagueId);
         if (line != null && line.status() == GETLINE_RESPONSE_STATUS.SUCCESS) {
             return createLineEvent(line, PERIOD.TENNIS_MATCH, ODDS_FORMAT.DECIMAL, BET_TYPE.MONEYLINE, teamType, date);

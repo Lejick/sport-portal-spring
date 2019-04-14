@@ -4,6 +4,7 @@ package org.portal.authentication;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.portal.ContextProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BasicAccessControl implements AccessControl {
     private final Logger LOGGER = LoggerFactory.getLogger(BasicAccessControl.class);
+    protected LoginService loginService = ContextProvider.getBean(LoginService.class);
 
     @Override
     public boolean signIn(String username, String password) {
@@ -21,7 +23,6 @@ public class BasicAccessControl implements AccessControl {
         if (username == null || username.isEmpty()) {
             return false;
         }
-        LoginService loginService = new LoginService();
         String actualPass = loginService.getPass(username);
 
         try {
@@ -33,7 +34,7 @@ public class BasicAccessControl implements AccessControl {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < byteData.length; i++)
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            loginSuccess = actualPass.equals(sb.toString());
+            loginSuccess = actualPass.equalsIgnoreCase(sb.toString().toString());
         } catch (NoSuchAlgorithmException e) {
             LOGGER.error(e.getMessage());
         }

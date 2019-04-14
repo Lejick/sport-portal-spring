@@ -6,6 +6,7 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.portal.authentication.LoginScreen;
 import org.portal.front.leagues.soccer.SoccerLeagueView;
 import org.portal.front.leagues.soccer_history.SoccerLeagueHistoryView;
 import org.portal.front.leagues.tennis_history.TennisLeagueHistoryView;
@@ -28,6 +29,7 @@ public class MainLayout extends FlexLayout implements RouterLayout {
         menu.addView(TennisLeagueHistoryView.class, TennisLeagueHistoryView.VIEW_NAME);
         menu.addView(SoccerLeagueView.class, SoccerLeagueView.VIEW_NAME);
         menu.addView(SoccerLeagueHistoryView.class, SoccerLeagueHistoryView.VIEW_NAME);
+        menu.addView(LoginScreen.class,"Login");
 
         add(menu);
     }

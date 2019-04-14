@@ -1,6 +1,5 @@
 package org.portal.back.pinnacle.grabber;
 
-import org.portal.back.pinnacle.Constants;
 import org.portal.back.pinnacle.api.Parameter;
 import org.portal.back.pinnacle.api.PinnacleAPI;
 import org.portal.back.pinnacle.api.PinnacleException;
@@ -15,13 +14,16 @@ import org.slf4j.LoggerFactory;
 
 public class PinnacleConnector {
     private final Logger LOGGER = LoggerFactory.getLogger(PinnacleConnector.class);
+    private final String pass;
 
-    private String username = Constants.USER;
-    private String password = Constants.PASS;
+
+    public PinnacleConnector(String pass) {
+        this.pass = pass;
+    }
 
     public Fixtures getFixtures(int sportId) {
         try {
-            PinnacleAPI api = PinnacleAPI.open(username, password);
+            PinnacleAPI api = PinnacleAPI.open(pass);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
             Fixtures fixtures = api.getFixturesAsObject(parameter);
@@ -34,7 +36,7 @@ public class PinnacleConnector {
 
     public Fixtures getFixturesLive(int sportId) {
         try {
-            PinnacleAPI api = PinnacleAPI.open(username, password);
+            PinnacleAPI api = PinnacleAPI.open(pass);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
             parameter.isLive(true);
@@ -48,7 +50,7 @@ public class PinnacleConnector {
 
     public Odds getOddsLive(int sportId) {
         try {
-            PinnacleAPI api = PinnacleAPI.open(username, password);
+            PinnacleAPI api = PinnacleAPI.open(pass);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
             parameter.isLive(true);
@@ -63,7 +65,7 @@ public class PinnacleConnector {
 
     public Odds getOdds(int sportId) {
         try {
-            PinnacleAPI api = PinnacleAPI.open(username, password);
+            PinnacleAPI api = PinnacleAPI.open(pass);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
             parameter.oddsFormat(ODDS_FORMAT.DECIMAL);
@@ -77,7 +79,7 @@ public class PinnacleConnector {
 
     public Line getLine(long eventId, TEAM_TYPE teamType, PERIOD period, BET_TYPE betType,int sportId, long leagueId ) {
         try {
-            PinnacleAPI api = PinnacleAPI.open(username, password);
+            PinnacleAPI api = PinnacleAPI.open(pass);
             ODDS_FORMAT oddsFormat = ODDS_FORMAT.DECIMAL;
             Parameter parameter = Parameter.newInstance();
             parameter.eventId(eventId);

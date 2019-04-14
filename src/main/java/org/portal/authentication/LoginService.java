@@ -1,10 +1,13 @@
 package org.portal.authentication;
 
 import org.portal.back.model.Logins;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Component
 public class LoginService{
     @PersistenceContext
     private EntityManager em;

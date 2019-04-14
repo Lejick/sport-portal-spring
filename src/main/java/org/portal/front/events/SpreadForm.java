@@ -30,7 +30,9 @@ public class SpreadForm extends Div {
     }
 
     public void showOdds(Event eventParam) {
-
+        if (eventParam == null) {
+            return;
+        }
         content.removeAll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

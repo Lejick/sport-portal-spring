@@ -87,9 +87,9 @@ public class DataService implements Serializable {
     @Transactional
     public Collection<League> getAllLeaguesHistory(int sportId) {
         List events = em.createQuery(
-                "SELECT (e.league_name), min(starts) st FROM Event e where sport_id=:sportId group by league_name order by st")
+                "SELECT (e.league_name), min(starts) FROM Event e where sport_id=:sportId group by league_name order by starts")
                 .setParameter("sportId", sportId)
-                .setMaxResults(200)
+                .setMaxResults(10)
                 .getResultList();
         List<League> leagues = new ArrayList<>();
         for (Object event : events) {
@@ -107,7 +107,7 @@ public class DataService implements Serializable {
                 "SELECT (e.league_name), min(starts) FROM Event e where sport_id=:sportId and league_name like '%:lName%' group by league_name order by starts")
                 .setParameter("sportId", sportId)
                 .setParameter("lName", leagueName)
-                .setMaxResults(100)
+                .setMaxResults(10)
                 .getResultList();
         List<League> leagues = new ArrayList<>();
         for (Object event : events) {

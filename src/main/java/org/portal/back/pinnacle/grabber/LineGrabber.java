@@ -23,6 +23,9 @@ public class LineGrabber extends AbstractGrabber {
     @Autowired
     OddsRepository oddsRepository;
 
+    @Autowired
+    PinaccRepository pinaccRepository;
+
     private final Logger LOGGER = LoggerFactory.getLogger(LineGrabber.class);
 
     public LineGrabber(int sportId) {
@@ -31,16 +34,14 @@ public class LineGrabber extends AbstractGrabber {
 
 
     public void grab() {
+        String credentials=pinaccRepository.findById(1L).get().getPassed();
         now = getCurrentTime();
         LOGGER.info("Start to get fixtures for sportId="+sportId);
-        PinnacleConnector fixtureConnector = new PinnacleConnector();
-        Fixtures fixtures = fixtureConnector.getFixtures(sportId);
-
-
+        PinnacleConnector connector = new PinnacleConnector(credentials);
+        Fixtures fixtures = connector.getFixtures(sportId);
 
         LOGGER.info("Start to get odds for sportId=" + sportId);
-        PinnacleConnector oddsConnector = new PinnacleConnector();
-        Odds odds = oddsConnector.getOdds(sportId);
+        Odds odds = connector.getOdds(sportId);
 
 
         org.portal.back.model.Odds modelOdds = new org.portal.back.model.Odds();
