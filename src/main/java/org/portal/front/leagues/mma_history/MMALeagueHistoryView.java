@@ -1,4 +1,4 @@
-package org.portal.front.leagues.soccer_history;
+package org.portal.front.leagues.mma_history;
 
 import com.vaadin.flow.router.Route;
 import org.portal.ContextProvider;
@@ -9,17 +9,17 @@ import org.portal.front.leagues.LeaguesDataProvider;
 import org.portal.front.leagues.LeaguesLogic;
 import org.portal.front.leagues.LeaguesView;
 
-@Route(value = "Soccer_Leagues_History", layout = MainLayout.class)
-public class SoccerLeagueHistoryView extends LeaguesView {
-    public static final String VIEW_NAME = "Soccer(History)";
+@Route(value = "MMA_Leagues_History", layout = MainLayout.class)
+public class MMALeagueHistoryView extends LeaguesView {
+    public static final String VIEW_NAME = "MMA(History)";
 
     @Override
     protected LeaguesLogic getLeaguesLogic() {
-        return new SoccerLeaguesHistoryLogic();
+        return new MMALeaguesHistoryLogic();
     }
 
     @Override
     protected LeaguesDataProvider getDataProvider() {
-        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeaguesHistory(Constants.SOCCER_ID));
+        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeaguesHistory(Constants.MMA_ID));
     }
 }

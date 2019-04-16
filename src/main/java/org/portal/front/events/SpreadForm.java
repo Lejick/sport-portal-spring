@@ -42,8 +42,10 @@ public class SpreadForm extends Div {
         Button totalButton = new Button("Total");
         totalButton.addClickListener(event -> changeToTotal());
 
-        content.add(mlButton);
-        content.add(totalButton);
+        HorizontalLayout buttonBar=new HorizontalLayout(mlButton,totalButton);
+        buttonBar.setWidth("100%");
+        buttonBar.setFlexGrow(1, mlButton, totalButton);
+        content.add(buttonBar);
         Label homeHeader = new Label("Spread");
         homeHeader.setWidth(stdWidth);
         Label maxHomeHeader = new Label("Home");

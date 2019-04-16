@@ -11,7 +11,7 @@ import org.portal.front.leagues.LeaguesView;
 
 @Route(value = "Tennis_Leagues_History", layout = MainLayout.class)
 public class TennisLeagueHistoryView extends LeaguesView {
-    public static final String VIEW_NAME = "Tennis_History";
+    public static final String VIEW_NAME = "Tennis(History)";
 
     @Override
     protected LeaguesLogic getLeaguesLogic() {

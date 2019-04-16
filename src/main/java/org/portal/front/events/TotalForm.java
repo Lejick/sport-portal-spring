@@ -36,14 +36,17 @@ public class TotalForm extends Div {
         content.removeAll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+
         Button mlButton = new Button("Money Line");
         mlButton.addClickListener(event -> changeToMoneLine());
 
         Button spreadButton = new Button("Spread");
         spreadButton.addClickListener(event -> changeToSpread());
 
-        content.add(mlButton);
-        content.add(spreadButton);
+        HorizontalLayout buttonBar=new HorizontalLayout(mlButton,spreadButton);
+        buttonBar.setWidth("100%");
+        buttonBar.setFlexGrow(1, mlButton, spreadButton);
+        content.add(buttonBar);
         Label homeHeader = new Label("Total");
         homeHeader.setWidth(stdWidth);
         Label maxHomeHeader = new Label("OVER");

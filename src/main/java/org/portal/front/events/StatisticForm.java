@@ -36,7 +36,5 @@ public class StatisticForm extends Div {
         content.add(homeHeader);
         content.add(contentHeader);
     }
-
-
 }
 

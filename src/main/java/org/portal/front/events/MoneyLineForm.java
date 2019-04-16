@@ -43,20 +43,22 @@ public class MoneyLineForm extends Div {
         Button spreadButton = new Button("Spread");
         spreadButton.addClickListener(event -> changeToSpread());
 
-        content.add(totalButton);
-        content.add(spreadButton);
+        HorizontalLayout buttonBar=new HorizontalLayout(totalButton,spreadButton);
+        buttonBar.setWidth("100%");
+        buttonBar.setFlexGrow(1, totalButton, spreadButton);
+        content.add(buttonBar);
         Label homeHeader = new Label("Home");
         homeHeader.setWidth(stdWidth);
-        Label maxHomeHeader = new Label("Max $ Home");
-        maxHomeHeader.setWidth(stdWidth);
+      //  Label maxHomeHeader = new Label("Max $ Home");
+       // maxHomeHeader.setWidth(stdWidth);
         Label awayHeader = new Label("Away");
         awayHeader.setWidth(stdWidth);
-        Label maxAwayHeader = new Label("Max $ Away");
-        maxAwayHeader.setWidth(stdWidth);
+      //  Label maxAwayHeader = new Label("Max $ Away");
+      //  maxAwayHeader.setWidth(stdWidth);
 
         Label dateHeader = new Label("Actual_Date(MSK)");
         dateHeader.setWidth(dateWidth);
-        HorizontalLayout horizontalLayout = new HorizontalLayout(homeHeader, maxHomeHeader, awayHeader, maxAwayHeader, dateHeader);
+        HorizontalLayout horizontalLayout = new HorizontalLayout(homeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
         horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
