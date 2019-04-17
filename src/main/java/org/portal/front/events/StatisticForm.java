@@ -33,8 +33,8 @@ public class StatisticForm extends Div {
         Label contentHeader = new Label("CONTENT");
         contentHeader.setWidth(stdWidth);
 
-        content.add(homeHeader);
-        content.add(contentHeader);
+      //  content.add(homeHeader);
+      //  content.add(contentHeader);
     }
 }
 

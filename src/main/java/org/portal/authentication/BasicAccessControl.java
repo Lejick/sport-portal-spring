@@ -19,25 +19,15 @@ public class BasicAccessControl implements AccessControl {
 
     @Override
     public boolean signIn(String username, String password) {
-        boolean loginSuccess = true;
         if (username == null || username.isEmpty()) {
             return false;
         }
         String actualPass = loginService.getPass(username);
-
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-
-            byte byteData[] = md.digest();
-
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < byteData.length; i++)
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            loginSuccess = actualPass.equalsIgnoreCase(sb.toString().toString());
-        } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(e.getMessage());
+        if(actualPass==null) {
+            return false;
         }
+        String md5Pass = md5(password);
+        boolean loginSuccess = actualPass.equalsIgnoreCase(md5Pass);
         LOGGER.info("logging for user : " + username);
         if (loginSuccess) {
             CurrentUser.set(username);
@@ -45,6 +35,29 @@ public class BasicAccessControl implements AccessControl {
         return loginSuccess;
     }
 
+    @Override
+    public boolean register(String username, String password) {
+     return   loginService.create(username, md5(password));
+    }
+
+
+    private String md5(String password){
+        StringBuffer sb = new StringBuffer();
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+
+            byte byteData[] = md.digest();
+
+
+            for (int i = 0; i < byteData.length; i++)
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return sb.toString();
+    }
     @Override
     public boolean isUserSignedIn() {
         return !CurrentUser.get().isEmpty();

@@ -27,7 +27,7 @@ public class LoginScreen extends FlexLayout {
     private TextField username;
     private PasswordField password;
     private Button login;
-    private Button forgotPassword;
+    private Button register;
     private AccessControl accessControl;
 
     public LoginScreen() {
@@ -64,7 +64,6 @@ public class LoginScreen extends FlexLayout {
 
         loginForm.addFormItem(username = new TextField(), "Username");
         username.setWidth("15em");
-        username.setValue("admin");
         loginForm.add(new Html("<br/>"));
         loginForm.addFormItem(password = new PasswordField(), "Password");
         password.setWidth("15em");
@@ -78,9 +77,9 @@ public class LoginScreen extends FlexLayout {
         loginForm.getElement().addEventListener("keypress", event -> login()).setFilter("event.key == 'Enter'");
         login.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
-        buttons.add(forgotPassword = new Button("Forgot password?"));
-        forgotPassword.addClickListener(event -> showNotification(new Notification("Hint: try anything")));
-        forgotPassword.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        buttons.add(register = new Button("Register"));
+        register.addClickListener(event -> register());
+        register.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         return loginForm;
     }
@@ -109,6 +108,14 @@ public class LoginScreen extends FlexLayout {
         } finally {
             login.setEnabled(true);
         }
+    }
+
+    private void register() {
+    if(!accessControl.register(username.getValue(), password.getValue())){
+        showNotification(new Notification("Register failed. " +
+                "Please try another username"));
+        username.focus();
+    }
     }
 
     private void showNotification(Notification notification) {

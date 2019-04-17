@@ -10,7 +10,7 @@ public class MMALineGrabberTasks {
     @Autowired
     MMALineGrabber mmaLineGrabber;
 
-    @Scheduled(fixedDelay = 180*1000, initialDelay = 120*1000)
+    @Scheduled(fixedDelay = 4*60*1000, initialDelay = 2*60*1000)
     public void grabSoccerLine() {
         mmaLineGrabber.grab();
     }

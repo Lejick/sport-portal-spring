@@ -12,6 +12,8 @@ public interface AccessControl extends Serializable {
 
     public boolean signIn(String username, String password);
 
+    boolean register(String username, String password);
+
     public boolean isUserSignedIn();
 
     public boolean isUserInRole(String role);

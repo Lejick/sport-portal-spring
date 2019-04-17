@@ -10,7 +10,7 @@ public class TennisLineGrabberTasks {
     @Autowired
     TennisLineGrabber tennisLineGrabber;
 
-    @Scheduled(fixedDelay = 180*1000)
+    @Scheduled(fixedDelay = 4*60*1000)
     public void grabTennisLine() {
         tennisLineGrabber.grab();
     }
