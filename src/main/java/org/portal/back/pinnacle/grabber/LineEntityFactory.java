@@ -21,6 +21,7 @@ public class LineEntityFactory {
         lineEvent.setCheckDate(date);
         lineEvent.setMax_bet(maxBet);
         lineEvent.setEvent(emh);
+        lineEvent.setLive(emh.isLive());
         return lineEvent;
     }
 
@@ -41,6 +42,7 @@ public class LineEntityFactory {
         lineEvent.setSide_type(side_type.toAPI());
         lineEvent.setTotal(total);
         lineEvent.setEvent(emh);
+        lineEvent.setLive(emh.isLive());
         return lineEvent;
     }
 
@@ -57,6 +59,7 @@ public class LineEntityFactory {
         lineEvent.setTeam_type(teamType.toAPI());
         lineEvent.setSpread(spread);
         lineEvent.setEvent(emh);
+        lineEvent.setLive(emh.isLive());
         return lineEvent;
     }
 

@@ -26,6 +26,8 @@ public class LineGrabber extends AbstractGrabber {
     @Autowired
     PinaccRepository pinaccRepository;
 
+    private boolean isLive=false;
+
     private final Logger LOGGER = LoggerFactory.getLogger(LineGrabber.class);
 
     public LineGrabber(int sportId) {
@@ -41,7 +43,7 @@ public class LineGrabber extends AbstractGrabber {
         Fixtures fixtures = connector.getFixtures(sportId);
 
         LOGGER.info("Start to get odds for sportId=" + sportId);
-        Odds odds = connector.getOdds(sportId);
+        Odds odds = connector.getOdds(sportId, isLive);
 
 
         org.portal.back.model.Odds modelOdds = new org.portal.back.model.Odds();
@@ -97,6 +99,9 @@ public class LineGrabber extends AbstractGrabber {
         Optional<Event> opt = eventRepository.findById(eventId);
         if (opt.isPresent()) {
             emh = opt.get();
+            if (emh.isLive()) {
+                emh.setLive(isLive);
+            }
         } else {
             emh.setId(eventId);
             emh.setHome(home);
@@ -186,6 +191,10 @@ public class LineGrabber extends AbstractGrabber {
                 lineEventRepository.save(line);
             }
         }
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
     }
 }
 

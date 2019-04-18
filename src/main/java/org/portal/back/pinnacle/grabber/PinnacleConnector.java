@@ -63,11 +63,12 @@ public class PinnacleConnector {
         return null;
     }
 
-    public Odds getOdds(int sportId) {
+    public Odds getOdds(int sportId, boolean isLive) {
         try {
             PinnacleAPI api = PinnacleAPI.open(pass);
             Parameter parameter = Parameter.newInstance();
             parameter.sportId(sportId);
+            parameter.isLive(isLive);
             parameter.oddsFormat(ODDS_FORMAT.DECIMAL);
             Odds odds = api.getOddsAsObject(parameter);
             return odds;

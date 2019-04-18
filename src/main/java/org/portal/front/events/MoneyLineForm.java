@@ -107,12 +107,12 @@ public class MoneyLineForm extends Div {
                 }
 
                 if (homeNextPrice != null && homePrice.compareTo(homeNextPrice) > 0) {
-                    home.setText(home.getText() + "(+" + homePrice.subtract(homeNextPrice) + ")");
+                    home.setText(home.getText() + "(" + homePrice.subtract(homeNextPrice) + ")");
                     home.getStyle().set("color", "green");
                 }
 
                 if (awayNextPrice != null && awayPrice.compareTo(awayNextPrice) < 0) {
-                    away.setText(away.getText() + "(+" + awayPrice.subtract(awayNextPrice) + ")");
+                    away.setText(away.getText() + "(" + awayPrice.subtract(awayNextPrice) + ")");
                     away.getStyle().set("color", "red");
                 }
 

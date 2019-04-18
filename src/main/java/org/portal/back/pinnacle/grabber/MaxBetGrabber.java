@@ -33,7 +33,7 @@ public abstract class MaxBetGrabber extends AbstractGrabber {
         PinnacleConnector oddsConnector = new PinnacleConnector(credentials);
         long leagueId=0L;
         long eventId=0L;
-        Odds odds = oddsConnector.getOdds(sportId);
+        Odds odds = oddsConnector.getOdds(sportId, false);
         for(Odds.League league:odds.leagues()){
             leagueId=league.id();
             for(Odds.Event event:league.events()){

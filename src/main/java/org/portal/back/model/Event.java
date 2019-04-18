@@ -37,6 +37,9 @@ public class Event {
     String home;
 
     @Column
+    boolean live;
+
+    @Column
     String away;
 
     public Long getId() {
@@ -192,4 +195,11 @@ public class Event {
         this.odds = odds;
     }
 
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
 }

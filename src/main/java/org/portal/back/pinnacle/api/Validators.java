@@ -61,7 +61,7 @@ public class Validators {
 		validator.addRequiredKey("sportId");
 		validator.addOptionalKey("leagueIds");
 		validator.addOptionalKey("since");
-		validator.addOptionalKey("islive");
+		validator.addOptionalKey("isLive");
 		validator.addOptionalKey("oddsFormat");
 		validator.validateKeys();
 	}
@@ -71,7 +71,7 @@ public class Validators {
 		validator.addRequiredKey("sportId");
 		validator.addOptionalKey("leagueIds");
 		validator.addOptionalKey("since");
-		validator.addOptionalKey("islive");
+		validator.addOptionalKey("isLive");
 		validator.addOptionalKey("oddsFormat");
 		validator.validateKeys();
 	}

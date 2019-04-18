@@ -46,6 +46,9 @@ public class LineEvent {
     @Column
     private BigDecimal spread;
 
+    @Column
+    private boolean live;
+
     public LineEvent() {
     }
 
@@ -143,6 +146,14 @@ public class LineEvent {
 
     public void setSide_type(String side_type) {
         this.side_type = side_type;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
     }
 }
 
