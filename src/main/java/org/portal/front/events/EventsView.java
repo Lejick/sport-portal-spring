@@ -21,6 +21,7 @@ public abstract class EventsView extends HorizontalLayout
     protected TotalForm totalForm;
     protected SpreadForm spreadForm;
     protected StatisticForm statisticForm;
+    protected boolean isHistory=false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
     final AccessControl accessControl = AccessControlFactory.getInstance()
             .createAccessControl();
@@ -46,6 +47,7 @@ public abstract class EventsView extends HorizontalLayout
         }
         setSizeFull();
         grid = new EventsGrid();
+        grid.setHistory(isHistory);
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);
@@ -53,11 +55,8 @@ public abstract class EventsView extends HorizontalLayout
         statisticForm = new StatisticForm(this);
 
         VerticalLayout barAndGridLayout = new VerticalLayout();
-        HorizontalLayout statLayout = new HorizontalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
-      //  barAndGridLayout.setSizeFull();
-       // barAndGridLayout.expand(grid);
         barAndGridLayout.add(statisticForm);
         add(barAndGridLayout);
         add(totalForm, moneyLineForm,spreadForm);
@@ -72,15 +71,8 @@ public abstract class EventsView extends HorizontalLayout
         return spreadForm;
     }
 
-    public void setMoneyLineForm(MoneyLineForm moneyLineForm) {
-        this.moneyLineForm = moneyLineForm;
-    }
-
     public TotalForm getTotalForm() {
         return totalForm;
     }
 
-    public void setTotalForm(TotalForm totalForm) {
-        this.totalForm = totalForm;
-    }
 }

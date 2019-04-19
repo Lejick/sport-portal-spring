@@ -99,7 +99,7 @@ public class LineGrabber extends AbstractGrabber {
         Optional<Event> opt = eventRepository.findById(eventId);
         if (opt.isPresent()) {
             emh = opt.get();
-            if (emh.isLive()) {
+            if (!emh.isLive()) {
                 emh.setLive(isLive);
             }
         } else {

@@ -18,6 +18,7 @@ public class SpreadForm extends Div {
     Label home;
     Label away;
     Label date;
+    Label live;
     EventsView eventsView;
     private VerticalLayout content;
 
@@ -42,7 +43,7 @@ public class SpreadForm extends Div {
         Button totalButton = new Button("Total");
         totalButton.addClickListener(event -> changeToTotal());
 
-        HorizontalLayout buttonBar=new HorizontalLayout(mlButton,totalButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(mlButton, totalButton);
         buttonBar.setWidth("100%");
         buttonBar.setFlexGrow(1, mlButton, totalButton);
         content.add(buttonBar);
@@ -52,11 +53,14 @@ public class SpreadForm extends Div {
         maxHomeHeader.setWidth(stdWidth);
         Label awayHeader = new Label("Away");
         awayHeader.setWidth(stdWidth);
-        Label dateHeader = new Label("Actual_Date(MSK)");
+        Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
-        HorizontalLayout horizontalLayout = new HorizontalLayout(homeHeader, maxHomeHeader, awayHeader, dateHeader);
+        Label liveHeader = new Label("Live");
+        dateHeader.setWidth(stdWidth);
+
+        HorizontalLayout horizontalLayout = new HorizontalLayout(liveHeader, homeHeader, maxHomeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
-        horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
+        horizontalLayout.setFlexGrow(1, liveHeader, homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
         List<CombineSpreadOdds> combineSpreadOddsList = CombineEventFactory.createSpreadOddsList(eventParam.getLineEvents());
         if (combineSpreadOddsList != null && combineSpreadOddsList.size() > 0) {
@@ -72,13 +76,16 @@ public class SpreadForm extends Div {
                 BigDecimal currentHome = combineSpreadOddsList.get(i).getHomeOdds().getPrice();
                 BigDecimal currentAway = combineSpreadOddsList.get(i).getAwayOdds().getPrice();
                 BigDecimal currentSpread = combineSpreadOddsList.get(i).getSpread();
-                CombineSpreadOdds combineTotalOdds = combineSpreadOddsList.get(i);
-                date = new Label(format.format(combineTotalOdds.getDate()));
+                CombineSpreadOdds combineSpreadOdds = combineSpreadOddsList.get(i);
+                date = new Label(format.format(combineSpreadOdds.getDate()));
                 date.setWidth(dateWidth);
 
-                spread = new Label(combineTotalOdds.getSpread().toPlainString());
-                home = new Label(combineTotalOdds.getHomeOdds().getPrice().toPlainString());
-                away = new Label(combineTotalOdds.getAwayOdds().getPrice().toPlainString());
+                live = new Label(String.valueOf(combineSpreadOdds.isLive()));
+                live.setWidth(stdWidth);
+
+                spread = new Label(combineSpreadOdds.getSpread().toPlainString());
+                home = new Label(combineSpreadOdds.getHomeOdds().getPrice().toPlainString());
+                away = new Label(combineSpreadOdds.getAwayOdds().getPrice().toPlainString());
 
                 home.getStyle().set("color", "black");
                 home.setWidth(stdWidth);
@@ -86,7 +93,7 @@ public class SpreadForm extends Div {
                 away.getStyle().set("color", "black");
                 away.setWidth(stdWidth);
 
-                if (nextSpread!=null && currentSpread.compareTo(nextSpread) == 0 &&
+                if (nextSpread != null && currentSpread.compareTo(nextSpread) == 0 &&
                         nextHome.compareTo(currentHome) < 0) {
                     home.setText(home.getText() + "(" + currentHome.subtract(nextHome) + ")");
                     away.setText(away.getText() + "(" + currentAway.subtract(nextAway) + ")");
@@ -94,7 +101,7 @@ public class SpreadForm extends Div {
                     home.getStyle().set("color", "green");
                 }
 
-                if (nextSpread!=null && currentSpread.compareTo(nextSpread) == 0 &&
+                if (nextSpread != null && currentSpread.compareTo(nextSpread) == 0 &&
                         nextHome.compareTo(currentHome) > 0) {
                     home.setText(home.getText() + "(" + currentHome.subtract(nextHome) + ")");
                     away.setText(away.getText() + "(" + currentAway.subtract(nextAway) + ")");
@@ -102,20 +109,21 @@ public class SpreadForm extends Div {
                     away.getStyle().set("color", "green");
                 }
 
-                horizontalLayout = new HorizontalLayout(spread, home, away, date);
+                horizontalLayout = new HorizontalLayout(live, spread, home, away, date);
                 horizontalLayout.setWidth("100%");
-                horizontalLayout.setFlexGrow(1, spread, home, away, date);
+                horizontalLayout.setFlexGrow(1, live, spread, home, away, date);
                 content.add(horizontalLayout);
 
-                if (nextSpread != null && !nextSpread.equals(combineTotalOdds.getSpread())) {
+                if (nextSpread != null && !nextSpread.equals(combineSpreadOdds.getSpread())) {
                     date = new Label("-----");
                     date.setWidth(dateWidth);
                     spread = new Label("-----");
                     home = new Label("-----");
                     away = new Label("-----");
-                    horizontalLayout = new HorizontalLayout(spread, home, away, date);
+                    live = new Label("-----");
+                    horizontalLayout = new HorizontalLayout(live, spread, home, away, date);
                     horizontalLayout.setWidth("100%");
-                    horizontalLayout.setFlexGrow(1, spread, home, away, date);
+                    horizontalLayout.setFlexGrow(1, live, spread, home, away, date);
                     content.add(horizontalLayout);
                 }
 

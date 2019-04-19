@@ -21,5 +21,6 @@ public class TennisEventsHistoryView extends EventsView {
             grid.setDataProvider(new EventsDataProvider(events) {
             });
         }
+        isHistory=true;
     }
 }

@@ -17,7 +17,7 @@ public class CombineEventFactory {
         for (LineEvent homeEvent : home) {
             for (LineEvent awayEvent : away) {
                 if (homeEvent.getCheckDate().equals(awayEvent.getCheckDate())) {
-                    combineMoneyLineOdds.add(new CombineMoneyLineOdds(homeEvent, awayEvent, homeEvent.getCheckDate()));
+                    combineMoneyLineOdds.add(new CombineMoneyLineOdds(homeEvent, awayEvent, homeEvent.getCheckDate(),homeEvent.isLive()));
                     break;
                 }
             }
@@ -38,7 +38,7 @@ public class CombineEventFactory {
         for (LineEvent underEvent : under) {
             for (LineEvent overEvent : over) {
                 if (overEvent.getCheckDate().equals(underEvent.getCheckDate()) && overEvent.getTotal().equals(underEvent.getTotal())) {
-                    combineOdds.add(new CombineTotalsOdds(underEvent, overEvent, overEvent.getCheckDate(), underEvent.getTotal()));
+                    combineOdds.add(new CombineTotalsOdds(underEvent, overEvent, overEvent.getCheckDate(), underEvent.getTotal(), underEvent.isLive()));
                     break;
                 }
             }
@@ -66,7 +66,7 @@ public class CombineEventFactory {
         for (LineEvent homeEvent : home) {
             for (LineEvent awayEvent : away) {
                 if (homeEvent.getCheckDate().equals(awayEvent.getCheckDate()) && homeEvent.getSpread().equals(awayEvent.getSpread())) {
-                    combineOdds.add(new CombineSpreadOdds(homeEvent, awayEvent, homeEvent.getCheckDate(), awayEvent.getSpread()));
+                    combineOdds.add(new CombineSpreadOdds(homeEvent, awayEvent, homeEvent.getCheckDate(), awayEvent.getSpread(), awayEvent.isLive()));
                     break;
                 }
             }

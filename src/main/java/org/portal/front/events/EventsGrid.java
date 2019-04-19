@@ -9,6 +9,7 @@ import org.portal.back.model.Event;
  * data sets.
  */
 public class EventsGrid extends Grid<Event> {
+    private boolean isHistory=false;
     public EventsGrid() {
         setSizeUndefined();
         addColumn(Event::getHome)
@@ -27,5 +28,15 @@ public class EventsGrid extends Grid<Event> {
                 .setHeader("League")
                 .setFlexGrow(20)
                 .setSortable(false);
+        if (!isHistory) {
+            addColumn(Event::isLive)
+                    .setHeader("Live")
+                    .setFlexGrow(20)
+                    .setSortable(false);
+        }
+    }
+
+    public void setHistory(boolean isHistory) {
+        this.isHistory = isHistory;
     }
 }

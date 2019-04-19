@@ -10,12 +10,14 @@ public class CombineTotalsOdds {
     private LineEvent under;
     private BigDecimal total;
     private  Date date;
+    private  boolean live;
 
-    public CombineTotalsOdds(LineEvent under, LineEvent over, Date date, BigDecimal total) {
+    public CombineTotalsOdds(LineEvent under, LineEvent over, Date date, BigDecimal total, boolean live) {
         this.over = over;
         this.under = under;
         this.date = date;
         this.total = total;
+        this.live=live;
     }
 
     public LineEvent getOver() {
@@ -48,5 +50,13 @@ public class CombineTotalsOdds {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
     }
 }

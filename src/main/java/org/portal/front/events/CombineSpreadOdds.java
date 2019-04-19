@@ -10,12 +10,14 @@ public class CombineSpreadOdds {
     LineEvent awayOdds;
     private BigDecimal spread;
     private  Date date;
+    private  boolean live;
 
-    public CombineSpreadOdds(LineEvent homeOdds, LineEvent awayOdds, Date date, BigDecimal spread) {
+    public CombineSpreadOdds(LineEvent homeOdds, LineEvent awayOdds, Date date, BigDecimal spread, boolean live) {
         this.homeOdds = homeOdds;
         this.awayOdds = awayOdds;
         this.date = date;
         this.spread = spread;
+        this.live=live;
     }
 
     public LineEvent getHomeOdds() {
@@ -48,5 +50,13 @@ public class CombineSpreadOdds {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
     }
 }

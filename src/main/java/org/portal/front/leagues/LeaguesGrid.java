@@ -24,5 +24,4 @@ public class LeaguesGrid extends Grid<League> {
                 .setSortable(true);
 
     }
-
 }
