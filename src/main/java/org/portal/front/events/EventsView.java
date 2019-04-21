@@ -32,7 +32,7 @@ public abstract class EventsView extends HorizontalLayout
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(eventModelTennis);
         statisticForm.setVisible(true);
-        statisticForm.showStat(eventModelTennis);
+        statisticForm.showStat();
 
         spreadForm.setVisible(false);
         spreadForm.showOdds(eventModelTennis);

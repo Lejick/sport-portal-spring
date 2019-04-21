@@ -5,6 +5,7 @@ import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import org.portal.back.DataService;
 import org.portal.back.pinnacle.Constants;
+import org.portal.front.events.SearchForm;
 import org.portal.front.leagues.LeaguesDataProvider;
 import org.portal.front.leagues.LeaguesLogic;
 import org.portal.front.leagues.LeaguesView;
@@ -20,6 +21,18 @@ public class BoxLeagueHistoryView extends LeaguesView {
 
     @Override
     protected LeaguesDataProvider getDataProvider() {
-        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeaguesHistory(Constants.BOXING_ID));
+        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeaguesHistory(getSportId()));
+    }
+
+    @Override
+    protected void initSearchForm() {
+        searchForm = new SearchForm(this);
+        searchForm.setVisible(true);
+        barAndGridLayout.add(searchForm);
+    }
+
+    @Override
+    public int getSportId() {
+        return Constants.BOXING_ID;
     }
 }

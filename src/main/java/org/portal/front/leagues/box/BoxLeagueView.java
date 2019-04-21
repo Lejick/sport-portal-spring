@@ -12,7 +12,6 @@ import org.portal.front.leagues.LeaguesView;
 @Route(value = "Box_Leagues", layout = MainLayout.class)
 public class BoxLeagueView extends LeaguesView {
     public static final String VIEW_NAME = "Boxing";
-
     @Override
     protected LeaguesLogic getLeaguesLogic() {
         return new BoxLeaguesLogic();
@@ -20,6 +19,15 @@ public class BoxLeagueView extends LeaguesView {
 
     @Override
     protected LeaguesDataProvider getDataProvider() {
-        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(Constants.BOXING_ID));
+        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(getSportId()));
+    }
+
+    @Override
+    protected void initSearchForm() {
+    }
+
+    @Override
+    public int getSportId() {
+        return Constants.BOXING_ID;
     }
 }

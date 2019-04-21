@@ -21,6 +21,16 @@ public class SoccerLeagueView extends LeaguesView {
 
     @Override
     protected LeaguesDataProvider getDataProvider() {
-        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(Constants.SOCCER_ID));
+        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(getSportId()));
+    }
+
+    @Override
+    protected void initSearchForm() {
+
+    }
+
+    @Override
+    public int getSportId() {
+        return Constants.SOCCER_ID;
     }
 }

@@ -9,14 +9,17 @@ import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import org.portal.back.DataService;
 import org.portal.back.model.League;
+import org.portal.front.events.SearchForm;
+import org.portal.front.events.StatisticForm;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 
 public abstract class LeaguesView extends HorizontalLayout
         implements HasUrlParameter<String> {
-
-    private LeaguesGrid grid;
+    protected LeaguesGrid grid;
+    protected SearchForm searchForm;
+    protected VerticalLayout barAndGridLayout = new VerticalLayout();
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
@@ -28,12 +31,10 @@ public abstract class LeaguesView extends HorizontalLayout
         grid.setDataProvider(getDataProvider());
         grid.asSingleSelect().addValueChangeListener(
                 event -> getLeaguesLogic().rowSelected(event.getValue()));
-        VerticalLayout barAndGridLayout = new VerticalLayout();
+        initSearchForm();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
         barAndGridLayout.setSizeFull();
-        barAndGridLayout.expand(grid);
-
         add(barAndGridLayout);
         getLeaguesLogic().init();
     }
@@ -41,5 +42,13 @@ public abstract class LeaguesView extends HorizontalLayout
     protected abstract LeaguesLogic getLeaguesLogic();
 
     protected abstract LeaguesDataProvider getDataProvider();
+
+    protected abstract void initSearchForm();
+
+    public LeaguesGrid getGrid() {
+        return grid;
+    }
+
+    public abstract int getSportId();
 
 }

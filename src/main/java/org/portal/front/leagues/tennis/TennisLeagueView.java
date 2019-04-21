@@ -20,6 +20,15 @@ public class TennisLeagueView extends LeaguesView {
 
     @Override
     protected LeaguesDataProvider getDataProvider() {
-        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(Constants.TENNIS_ID));
+        return new LeaguesDataProvider(ContextProvider.getBean(DataService.class).getAllLeagues(getSportId()));
+    }
+
+    @Override
+    protected void initSearchForm() {
+    }
+
+    @Override
+    public int getSportId() {
+        return Constants.TENNIS_ID;
     }
 }
