@@ -20,7 +20,7 @@ public abstract class EventsView extends HorizontalLayout
     protected MoneyLineForm moneyLineForm;
     protected TotalForm totalForm;
     protected SpreadForm spreadForm;
-    protected StatisticForm statisticForm;
+    protected StatisticForm statisticForm= ContextProvider.getBean(StatisticForm.class);
     protected boolean isHistory=false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
     final AccessControl accessControl = AccessControlFactory.getInstance()
@@ -28,16 +28,16 @@ public abstract class EventsView extends HorizontalLayout
 
     private final Logger LOGGER = LoggerFactory.getLogger(EventsView.class);
 
-    public void showOdds(Event eventModelTennis) {
+    public void showOdds(Event event) {
         moneyLineForm.setVisible(true);
-        moneyLineForm.showOdds(eventModelTennis);
+        moneyLineForm.showOdds(event);
         statisticForm.setVisible(true);
         statisticForm.showStat();
 
         spreadForm.setVisible(false);
-        spreadForm.showOdds(eventModelTennis);
+        spreadForm.showOdds(event);
         totalForm.setVisible(false);
-        totalForm.showOdds(eventModelTennis);
+        totalForm.showOdds(event);
 
     }
 
@@ -52,7 +52,7 @@ public abstract class EventsView extends HorizontalLayout
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);
         spreadForm = new SpreadForm(this);
-        statisticForm = new StatisticForm(this);
+       // statisticForm.setEventsView(this);
 
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
