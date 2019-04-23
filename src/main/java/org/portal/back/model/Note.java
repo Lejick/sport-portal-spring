@@ -9,10 +9,8 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name = "eventId",nullable = false)
-    Event event;
+    @Column
+    Long eventId ;
 
     @Column
     String user;
@@ -37,12 +35,12 @@ public class Note {
         this.id = id;
     }
 
-    public Event getEvent() {
-        return event;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     public String getUser() {

@@ -143,8 +143,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>8.4.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -176,7 +179,8 @@
             <dependencies>
                 <dependency>
                     <groupId>com.vaadin</groupId>
-                    <artifactId>flow-server-production-mode</artifactId>
+                    <artifactId>flow-server</artifactId>
+                    <version>1.4.3</version>
                 </dependency>
             </dependencies>
 

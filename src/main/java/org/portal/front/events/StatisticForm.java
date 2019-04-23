@@ -1,28 +1,24 @@
 package org.portal.front.events;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import org.portal.ContextProvider;
 import org.portal.authentication.CurrentUser;
-import org.portal.back.DataService;
-import org.portal.back.model.Event;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
-import org.portal.back.model.OddsRepository;
-import org.portal.front.leagues.LeaguesDataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
+import java.util.List;
 
 @Component
 public class StatisticForm extends Div {
     String stdWidth = "100px";
-    EventsView eventsView;
     private VerticalLayout grid = new VerticalLayout();
     @Autowired
     NoteRepository noteRepository;
@@ -35,51 +31,40 @@ public class StatisticForm extends Div {
 
     public void showStat() {
         grid.removeAll();
-        HorizontalLayout rows = new HorizontalLayout();
-        Label homeHeader = new Label("Description");
-        homeHeader.setWidth("700");
 
-        Label contentHeader = new Label("Link");
-        contentHeader.setWidth("700");
+   /*     List<Note> listNote = noteRepository.findByEventId(eventId);
+        for (Note note : listNote) {
+            HorizontalLayout rows = new HorizontalLayout();
+            Label label = new Label(note.getDescr());
 
-        Label userHeader = new Label("User");
-        contentHeader.setWidth(stdWidth);
+            Anchor link = new Anchor(note.getLink(), note.getLink());
+            rows.add(label, link);
+          grid.add(rows);
+        }*/
 
-
-        rows.add(homeHeader);
-        rows.add(contentHeader);
-        rows.add(userHeader);
-        grid.add(rows);
-        rows = new HorizontalLayout();
-
-        TextField descrField = new TextField();
+      HorizontalLayout rows = new HorizontalLayout();
+     /*   TextField descrField = new TextField("Input Description");
         descrField.setWidth("700");
-        TextField linkField = new TextField();
+        TextField linkField = new TextField("Input Link");
         linkField.setWidth("700");
         Button button = new Button("Add Note");
         button.setWidth(stdWidth);
-        button.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue()));
-        rows.add(descrField, linkField, button);
+        button.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue(), eventId));*/
+      //  rows.add(descrField, linkField, button);
+        rows.add(new Label("Label"));
         grid.add(rows);
 
     }
 
-    public void createNote(String descr, String link) {
+    public void createNote(String descr, String link,Long eventId) {
         Calendar calendar = Calendar.getInstance();
         Note note = new Note();
         note.setDate(calendar.getTime());
         note.setUser(CurrentUser.get());
         note.setDescr(descr);
+        note.setEventId(eventId);
         note.setLink(link);
         noteRepository.save(note);
-    }
-
-    public EventsView getEventsView() {
-        return eventsView;
-    }
-
-    public void setEventsView(EventsView eventsView) {
-        this.eventsView = eventsView;
     }
 }
 
