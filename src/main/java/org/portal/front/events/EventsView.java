@@ -9,6 +9,7 @@ import org.portal.authentication.AccessControlFactory;
 import org.portal.authentication.CurrentUser;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
+import org.portal.back.model.NoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +21,10 @@ public abstract class EventsView extends HorizontalLayout
     protected MoneyLineForm moneyLineForm;
     protected TotalForm totalForm;
     protected SpreadForm spreadForm;
-    protected StatisticForm statisticForm; //m= ContextProvider.getBean(StatisticForm.class);
+    protected LinksForm linksForm;
     protected boolean isHistory=false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
+    protected NoteRepository noteRepository = ContextProvider.getBean(NoteRepository.class);
     final AccessControl accessControl = AccessControlFactory.getInstance()
             .createAccessControl();
 
@@ -31,8 +33,8 @@ public abstract class EventsView extends HorizontalLayout
     public void showOdds(Event event) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(event);
-        statisticForm.setVisible(true);
-        statisticForm.showStat();
+        linksForm.setVisible(true);
+        linksForm.showStat(event.getId());
 
         spreadForm.setVisible(false);
         spreadForm.showOdds(event);
@@ -42,9 +44,6 @@ public abstract class EventsView extends HorizontalLayout
     }
 
     public EventsView() {
-        if (accessControl.isUserSignedIn()) {
-            LOGGER.info("Loggin user: " + CurrentUser.get());
-        }
         setSizeFull();
         grid = new EventsGrid();
         grid.setHistory(isHistory);
@@ -52,11 +51,11 @@ public abstract class EventsView extends HorizontalLayout
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);
         spreadForm = new SpreadForm(this);
-        statisticForm=new StatisticForm();
+        linksForm = new LinksForm(noteRepository);
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
-        barAndGridLayout.add(statisticForm);
+        barAndGridLayout.add(linksForm);
         add(barAndGridLayout);
         add(totalForm, moneyLineForm,spreadForm);
         viewLogic.init();

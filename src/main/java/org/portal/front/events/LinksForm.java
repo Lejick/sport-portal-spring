@@ -17,42 +17,46 @@ import java.util.Calendar;
 import java.util.List;
 
 @Component
-public class StatisticForm extends Div {
+public class LinksForm extends Div {
     String stdWidth = "100px";
     private VerticalLayout grid = new VerticalLayout();
     @Autowired
     NoteRepository noteRepository;
 
-    public StatisticForm() {
+    public LinksForm(NoteRepository noteRepository) {
         setClassName("product-form");
         grid.setSizeUndefined();
+        this.noteRepository=noteRepository;
         add(grid);
     }
 
-    public void showStat() {
+    public void showStat(Long eventId) {
         grid.removeAll();
 
-   /*     List<Note> listNote = noteRepository.findByEventId(eventId);
+        List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {
             HorizontalLayout rows = new HorizontalLayout();
             Label label = new Label(note.getDescr());
 
             Anchor link = new Anchor(note.getLink(), note.getLink());
-            rows.add(label, link);
+            Label label2 = new Label("("+note.getUser()+"/"+note.getDate()+")");
+            rows.add(label, link,label2);
           grid.add(rows);
-        }*/
+        }
 
       HorizontalLayout rows = new HorizontalLayout();
-     /*   TextField descrField = new TextField("Input Description");
-        descrField.setWidth("700");
+        TextField descrField = new TextField("Input Description");
+        descrField.setWidth("1000");
         TextField linkField = new TextField("Input Link");
-        linkField.setWidth("700");
-        Button button = new Button("Add Note");
+        linkField.setWidth("1000");
+        Button button = new Button("Add Link");
         button.setWidth(stdWidth);
-        button.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue(), eventId));*/
-      //  rows.add(descrField, linkField, button);
-        rows.add(new Label("Label"));
+        button.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue(), eventId));
+        rows.add(descrField, linkField);
+        HorizontalLayout buttonRows = new HorizontalLayout();
+        buttonRows.add(button);
         grid.add(rows);
+        grid.add(buttonRows);
 
     }
 
