@@ -24,6 +24,12 @@ public class Note {
     @Column
     Date date;
 
+    @Column
+    boolean publictype;
+
+    @Column
+    String type;
+
     public Note() {
     }
 
@@ -73,5 +79,21 @@ public class Note {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isPublictype() {
+        return publictype;
+    }
+
+    public void setPublictype(boolean publictype) {
+        this.publictype = publictype;
     }
 }

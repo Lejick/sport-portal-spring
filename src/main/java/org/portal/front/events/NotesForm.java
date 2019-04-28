@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
 import java.util.Calendar;
 import java.util.List;
 
-public class LinksForm extends Div {
+public class NotesForm extends Div {
     String stdWidth = "100px";
     private VerticalLayout grid = new VerticalLayout();
     NoteRepository noteRepository;
 
     EventsView eventsView;
 
-    public LinksForm(NoteRepository noteRepository, EventsView eventsView) {
+    public NotesForm(NoteRepository noteRepository, EventsView eventsView) {
         this.eventsView = eventsView;
         setClassName("product-form");
         grid.setSizeUndefined();
@@ -37,15 +37,15 @@ public class LinksForm extends Div {
 
         Button autoLinksButton = new Button("Auto Links");
         autoLinksButton.addClickListener(event -> changeToAutoLinks());
-
-        Button notesButton = new Button("Notes");
-        notesButton.addClickListener(event -> changeToNotes());
-
-        HorizontalLayout buttonBar = new HorizontalLayout(autoLinksButton, notesButton);
+        autoLinksButton.setWidth("200");
+        Button userLinksButton = new Button("User Links");
+        userLinksButton.addClickListener(event -> changeUserLinks());
+        userLinksButton.setWidth("200");
+        HorizontalLayout buttonBar = new HorizontalLayout(autoLinksButton, userLinksButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {
-            if (note.getType().equals(NoteType.USERLINK)) {
+            if (note.getType().equals(NoteType.NOTE) || note.getType().equals(NoteType.NOTE)) {
                 HorizontalLayout rows = new HorizontalLayout();
                 Label label = new Label(note.getDescr());
                 Anchor link = new Anchor(note.getLink(), note.getLink());
@@ -58,19 +58,21 @@ public class LinksForm extends Div {
         HorizontalLayout rows = new HorizontalLayout();
         TextField descrField = new TextField("Input Description");
         descrField.setWidth("1000");
-        TextField linkField = new TextField("Input Link");
-        linkField.setWidth("1000");
-        rows.add(descrField, linkField);
+        rows.add(descrField);
+
 
         HorizontalLayout buttonRows = new HorizontalLayout();
-        Button addPublicButton = new Button("Add Public");
-        addPublicButton.setWidth("300");
-        addPublicButton.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue(), eventId, true));
 
-        Button addPrivateButton = new Button("Add Private");
-        addPrivateButton.addClickListener(event -> createNote(descrField.getValue(), linkField.getValue(), eventId, false));
-        addPrivateButton.setWidth("300");
-        buttonRows.add(addPrivateButton, addPublicButton);
+        Button addPublicButton = new Button("Add Public");
+        addPublicButton.addClickListener(event -> createNote(descrField.getValue(),null, eventId, true));
+        addPublicButton.setWidth("300");
+        Button addPivateButton = new Button("Add Private");
+        addPivateButton.addClickListener(event -> createNote(descrField.getValue(), null, eventId, false));
+
+        addPivateButton.setWidth("300");
+        buttonRows.add(addPivateButton, addPublicButton);
+
+
         grid.add(rows);
         grid.add(buttonRows);
 
@@ -84,20 +86,21 @@ public class LinksForm extends Div {
         note.setDescr(descr);
         note.setEventId(eventId);
         note.setLink(link);
-        note.setType(NoteType.USERLINK);
+        note.setType(NoteType.NOTE);
         note.setPublictype(isPublic);
         noteRepository.save(note);
     }
 
     private void changeToAutoLinks() {
         setVisible(false);
-        eventsView.getNotesForm().setVisible(false);
+        eventsView.getLinksForm().setVisible(false);
         eventsView.getAutoLinksForm().setVisible(true);
+
     }
 
-    private void changeToNotes() {
+    private void changeUserLinks() {
         setVisible(false);
-        eventsView.getNotesForm().setVisible(true);
+        eventsView.getLinksForm().setVisible(true);
         eventsView.getAutoLinksForm().setVisible(false);
 
     }

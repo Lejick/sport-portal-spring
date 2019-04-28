@@ -22,7 +22,9 @@ public abstract class EventsView extends HorizontalLayout
     protected TotalForm totalForm;
     protected SpreadForm spreadForm;
     protected LinksForm linksForm;
-    protected boolean isHistory=false;
+    protected AutoLinksForm autoLinksForm;
+    protected NotesForm notesForm;
+    protected boolean isHistory = false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
     protected NoteRepository noteRepository = ContextProvider.getBean(NoteRepository.class);
     final AccessControl accessControl = AccessControlFactory.getInstance()
@@ -33,8 +35,14 @@ public abstract class EventsView extends HorizontalLayout
     public void showOdds(Event event) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(event);
-        linksForm.setVisible(true);
-        linksForm.showStat(event.getId());
+        if (accessControl.isUserSignedIn()) {
+            linksForm.setVisible(true);
+            linksForm.showStat(event.getId());
+            autoLinksForm.setVisible(false);
+            autoLinksForm.showStat(event.getId());
+            notesForm.setVisible(false);
+            notesForm.showStat(event.getId());
+        }
 
         spreadForm.setVisible(false);
         spreadForm.showOdds(event);
@@ -51,13 +59,15 @@ public abstract class EventsView extends HorizontalLayout
         moneyLineForm = new MoneyLineForm(this);
         totalForm = new TotalForm(this);
         spreadForm = new SpreadForm(this);
-        linksForm = new LinksForm(noteRepository);
+        linksForm = new LinksForm(noteRepository, this);
+        autoLinksForm = new AutoLinksForm(noteRepository, this);
+        notesForm = new NotesForm(noteRepository, this);
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
-        barAndGridLayout.add(linksForm);
+        barAndGridLayout.add(linksForm, autoLinksForm, notesForm);
         add(barAndGridLayout);
-        add(totalForm, moneyLineForm,spreadForm);
+        add(totalForm, moneyLineForm, spreadForm);
         viewLogic.init();
     }
 
@@ -73,4 +83,15 @@ public abstract class EventsView extends HorizontalLayout
         return totalForm;
     }
 
+    public LinksForm getLinksForm() {
+        return linksForm;
+    }
+
+    public AutoLinksForm getAutoLinksForm() {
+        return autoLinksForm;
+    }
+
+    public NotesForm getNotesForm() {
+        return notesForm;
+    }
 }

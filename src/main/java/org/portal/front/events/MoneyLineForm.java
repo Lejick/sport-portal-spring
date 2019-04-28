@@ -50,12 +50,8 @@ public class MoneyLineForm extends Div {
         content.add(buttonBar);
         Label homeHeader = new Label("Home");
         homeHeader.setWidth(stdWidth);
-      //  Label maxHomeHeader = new Label("Max $ Home");
-       // maxHomeHeader.setWidth(stdWidth);
         Label awayHeader = new Label("Away");
         awayHeader.setWidth(stdWidth);
-      //  Label maxAwayHeader = new Label("Max $ Away");
-      //  maxAwayHeader.setWidth(stdWidth);
 
         Label dateHeader = new Label("Actual_Date(MSK)");
         dateHeader.setWidth(dateWidth);
@@ -157,7 +153,6 @@ public class MoneyLineForm extends Div {
         setVisible(false);
         eventsView.getSpreadForm().setVisible(false);
         eventsView.getTotalForm().setVisible(true);
-
     }
 
     private void changeToSpread() {
