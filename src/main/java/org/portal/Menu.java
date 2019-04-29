@@ -28,19 +28,6 @@ public class Menu extends FlexLayout {
         tabs = new VerticalLayout();
         setFlexGrow(1, tabs);
         add(tabs);
-
-        // logout menu item
-   /*     Button logoutButton = new Button("Logout",
-                VaadinIcon.SIGN_OUT.create());
-        logoutButton.addClickListener(event -> {
-            VaadinSession.getCurrent().getSession().invalidate();
-            UI.getCurrent().getPage().reload();
-        });*/
-    /*    Label userName = new Label(CurrentUser.get());
-        userName.setWidth("100%");
-        add(userName);*/
-       /* logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        add(logoutButton);*/
     }
 
     /**
