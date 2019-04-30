@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import org.portal.authentication.CurrentUser;
 import org.portal.back.model.Note;
@@ -38,13 +39,13 @@ public class NotesForm extends Div {
         grid.removeAll();
         String userName = CurrentUser.get();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Button autoLinksButton = new Button("Auto Links");
-        autoLinksButton.addClickListener(event -> changeToAutoLinks());
-        autoLinksButton.setWidth("200");
+     //   Button autoLinksButton = new Button("Auto Links");
+     //   autoLinksButton.addClickListener(event -> changeToAutoLinks());
+      //  autoLinksButton.setWidth("200");
         Button userLinksButton = new Button("User Links");
         userLinksButton.addClickListener(event -> changeUserLinks());
         userLinksButton.setWidth("200");
-        HorizontalLayout buttonBar = new HorizontalLayout(autoLinksButton, userLinksButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(userLinksButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {
@@ -67,8 +68,9 @@ public class NotesForm extends Div {
 
         HorizontalLayout rows = new HorizontalLayout();
 
-        TextField descrField = new TextField("Input Description");
+        TextArea descrField = new TextArea("Input Note");
         descrField.setWidth("1000");
+        descrField.setHeight("200");
         rows.add(descrField);
 
 
