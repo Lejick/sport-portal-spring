@@ -44,7 +44,7 @@ public class AutoLinksForm extends Div {
             if (note.getType().equals(NoteType.AUTOLINK)) {
                 HorizontalLayout rows = new HorizontalLayout();
                 Label label = new Label(note.getDescr());
-                Anchor link = new Anchor(note.getLink(), note.getLink());
+                Anchor link = new Anchor(note.getLink(), "Link");
                 rows.add(label, link);
                 grid.add(rows);
             }

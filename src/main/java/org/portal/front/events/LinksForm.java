@@ -38,13 +38,13 @@ public class LinksForm extends Div {
         grid.removeAll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String userName = CurrentUser.get();
-      //  Button autoLinksButton = new Button("Auto Links");
-      //  autoLinksButton.addClickListener(event -> changeToAutoLinks());
+        Button autoLinksButton = new Button("Auto Links");
+        autoLinksButton.addClickListener(event -> changeToAutoLinks());
 
         Button notesButton = new Button("Notes");
         notesButton.addClickListener(event -> changeToNotes());
 
-        HorizontalLayout buttonBar = new HorizontalLayout( notesButton);
+        HorizontalLayout buttonBar = new HorizontalLayout( notesButton, autoLinksButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {

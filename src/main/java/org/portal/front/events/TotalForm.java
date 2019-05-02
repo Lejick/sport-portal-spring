@@ -18,7 +18,6 @@ public class TotalForm extends Div {
     Label under;
     Label over;
     Label date;
-    Label live;
     EventsView eventsView;
     private VerticalLayout content;
 
@@ -37,10 +36,8 @@ public class TotalForm extends Div {
         content.removeAll();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
         Button mlButton = new Button("Money Line");
         mlButton.addClickListener(event -> changeToMoneLine());
-
         Button spreadButton = new Button("Spread");
         spreadButton.addClickListener(event -> changeToSpread());
 
@@ -56,12 +53,11 @@ public class TotalForm extends Div {
         awayHeader.setWidth(stdWidth);
         Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
-        Label liveHeader = new Label("Live");
         dateHeader.setWidth(stdWidth);
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout(liveHeader, homeHeader, maxHomeHeader, awayHeader, dateHeader);
+        HorizontalLayout horizontalLayout = new HorizontalLayout(homeHeader, maxHomeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
-        horizontalLayout.setFlexGrow(1, liveHeader, homeHeader, awayHeader, dateHeader);
+        horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
         List<CombineTotalsOdds> combineMoneyLineOddsList = CombineEventFactory.createTotalsOddsList(eventParam.getLineEvents());
         if (combineMoneyLineOddsList != null && combineMoneyLineOddsList.size() > 0) {
@@ -81,8 +77,6 @@ public class TotalForm extends Div {
                 date = new Label(format.format(combineTotalOdds.getDate()));
                 date.setWidth(dateWidth);
 
-                live = new Label(String.valueOf(combineTotalOdds.isLive()));
-                live.setWidth(stdWidth);
                 total = new Label(combineTotalOdds.getTotal().toPlainString());
                 under = new Label(combineTotalOdds.getUnder().getPrice().toPlainString());
                 over = new Label(combineTotalOdds.getOver().getPrice().toPlainString());
@@ -109,9 +103,9 @@ public class TotalForm extends Div {
                     under.getStyle().set("color", "green");
                 }
 
-                horizontalLayout = new HorizontalLayout(live, total, over, under, date);
+                horizontalLayout = new HorizontalLayout( total, over, under, date);
                 horizontalLayout.setWidth("100%");
-                horizontalLayout.setFlexGrow(1, live, total, over, under, date);
+                horizontalLayout.setFlexGrow(1, total, over, under, date);
                 content.add(horizontalLayout);
 
                 if (nextTotal != null && !nextTotal.equals(combineTotalOdds.getTotal())) {
@@ -120,10 +114,10 @@ public class TotalForm extends Div {
                     total = new Label("-----");
                     under = new Label("-----");
                     over = new Label("-----");
-                    live = new Label("-----");
-                    horizontalLayout = new HorizontalLayout(live, total, over, under, date);
+
+                    horizontalLayout = new HorizontalLayout(total, over, under, date);
                     horizontalLayout.setWidth("100%");
-                    horizontalLayout.setFlexGrow(1, live, total, over, under, date);
+                    horizontalLayout.setFlexGrow(1, total, over, under, date);
                     content.add(horizontalLayout);
                 }
 

@@ -18,7 +18,6 @@ public class SpreadForm extends Div {
     Label home;
     Label away;
     Label date;
-    Label live;
     EventsView eventsView;
     private VerticalLayout content;
 
@@ -55,12 +54,11 @@ public class SpreadForm extends Div {
         awayHeader.setWidth(stdWidth);
         Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
-        Label liveHeader = new Label("Live");
         dateHeader.setWidth(stdWidth);
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout(liveHeader, homeHeader, maxHomeHeader, awayHeader, dateHeader);
+        HorizontalLayout horizontalLayout = new HorizontalLayout( homeHeader, maxHomeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
-        horizontalLayout.setFlexGrow(1, liveHeader, homeHeader, awayHeader, dateHeader);
+        horizontalLayout.setFlexGrow(1,  homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
         List<CombineSpreadOdds> combineSpreadOddsList = CombineEventFactory.createSpreadOddsList(eventParam.getLineEvents());
         if (combineSpreadOddsList != null && combineSpreadOddsList.size() > 0) {
@@ -79,9 +77,6 @@ public class SpreadForm extends Div {
                 CombineSpreadOdds combineSpreadOdds = combineSpreadOddsList.get(i);
                 date = new Label(format.format(combineSpreadOdds.getDate()));
                 date.setWidth(dateWidth);
-
-                live = new Label(String.valueOf(combineSpreadOdds.isLive()));
-                live.setWidth(stdWidth);
 
                 spread = new Label(combineSpreadOdds.getSpread().toPlainString());
                 home = new Label(combineSpreadOdds.getHomeOdds().getPrice().toPlainString());
@@ -109,9 +104,9 @@ public class SpreadForm extends Div {
                     away.getStyle().set("color", "green");
                 }
 
-                horizontalLayout = new HorizontalLayout(live, spread, home, away, date);
+                horizontalLayout = new HorizontalLayout( spread, home, away, date);
                 horizontalLayout.setWidth("100%");
-                horizontalLayout.setFlexGrow(1, live, spread, home, away, date);
+                horizontalLayout.setFlexGrow(1, spread, home, away, date);
                 content.add(horizontalLayout);
 
                 if (nextSpread != null && !nextSpread.equals(combineSpreadOdds.getSpread())) {
@@ -120,10 +115,9 @@ public class SpreadForm extends Div {
                     spread = new Label("-----");
                     home = new Label("-----");
                     away = new Label("-----");
-                    live = new Label("-----");
-                    horizontalLayout = new HorizontalLayout(live, spread, home, away, date);
+                    horizontalLayout = new HorizontalLayout( spread, home, away, date);
                     horizontalLayout.setWidth("100%");
-                    horizontalLayout.setFlexGrow(1, live, spread, home, away, date);
+                    horizontalLayout.setFlexGrow(1, spread, home, away, date);
                     content.add(horizontalLayout);
                 }
 

@@ -39,13 +39,13 @@ public class NotesForm extends Div {
         grid.removeAll();
         String userName = CurrentUser.get();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-     //   Button autoLinksButton = new Button("Auto Links");
-     //   autoLinksButton.addClickListener(event -> changeToAutoLinks());
-      //  autoLinksButton.setWidth("200");
+        Button autoLinksButton = new Button("Auto Links");
+        autoLinksButton.addClickListener(event -> changeToAutoLinks());
+        autoLinksButton.setWidth("200");
         Button userLinksButton = new Button("User Links");
         userLinksButton.addClickListener(event -> changeUserLinks());
         userLinksButton.setWidth("200");
-        HorizontalLayout buttonBar = new HorizontalLayout(userLinksButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(userLinksButton, autoLinksButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {

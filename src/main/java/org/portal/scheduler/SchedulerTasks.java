@@ -1,5 +1,7 @@
 package org.portal.scheduler;
 
+import org.portal.back.grabber.SherdogLinkGrabber;
+import org.portal.back.model.EventRepository;
 import org.portal.back.pinnacle.box.BoxLineGrabber;
 import org.portal.back.pinnacle.mma.MMALineGrabber;
 import org.portal.back.pinnacle.soccer.SoccerLineGrabber;
@@ -57,4 +59,9 @@ public class SchedulerTasks {
         boxLineGrabber.grab();
     }
 
+    @Scheduled(fixedDelay = 60*1000)
+    public void grabSherdogLinks() {
+        SherdogLinkGrabber grabber=new SherdogLinkGrabber();
+        grabber.getSherdogUrl();
+    }
 }

@@ -6,12 +6,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.portal.authentication.AccessControl;
 import org.portal.authentication.AccessControlFactory;
-import org.portal.authentication.CurrentUser;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
 import org.portal.back.model.NoteRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public abstract class EventsView extends HorizontalLayout
@@ -29,9 +26,6 @@ public abstract class EventsView extends HorizontalLayout
     protected NoteRepository noteRepository = ContextProvider.getBean(NoteRepository.class);
     final AccessControl accessControl = AccessControlFactory.getInstance()
             .createAccessControl();
-
-    private final Logger LOGGER = LoggerFactory.getLogger(EventsView.class);
-
     public void showOdds(Event event) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(event);

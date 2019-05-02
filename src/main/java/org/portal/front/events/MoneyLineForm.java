@@ -19,7 +19,6 @@ public class MoneyLineForm extends Div {
     Label away;
     Label max_away;
     Label date;
-    Label live;
     EventsView eventsView;
     private VerticalLayout content;
 
@@ -52,15 +51,13 @@ public class MoneyLineForm extends Div {
         homeHeader.setWidth(stdWidth);
         Label awayHeader = new Label("Away");
         awayHeader.setWidth(stdWidth);
-
-        Label dateHeader = new Label("Actual_Date(MSK)");
+        Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
 
-        Label liveHeader = new Label("Live");
         dateHeader.setWidth(stdWidth);
-        HorizontalLayout horizontalLayout = new HorizontalLayout(liveHeader, homeHeader, awayHeader, dateHeader);
+        HorizontalLayout horizontalLayout = new HorizontalLayout( homeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
-        horizontalLayout.setFlexGrow(1, liveHeader, homeHeader, awayHeader, dateHeader);
+        horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
         List<CombineMoneyLineOdds> combineMoneyLineOddsList = CombineEventFactory.createMoneyLineOddsList(eventParam.getLineEvents());
         if (combineMoneyLineOddsList != null && combineMoneyLineOddsList.size() > 0) {
@@ -84,8 +81,6 @@ public class MoneyLineForm extends Div {
                 date = new Label(format.format(combineMoneyLineOdds.getDate()));
                 date.setWidth(dateWidth);
 
-                live = new Label(String.valueOf(combineMoneyLineOdds.isLive()));
-                live.setWidth(stdWidth);
 
                 max_home = new Label(homeMax != null ? String.valueOf(homeMax) : "");
                 max_away = new Label(awayMax != null ? String.valueOf(awayMax) : "");
@@ -141,9 +136,9 @@ public class MoneyLineForm extends Div {
                 }
 
 
-                horizontalLayout = new HorizontalLayout(live,home, max_home, away, max_away, date);
+                horizontalLayout = new HorizontalLayout(home, max_home, away, max_away, date);
                 horizontalLayout.setWidth("100%");
-                horizontalLayout.setFlexGrow(1, live, home, max_home, away, max_away, date);
+                horizontalLayout.setFlexGrow(1, home, max_home, away, max_away, date);
                 content.add(horizontalLayout);
             }
         }
