@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.leagues.mma;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -6,30 +6,21 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.back.model.Event;
+import org.portal.front.events.CombineEventFactory;
+import org.portal.front.events.CombineMoneyLineOdds;
+import org.portal.front.events.EventsView;
+import org.portal.front.events.MoneyLineForm;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class MoneyLineForm extends Div {
-    protected String stdWidth = "100px";
-    protected String dateWidth = "150px";
-    protected Label home;
-    protected Label max_home;
-    protected Label away;
-    protected Label max_away;
-    protected Label date;
-    protected EventsView eventsView;
-    protected VerticalLayout content;
-
-    public MoneyLineForm(EventsView eventsView) {
-        setClassName("product-form");
-        content = new VerticalLayout();
-        content.setSizeUndefined();
-        add(content);
-        this.eventsView = eventsView;
+public class MMAMoneyLineForm extends MoneyLineForm {
+    public MMAMoneyLineForm(EventsView eventsView) {
+        super(eventsView);
     }
 
+    @Override
     public void showOdds(Event eventParam) {
         if (eventParam == null) {
             return;
@@ -40,22 +31,20 @@ public class MoneyLineForm extends Div {
 
         Button totalButton = new Button("Total");
         totalButton.addClickListener(event -> changeToTotal());
-        Button spreadButton = new Button("Spread");
-        spreadButton.addClickListener(event -> changeToSpread());
 
-        HorizontalLayout buttonBar = new HorizontalLayout(totalButton, spreadButton);
+        HorizontalLayout buttonBar=new HorizontalLayout(totalButton);
         buttonBar.setWidth("100%");
-        buttonBar.setFlexGrow(1, totalButton, spreadButton);
+        buttonBar.setFlexGrow(1, totalButton);
         content.add(buttonBar);
-        Label homeHeader = new Label("Home");
+        Label homeHeader = new Label("Fighter 1");
         homeHeader.setWidth(stdWidth);
-        Label awayHeader = new Label("Away");
+        Label awayHeader = new Label("Fighter 2");
         awayHeader.setWidth(stdWidth);
         Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
 
         dateHeader.setWidth(stdWidth);
-        HorizontalLayout horizontalLayout = new HorizontalLayout(homeHeader, awayHeader, dateHeader);
+        HorizontalLayout horizontalLayout = new HorizontalLayout( homeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
         horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
         content.add(horizontalLayout);
@@ -142,19 +131,6 @@ public class MoneyLineForm extends Div {
                 content.add(horizontalLayout);
             }
         }
-    }
-
-    protected void changeToTotal() {
-        setVisible(false);
-        eventsView.getSpreadForm().setVisible(false);
-        eventsView.getTotalForm().setVisible(true);
-    }
-
-    protected void changeToSpread() {
-        setVisible(false);
-        eventsView.getTotalForm().setVisible(false);
-        eventsView.getSpreadForm().setVisible(true);
-
     }
 
 }

@@ -24,8 +24,9 @@ public abstract class EventsView extends HorizontalLayout
     protected boolean isHistory = false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
     protected NoteRepository noteRepository = ContextProvider.getBean(NoteRepository.class);
-    final AccessControl accessControl = AccessControlFactory.getInstance()
+    protected final AccessControl accessControl = AccessControlFactory.getInstance()
             .createAccessControl();
+
     public void showOdds(Event event) {
         moneyLineForm.setVisible(true);
         moneyLineForm.showOdds(event);
@@ -47,23 +48,34 @@ public abstract class EventsView extends HorizontalLayout
 
     public EventsView() {
         setSizeFull();
-        grid = new EventsGrid();
+        grid = getEventGrid();
         grid.setHistory(isHistory);
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
-        moneyLineForm = new MoneyLineForm(this);
-        totalForm = new TotalForm(this);
-        spreadForm = new SpreadForm(this);
-        linksForm = new LinksForm(noteRepository, this);
-        autoLinksForm = new AutoLinksForm(noteRepository, this);
-        notesForm = new NotesForm(noteRepository, this);
+        initForms();
+        putForms();
+
+        viewLogic.init();
+    }
+
+    protected void putForms() {
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
         barAndGridLayout.add(linksForm, autoLinksForm, notesForm);
         add(barAndGridLayout);
         add(totalForm, moneyLineForm, spreadForm);
-        viewLogic.init();
     }
+
+    protected void initForms() {
+        moneyLineForm = new MoneyLineForm(this);
+        totalForm = new TotalForm(this);
+        spreadForm = new SpreadForm(this);
+        linksForm = new LinksForm(noteRepository, this);
+        autoLinksForm = new AutoLinksForm(noteRepository, this);
+        notesForm = new NotesForm(noteRepository, this);
+    }
+
+    protected abstract EventsGrid getEventGrid();
 
     public MoneyLineForm getMoneyLineForm() {
         return moneyLineForm;

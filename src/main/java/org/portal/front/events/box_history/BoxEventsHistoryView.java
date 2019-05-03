@@ -7,7 +7,9 @@ import org.portal.MainLayout;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.EventsDataProvider;
+import org.portal.front.events.EventsGrid;
 import org.portal.front.events.EventsView;
+import org.portal.front.leagues.mma.StandartEventsGrid;
 
 import java.util.Collection;
 
@@ -22,5 +24,10 @@ public class BoxEventsHistoryView extends EventsView {
             });
         }
         isHistory=true;
+    }
+
+    @Override
+    protected EventsGrid getEventGrid() {
+        return new StandartEventsGrid();
     }
 }
