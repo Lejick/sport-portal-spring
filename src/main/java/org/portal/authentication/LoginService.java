@@ -41,6 +41,7 @@ public class LoginService {
         log.setLogin(userName);
         log.setPass_md5(passMd5);
         log.setEmail(email);
+        log.setIp(CurrentUser.getIp());
         log.setCreateDate(current);
         loginsRepository.save(log);
         return true;
