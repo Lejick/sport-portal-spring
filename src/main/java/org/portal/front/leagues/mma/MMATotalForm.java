@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.leagues.mma;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -6,27 +6,19 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.back.model.Event;
+import org.portal.front.events.CombineEventFactory;
+import org.portal.front.events.CombineTotalsOdds;
+import org.portal.front.events.EventsView;
+import org.portal.front.events.TotalForm;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class TotalForm extends Div {
-    protected String stdWidth = "100px";
-    protected String dateWidth = "150px";
-    protected Label total;
-    protected Label under;
-    protected Label over;
-    protected Label date;
-    protected EventsView eventsView;
-    protected VerticalLayout content;
+public class MMATotalForm extends TotalForm {
 
-    public TotalForm(EventsView eventsView) {
-        setClassName("product-form");
-        content = new VerticalLayout();
-        content.setSizeUndefined();
-        add(content);
-        this.eventsView = eventsView;
+    public MMATotalForm(EventsView eventsView) {
+        super(eventsView);
     }
 
     public void showOdds(Event eventParam) {
@@ -38,12 +30,10 @@ public class TotalForm extends Div {
 
         Button mlButton = new Button("Money Line");
         mlButton.addClickListener(event -> changeToMoneLine());
-        Button spreadButton = new Button("Spread");
-        spreadButton.addClickListener(event -> changeToSpread());
 
-        HorizontalLayout buttonBar = new HorizontalLayout(mlButton, spreadButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(mlButton);
         buttonBar.setWidth("100%");
-        buttonBar.setFlexGrow(1, mlButton, spreadButton);
+        buttonBar.setFlexGrow(1, mlButton);
         content.add(buttonBar);
         Label homeHeader = new Label("Total");
         homeHeader.setWidth(stdWidth);
@@ -130,12 +120,5 @@ public class TotalForm extends Div {
         eventsView.getSpreadForm().setVisible(false);
         eventsView.getMoneyLineForm().setVisible(true);
     }
-
-    private void changeToSpread() {
-        setVisible(false);
-        eventsView.getMoneyLineForm().setVisible(false);
-        eventsView.getSpreadForm().setVisible(true);
-    }
-
 }
 

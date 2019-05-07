@@ -9,7 +9,7 @@ import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.EventsDataProvider;
 import org.portal.front.events.EventsGrid;
 import org.portal.front.events.EventsView;
-import org.portal.front.leagues.mma.StandartEventsGrid;
+import org.portal.front.leagues.StandartEventsGrid;
 
 import java.util.Collection;
 

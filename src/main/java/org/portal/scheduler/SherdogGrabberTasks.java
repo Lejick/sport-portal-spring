@@ -11,7 +11,7 @@ public class SherdogGrabberTasks {
     @Autowired
     DataGrabber dataGrabber;
 
-    @Scheduled(fixedDelay = 24*60*1000)
+    @Scheduled(fixedDelay = 5*60*60*1000)
     public void grabTennisLine() {
         try {
             dataGrabber.grab();

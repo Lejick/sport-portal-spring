@@ -1,59 +1,59 @@
 package org.portal.back.grabber;
 
-import org.portal.ContextProvider;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
 import org.portal.back.model.NoteType;
+import org.portal.back.model.sherdog.Fighter;
+import org.portal.back.model.sherdog.FighterRepository;
 import org.portal.back.pinnacle.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-public class SherdogLinkGrabber extends GoogleGrabber {
+@Service
+public class SherdogLinkGrabber {
     private static String DELIM = " ";
-    protected DataService ds = ContextProvider.getBean(DataService.class);
-    NoteRepository noteRepository = ContextProvider.getBean(NoteRepository.class);
-
-    public SherdogLinkGrabber() {
-    }
+    @Autowired
+    protected DataService ds;
+    @Autowired
+    NoteRepository noteRepository;
+    @Autowired
+    FighterRepository fighterRepository;
 
     public void getSherdogUrl() {
         Collection<Event> eventList = ds.getEvents("UFC", Constants.MMA_ID);
         for (Event event : eventList) {
 
-
             if (!containSherdogLinks(event.getId())) {
-                try {
-                    String homeFighter = event.getHome();
-                    String searchWord = "sherdog " + homeFighter;
-                    String url = getUrlFromGoogle(searchWord);
-                    if (url.contains("sherdog")) {
-                        Note note = new Note();
-                        note.setEventId(event.getId());
-                        note.setPublictype(true);
-                        note.setDescr(event.getHome() + DELIM + "Sherdog");
-                        note.setLink(url);
-                        note.setType(NoteType.AUTOLINK);
-                        noteRepository.save(note);
-                    }
+                String homeFighter = event.getHome();
+                List<Fighter> fList = fighterRepository.findByName(homeFighter);
+                for (Fighter fighter : fList) {
+                    String url = fighter.getSherdogUrl();
+                    Note note = new Note();
+                    note.setEventId(event.getId());
+                    note.setPublictype(true);
+                    note.setDescr(event.getHome() + DELIM + "Sherdog");
+                    note.setLink(url);
+                    note.setType(NoteType.AUTOLINK);
+                    noteRepository.save(note);
+                }
+                String awayFighter = event.getAway();
+                fList = fighterRepository.findByName(awayFighter);
+                for (Fighter fighter : fList) {
 
-                    String awayFighter = event.getAway();
-                     searchWord = "sherdog " + awayFighter;
-                     url = getUrlFromGoogle(searchWord);
-                    if (url.contains("sherdog")) {
-                        Note note = new Note();
-                        note.setEventId(event.getId());
-                        note.setPublictype(true);
-                        note.setDescr(event.getAway() + DELIM + "Sherdog");
-                        note.setLink(url);
-                        note.setType(NoteType.AUTOLINK);
-                        noteRepository.save(note);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                    String url = fighter.getSherdogUrl();
+                    Note note = new Note();
+                    note.setEventId(event.getId());
+                    note.setPublictype(true);
+                    note.setDescr(event.getAway() + DELIM + "Sherdog");
+                    note.setLink(url);
+                    note.setType(NoteType.AUTOLINK);
+                    noteRepository.save(note);
                 }
 
             }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FighterRepository extends CrudRepository<Fighter, Long> {
     List<Fighter> findBySherdogUrlContaining(String sherdogUrl);
+    List<Fighter> findByName(String name);
 }

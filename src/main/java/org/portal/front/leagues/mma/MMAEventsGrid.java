@@ -25,7 +25,7 @@ public class MMAEventsGrid extends EventsGrid {
                 .setFlexGrow(20)
                 .setSortable(true);
         addColumn(Event::getLeague_name)
-                .setHeader("League")
+                .setHeader("Event Name")
                 .setFlexGrow(20)
                 .setSortable(false);
     }

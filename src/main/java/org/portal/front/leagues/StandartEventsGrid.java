@@ -1,4 +1,4 @@
-package org.portal.front.leagues.mma;
+package org.portal.front.leagues;
 
 import com.vaadin.flow.function.ValueProvider;
 import org.portal.back.model.Event;

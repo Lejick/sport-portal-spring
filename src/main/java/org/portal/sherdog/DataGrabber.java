@@ -8,6 +8,7 @@ import com.ftpix.sherdogparser.models.Event;
 import com.ftpix.sherdogparser.models.Fight;
 import com.ftpix.sherdogparser.models.Fighter;
 import com.ftpix.sherdogparser.parsers.FighterParser;
+import org.portal.back.DataService;
 import org.portal.back.model.sherdog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class DataGrabber {
 
     @Autowired
     FighterRepository fighterRepository;
+
+    @Autowired
+    DataService dataService;
 
     @Autowired
     FightRepository fightRepository;
@@ -91,11 +95,11 @@ public class DataGrabber {
 
     private org.portal.back.model.sherdog.Fighter saveFighter(Fighter fighter) {
         org.portal.back.model.sherdog.Fighter dbFighter = new org.portal.back.model.sherdog.Fighter(fighter);
-       List<org.portal.back.model.sherdog.Fighter> fList= fighterRepository.findBySherdogUrlContaining(fighter.getSherdogUrl());
+        List<org.portal.back.model.sherdog.Fighter> fList = fighterRepository.findBySherdogUrlContaining(fighter.getSherdogUrl());
         if (fList.isEmpty()) {
             fighterRepository.save(dbFighter);
         } else {
-            dbFighter=fList.get(0);
+            dbFighter = fList.get(0);
         }
         return dbFighter;
     }
