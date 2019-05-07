@@ -11,10 +11,14 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * UI content when the user is not logged in yet.
@@ -22,10 +26,11 @@ import com.vaadin.flow.router.Route;
 @Route("Login")
 @PageTitle("Login")
 @HtmlImport("css/shared-styles.html")
-public class LoginScreen extends FlexLayout {
+public class LoginScreen extends HorizontalLayout {
 
     private TextField username;
     private PasswordField password;
+    private EmailField email;
     private Button login;
     private Button register;
     private AccessControl accessControl;
@@ -37,23 +42,12 @@ public class LoginScreen extends FlexLayout {
     }
 
     private void buildUI() {
-        setSizeFull();
+        //  setSizeFull();
         setClassName("login-screen");
-
-        // login form, centered in the available part of the screen
         Component loginForm = buildLoginForm();
-
-        // layout to center login form when there is sufficient screen space
-        FlexLayout centeringLayout = new FlexLayout();
-        centeringLayout.setSizeFull();
-        centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        HorizontalLayout centeringLayout = new HorizontalLayout();
         centeringLayout.setAlignItems(Alignment.CENTER);
         centeringLayout.add(loginForm);
-
-        // information text about logging in
-        Component loginInformation = buildLoginInformation();
-
-        add(loginInformation);
         add(centeringLayout);
     }
 
@@ -61,12 +55,14 @@ public class LoginScreen extends FlexLayout {
         FormLayout loginForm = new FormLayout();
 
         loginForm.setWidth("310px");
-
         loginForm.addFormItem(username = new TextField(), "Username");
         username.setWidth("15em");
         loginForm.add(new Html("<br/>"));
         loginForm.addFormItem(password = new PasswordField(), "Password");
         password.setWidth("15em");
+        loginForm.add(new Html("<br/>"));
+        loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
+        email.setWidth("15em");
 
         HorizontalLayout buttons = new HorizontalLayout();
         loginForm.add(new Html("<br/>"));
@@ -79,20 +75,9 @@ public class LoginScreen extends FlexLayout {
 
         buttons.add(register = new Button("Register"));
         register.addClickListener(event -> register());
-        register.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        register.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
         return loginForm;
-    }
-
-    private Component buildLoginInformation() {
-        VerticalLayout loginInformation = new VerticalLayout();
-        loginInformation.setClassName("login-information");
-
-        H1 loginInfoHeader = new H1("Login");
-        loginInformation.add(loginInfoHeader);
-
-
-        return loginInformation;
     }
 
     private void login() {
@@ -101,9 +86,9 @@ public class LoginScreen extends FlexLayout {
             if (accessControl.signIn(username.getValue(), password.getValue())) {
                 getUI().get().navigate("Tennis_Leagues");
             } else {
-                showNotification(new Notification("Login failed. " +
-                        "Please check your username and password and try again."));
+                showNotification("Login failed. Please check another username/pass and try again.");
                 username.focus();
+                return;
             }
         } finally {
             login.setEnabled(true);
@@ -111,17 +96,51 @@ public class LoginScreen extends FlexLayout {
     }
 
     private void register() {
-    if(!accessControl.register(username.getValue(), password.getValue())){
-        showNotification(new Notification("Register failed. " +
-                "Please try another username"));
-        username.focus();
-    }
+
+        if (username.getValue().isEmpty() || password.getValue().isEmpty()) {
+            showNotification("Enter Username and password !!!");
+            return;
+        }
+
+        if (!checkLogin(username.getValue())) {
+            showNotification("Only Latin characters and digits allowed. Start with character.  Try another username");
+            return;
+        }
+
+        if (accessControl.signIn(username.getValue(), password.getValue())) {
+            getUI().get().navigate("Tennis_Leagues");
+            return;
+        }
+
+        if (email.isInvalid() || email.getValue().isEmpty()) {
+            showNotification("Enter valid Email !!!");
+            return;
+        }
+
+        if (!accessControl.register(username.getValue(), password.getValue(), email.getValue())) {
+            showNotification("Username already exist. Please try another");
+            return;
+        }
+
+
+        showNotification("Successful create user !!!");
     }
 
-    private void showNotification(Notification notification) {
-        // keep the notification visible a little while after moving the
-        // mouse, or until clicked
-        notification.setDuration(2000);
+    boolean checkLogin(String login) {
+        final int maxLength = 20;
+        if (login == null || login.isEmpty() || login.length() > maxLength) {
+            return false;
+        }
+
+        final Pattern pattern = Pattern.compile("^[a-z][a-z\\d\\.\\-]*[a-z\\d]+$", Pattern.CASE_INSENSITIVE);
+        final Matcher matcher = pattern.matcher(login);
+        return matcher.matches();
+    }
+
+    private void showNotification(String message) {
+        Notification notification = new Notification(message);
+        notification.setPosition(Notification.Position.TOP_CENTER);
+        notification.setDuration(5000);
         notification.open();
     }
 }
