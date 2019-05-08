@@ -31,22 +31,14 @@ public class DataGrabber {
     FighterRepository fighterRepository;
 
     @Autowired
-    DataService dataService;
-
-    @Autowired
     FightRepository fightRepository;
 
     static Sherdog parser = new Sherdog.Builder().withTimezone(Constants.SHERDOG_TIME_ZONE).build();
     static FighterParser fighterParser = new FighterParser(Constants.DEFAULT_PICTURE_PROCESSOR, ZoneId.of(Constants.SHERDOG_TIME_ZONE));
 
-
-    private static Organizations currentOrganisation = Organizations.UFC;
-
     public void grab() throws SherdogParserException {
 
         for (Organizations organizations : Organizations.values()) {
-
-
             Organization org = getOrganisation(organizations);
             for (int i = 0; i < org.getEvents().size(); i++) {
                 com.ftpix.sherdogparser.models.Event event = org.getEvents().get(i);

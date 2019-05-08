@@ -167,6 +167,7 @@
                 </configuration>
             </plugin>
         </plugins>
+            <finalName>main-ui</finalName>
     </build>
 
     <profiles>

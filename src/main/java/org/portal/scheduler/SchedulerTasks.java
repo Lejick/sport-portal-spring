@@ -28,40 +28,40 @@ public class SchedulerTasks {
     @Autowired
     SherdogLinkGrabber sherdogLinkGrabber;
 
-    @Scheduled(fixedDelay = 4*60*1000)
+    @Scheduled(fixedRate = 4*60*1000)
     public void grabTennisLine() {
         tennisLineGrabber.grab();
     }
 
-    @Scheduled(fixedDelay = 4*60*1000, initialDelay = 60*1000)
+    @Scheduled(fixedRate = 4*60*1000, initialDelay = 60*1000)
     public void grabSoccerLine() {
         soccerLineGrabber.grab();
     }
 
-    @Scheduled(fixedDelay = 4*60*1000, initialDelay = 2*60*1000)
+    @Scheduled(fixedRate = 4*60*1000, initialDelay = 2*60*1000)
     public void grabTennisLineLive() {
         tennisLineGrabberLive.grab();
     }
 
-    @Scheduled(fixedDelay = 4*60*1000, initialDelay = 3*60*1000)
+    @Scheduled(fixedRate = 4*60*1000, initialDelay = 3*60*1000)
     public void grabSoccerLineLive() {
         soccerLineGrabberLive.grab();
     }
 
 
-    @Scheduled(fixedDelay = 15*60*1000, initialDelay = 2*60*1000)
+    @Scheduled(fixedRate = 15*60*1000, initialDelay = 2*60*1000)
     public void grabMMALine() {
         mmaLineGrabber.grab();
     }
 
 
 
-    @Scheduled(fixedDelay = 30*60*1000, initialDelay = 3*60*1000)
+    @Scheduled(fixedRate = 30*60*1000, initialDelay = 3*60*1000)
     public void grabBoxLine() {
         boxLineGrabber.grab();
     }
 
-    @Scheduled(fixedDelay = 60*1000)
+    @Scheduled(fixedRate = 60*1000)
     public void grabSherdogLinks() {
         sherdogLinkGrabber.getSherdogUrl();
     }
