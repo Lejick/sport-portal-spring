@@ -1,7 +1,9 @@
 package org.portal.back.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
+
 
 @Entity
 @Table
@@ -21,6 +23,9 @@ public class Logins {
 
     @Column
     Date createDate;
+
+    @Column
+    LocalDate birthDay;
 
     @Column
     Date lastLogin;
@@ -80,6 +85,14 @@ public class Logins {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public LocalDate getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        this.birthDay = birthDay;
     }
 
     public Date getLastLogin() {

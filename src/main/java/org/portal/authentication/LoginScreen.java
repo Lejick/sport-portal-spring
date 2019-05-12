@@ -6,14 +6,12 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -31,6 +29,7 @@ public class LoginScreen extends HorizontalLayout {
     private TextField username;
     private PasswordField password;
     private EmailField email;
+    private DatePicker birthDay;
     private Button login;
     private Button register;
     private AccessControl accessControl;
@@ -63,6 +62,11 @@ public class LoginScreen extends HorizontalLayout {
         loginForm.add(new Html("<br/>"));
         loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
         email.setWidth("15em");
+        loginForm.add(new Html("<br/>"));
+        loginForm.addFormItem(birthDay = new DatePicker(), "Date of Birth (only for registration)");
+
+        birthDay.setWidth("15em");
+
 
         HorizontalLayout buttons = new HorizontalLayout();
         loginForm.add(new Html("<br/>"));
@@ -117,7 +121,7 @@ public class LoginScreen extends HorizontalLayout {
             return;
         }
 
-        if (!accessControl.register(username.getValue(), password.getValue(), email.getValue())) {
+        if (!accessControl.register(username.getValue(), password.getValue(), birthDay.getValue(), email.getValue())) {
             showNotification("Username already exist. Please try another");
             return;
         }

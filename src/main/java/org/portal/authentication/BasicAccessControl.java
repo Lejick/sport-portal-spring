@@ -3,6 +3,7 @@ package org.portal.authentication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 
 import org.portal.ContextProvider;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class BasicAccessControl implements AccessControl {
             return false;
         }
         String actualPass = loginService.getPass(username);
-        if(actualPass==null) {
+        if (actualPass == null) {
             return false;
         }
         String md5Pass = md5(password);
@@ -36,28 +37,29 @@ public class BasicAccessControl implements AccessControl {
     }
 
     @Override
-    public boolean register(String username, String password,String email) {
-     return  loginService.create(username,email, md5(password));
+    public boolean register(String username, String password, LocalDate birthDay, String email) {
+        return loginService.create(username, email, birthDay, md5(password));
     }
 
 
-    private String md5(String password){
-        StringBuffer sb = new StringBuffer();
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
+    private String md5(String password) {
+        StringBuffer sb = new StringBuffer(password);
+  //    try {
+  //        MessageDigest md = MessageDigest.getInstance("MD5");
+  //        md.update(password.getBytes());
 
-            byte byteData[] = md.digest();
+  //        byte byteData[] = md.digest();
 
 
-            for (int i = 0; i < byteData.length; i++)
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+  //        for (int i = 0; i < byteData.length; i++)
+  //            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 
-        } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(e.getMessage());
-        }
+  //    } catch (NoSuchAlgorithmException e) {
+  //        LOGGER.error(e.getMessage());
+  //    }
         return sb.toString();
     }
+
     @Override
     public boolean isUserSignedIn() {
         return !CurrentUser.get().isEmpty();

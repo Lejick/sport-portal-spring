@@ -51,7 +51,7 @@ public class DataService implements Serializable {
 
     @Transactional
     public Collection<Event> getEventsBySide(String team1, String team2, int sportId) {
-        List<Event> result=new ArrayList<>();
+        List<Event> result = new ArrayList<>();
         List<Event> events = em.createQuery(
                 "SELECT e FROM Event e where home=:home AND away=:home AND sport_id=:sportId", Event.class)
                 .setParameter("home", team1)
