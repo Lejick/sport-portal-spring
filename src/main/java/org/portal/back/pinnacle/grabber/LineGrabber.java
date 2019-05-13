@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ public class LineGrabber extends AbstractGrabber {
 
     @Autowired
     OddsRepository oddsRepository;
+
+  protected ArrayList<Long> allowedLeagues=new ArrayList<>();
 
     @Autowired
     PinaccRepository pinaccRepository;
@@ -53,17 +56,19 @@ public class LineGrabber extends AbstractGrabber {
 
 
         for (Odds.League league : odds.leagues()) {
-            Fixtures.League fixLeague = findLeagueById(fixtures, league.id());
-            if (fixLeague != null) {
-                for (Odds.Event event : league.events()) {
-                    Fixtures.Event fixEvent = findEventById(fixtures, event.id());
-                    if (fixEvent != null) {
-                        updateEvent(event.id(), fixEvent.home(), fixEvent.away(), Date.from(fixEvent.starts()),
-                                league.id(), fixLeague.name(), event,modelOdds);
+            if (allowedLeagues.isEmpty() || allowedLeagues.contains(league.id())) {
+                Fixtures.League fixLeague = findLeagueById(fixtures, league.id());
+                if (fixLeague != null) {
+                    for (Odds.Event event : league.events()) {
+                        Fixtures.Event fixEvent = findEventById(fixtures, event.id());
+                        if (fixEvent != null) {
+                            updateEvent(event.id(), fixEvent.home(), fixEvent.away(), Date.from(fixEvent.starts()),
+                                    league.id(), fixLeague.name(), event, modelOdds);
 
+                        }
                     }
-                }
 
+                }
             }
         }
         LOGGER.info("Line Grabber loop finish ");

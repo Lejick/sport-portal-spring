@@ -39,8 +39,8 @@ public class PersistenceJPAConfig{
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/sport-portal?serverTimezone=UTC");
-        dataSource.setUsername( "admin" );
-        dataSource.setPassword( "omfg2370" );
+        dataSource.setUsername( "sportportal" );
+        dataSource.setPassword( "Pass123!!" );
         return dataSource;
     }
 

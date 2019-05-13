@@ -9,6 +9,7 @@ public class SoccerLineGrabberLive extends LineGrabber {
     public SoccerLineGrabberLive() {
         super(Constants.SOCCER_ID);
         setLive(true);
+        allowedLeagues.add(2627L);
     }
 }
 

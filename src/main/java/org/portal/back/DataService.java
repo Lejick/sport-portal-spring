@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.portal.back.model.Event;
 import org.portal.back.model.League;
+import org.portal.back.model.sherdog.EventModel;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.leagues.LeaguesDataProvider;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,23 @@ public class DataService implements Serializable {
                 .setParameter("max", max.intValue())
                 .setParameter("pre", max.intValue() - 1)
                 .setParameter("sportId", sportId)
+                .getResultList();
+        return events;
+    }
+
+
+    @Transactional
+    public List<EventModel> getUFCEventsByDate(Date aroundDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(aroundDate);
+        cal.add(Calendar.DAY_OF_YEAR, -2);
+        Date pre = cal.getTime();
+        cal.add(Calendar.DAY_OF_YEAR, 4);
+        Date post = cal.getTime();
+        List<EventModel> events = em.createQuery(
+                "SELECT e FROM EventModel e where startDate<:post AND startDate>:pre", EventModel.class)
+                .setParameter("post", post)
+                .setParameter("pre", pre)
                 .getResultList();
         return events;
     }

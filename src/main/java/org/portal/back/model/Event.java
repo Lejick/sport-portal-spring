@@ -42,6 +42,9 @@ public class Event {
     @Column
     String away;
 
+    @Column
+    String alterTitle;
+
     public Long getId() {
         return id;
     }
@@ -201,5 +204,13 @@ public class Event {
 
     public void setLive(boolean live) {
         this.live = live;
+    }
+
+    public String getAlterTitle() {
+        return alterTitle;
+    }
+
+    public void setAlterTitle(String alterTitle) {
+        this.alterTitle = alterTitle;
     }
 }

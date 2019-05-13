@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class SoccerLineGrabber extends LineGrabber {
     public SoccerLineGrabber() {
         super(Constants.SOCCER_ID);
+        allowedLeagues.add(2627L);
     }
 }
 

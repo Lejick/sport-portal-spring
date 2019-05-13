@@ -44,7 +44,6 @@ public class DataGrabber {
                 com.ftpix.sherdogparser.models.Event event = org.getEvents().get(i);
                 List<EventModel> eventModelList = eventModelRepository.findByEventNameContaining(event.getName());
                 if ((eventModelList).isEmpty()) {
-
                     try {
                         printEvent(event, organizations);
                     } catch (Exception e) {
