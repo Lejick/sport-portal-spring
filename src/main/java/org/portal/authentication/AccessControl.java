@@ -1,8 +1,7 @@
 package org.portal.authentication;
 
 import java.io.Serializable;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import java.time.LocalDate;
+
 /**
  * Simple interface for authentication and authorization checks.
  */
@@ -13,7 +12,7 @@ public interface AccessControl extends Serializable {
 
     public boolean signIn(String username, String password);
 
-    boolean register(String username, String password, LocalDate birthDay, String email);
+    boolean register(String username, String password, String birthDay, String email);
 
     public boolean isUserSignedIn();
 

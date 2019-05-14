@@ -1,2 +1,2 @@
 1.12.05.19 - changed logins, add column birthday:
-- ALTER TABLE logins ADD COLUMN birthday DATE -
+- ALTER TABLE logins ADD COLUMN promocode VARCHAR(255) -

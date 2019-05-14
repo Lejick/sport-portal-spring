@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +31,7 @@ public class LoginService {
         return log.get(0).getPass_md5();
     }
 
-    public boolean create(String userName, String email, LocalDate birthDay, String passMd5) {
+    public boolean create(String userName, String email, String promocode, String passMd5) {
         List<Logins> logList = loginsRepository.findByLogin(userName);
         if (logList.size() > 0) {
             return false;
@@ -44,7 +43,7 @@ public class LoginService {
         log.setEmail(email);
         log.setIp(CurrentUser.getIp());
         log.setCreateDate(current);
-        log.setBirthDay(birthDay);
+        log.setPromocode(promocode);
         loginsRepository.save(log);
         return true;
 

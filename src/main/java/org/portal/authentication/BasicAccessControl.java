@@ -37,26 +37,26 @@ public class BasicAccessControl implements AccessControl {
     }
 
     @Override
-    public boolean register(String username, String password, LocalDate birthDay, String email) {
-        return loginService.create(username, email, birthDay, md5(password));
+    public boolean register(String username, String password, String promocode, String email) {
+        return loginService.create(username, email, promocode, md5(password));
     }
 
 
     private String md5(String password) {
         StringBuffer sb = new StringBuffer(password);
-  //    try {
-  //        MessageDigest md = MessageDigest.getInstance("MD5");
-  //        md.update(password.getBytes());
+      try {
+          MessageDigest md = MessageDigest.getInstance("MD5");
+          md.update(password.getBytes());
 
-  //        byte byteData[] = md.digest();
+          byte byteData[] = md.digest();
 
 
-  //        for (int i = 0; i < byteData.length; i++)
-  //            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+          for (int i = 0; i < byteData.length; i++)
+              sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 
-  //    } catch (NoSuchAlgorithmException e) {
-  //        LOGGER.error(e.getMessage());
-  //    }
+      } catch (NoSuchAlgorithmException e) {
+          LOGGER.error(e.getMessage());
+      }
         return sb.toString();
     }
 

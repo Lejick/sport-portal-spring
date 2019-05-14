@@ -1,10 +1,8 @@
 package org.portal.front.leagues.mma;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.back.model.Event;
 import org.portal.front.events.CombineEventFactory;
 import org.portal.front.events.CombineMoneyLineOdds;

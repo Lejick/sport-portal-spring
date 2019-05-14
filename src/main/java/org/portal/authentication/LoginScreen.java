@@ -29,7 +29,7 @@ public class LoginScreen extends HorizontalLayout {
     private TextField username;
     private PasswordField password;
     private EmailField email;
-    private DatePicker birthDay;
+    private TextField promocode;
     private Button login;
     private Button register;
     private AccessControl accessControl;
@@ -63,9 +63,9 @@ public class LoginScreen extends HorizontalLayout {
         loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
         email.setWidth("15em");
         loginForm.add(new Html("<br/>"));
-        loginForm.addFormItem(birthDay = new DatePicker(), "Date of Birth (only for registration)");
+        loginForm.addFormItem(promocode = new TextField(), "Promocode (only for registration)");
 
-        birthDay.setWidth("15em");
+        promocode.setWidth("15em");
 
 
         HorizontalLayout buttons = new HorizontalLayout();
@@ -111,6 +111,12 @@ public class LoginScreen extends HorizontalLayout {
             return;
         }
 
+        if (!checkLogin(promocode.getValue())) {
+            showNotification("Only Latin characters and digits allowed. Start with character.  Try another promocode");
+            return;
+        }
+
+
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             getUI().get().navigate("Tennis_Leagues");
             return;
@@ -121,7 +127,7 @@ public class LoginScreen extends HorizontalLayout {
             return;
         }
 
-        if (!accessControl.register(username.getValue(), password.getValue(), birthDay.getValue(), email.getValue())) {
+        if (!accessControl.register(username.getValue(), password.getValue(), promocode.getValue(), email.getValue())) {
             showNotification("Username already exist. Please try another");
             return;
         }
@@ -140,6 +146,7 @@ public class LoginScreen extends HorizontalLayout {
         final Matcher matcher = pattern.matcher(login);
         return matcher.matches();
     }
+
 
     private void showNotification(String message) {
         Notification notification = new Notification(message);

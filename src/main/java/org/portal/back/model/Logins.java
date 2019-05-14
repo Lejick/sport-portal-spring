@@ -1,7 +1,6 @@
 package org.portal.back.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -25,7 +24,7 @@ public class Logins {
     Date createDate;
 
     @Column
-    LocalDate birthDay;
+    String promocode;
 
     @Column
     Date lastLogin;
@@ -87,12 +86,12 @@ public class Logins {
         this.createDate = createDate;
     }
 
-    public LocalDate getBirthDay() {
-        return birthDay;
+    public String getPromocode() {
+        return promocode;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
+    public void setPromocode(String promocode) {
+        this.promocode = promocode;
     }
 
     public Date getLastLogin() {
