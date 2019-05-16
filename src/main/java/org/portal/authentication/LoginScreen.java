@@ -63,7 +63,7 @@ public class LoginScreen extends HorizontalLayout {
         loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
         email.setWidth("15em");
         loginForm.add(new Html("<br/>"));
-        //апрарапрапра
+        //апрарапрапрадлждлджлд
         loginForm.addFormItem(promocode = new TextField(), "Promocode (only for registration)");
 
         promocode.setWidth("15em");
