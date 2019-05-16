@@ -6,11 +6,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -76,6 +75,13 @@ public class LoginScreen extends HorizontalLayout {
         buttons.add(register = new Button("Register"));
         register.addClickListener(event -> register());
         register.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
+        HorizontalLayout telegram = new HorizontalLayout();
+
+        Label telegramLabel = new Label("Join our telegram channel");
+        Anchor telegramLink = new Anchor("https://t.me/sportportal365");
+
+        telegram.add(telegramLabel, telegramLink);
+        loginForm.add(telegram);
 
         return loginForm;
     }
