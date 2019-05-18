@@ -31,6 +31,7 @@ public class LoginScreen extends HorizontalLayout {
     private TextField username;
     private PasswordField password;
     private EmailField email;
+    private TextField promocode;
     private Button login;
     private Button register;
     private AccessControl accessControl;
@@ -63,6 +64,10 @@ public class LoginScreen extends HorizontalLayout {
         loginForm.add(new Html("<br/>"));
         loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
         email.setWidth("15em");
+        loginForm.add(new Html("<br/>"));
+        loginForm.addFormItem(promocode = new TextField(), "Promocode (optional)");
+        promocode.setWidth("15em");
+
 
         HorizontalLayout buttons = new HorizontalLayout();
         loginForm.add(new Html("<br/>"));
@@ -107,6 +112,11 @@ public class LoginScreen extends HorizontalLayout {
             return;
         }
 
+        if (checkLogin(promocode.getValue())) {
+            showNotification("Only Latin characters and digits allowed. Start with character.  Try another promocode");
+            return;
+        }
+
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             getUI().get().navigate("Tennis_Leagues");
             return;
@@ -117,7 +127,7 @@ public class LoginScreen extends HorizontalLayout {
             return;
         }
 
-        if (!accessControl.register(username.getValue(), password.getValue(), email.getValue())) {
+        if (!accessControl.register(username.getValue(), password.getValue(), email.getValue(), promocode.getValue())) {
             showNotification("Username already exist. Please try another");
             return;
         }
