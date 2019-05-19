@@ -31,6 +31,10 @@ public class Logins {
     @Column
     String role;
 
+    @Column
+    String promocode;
+
+
     public Logins() {
     }
 
@@ -96,5 +100,13 @@ public class Logins {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getPromocode() {
+        return promocode;
+    }
+
+    public void setPromocode(String promocode) {
+        this.promocode = promocode;
     }
 }
