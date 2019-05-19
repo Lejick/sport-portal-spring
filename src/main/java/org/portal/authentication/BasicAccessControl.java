@@ -36,8 +36,8 @@ public class BasicAccessControl implements AccessControl {
     }
 
     @Override
-    public boolean register(String username, String password,String email) {
-     return  loginService.create(username,email, md5(password));
+    public boolean register(String username, String password,String email, String promocode) {
+     return  loginService.create(username,email, md5(password), promocode);
     }
 
 
