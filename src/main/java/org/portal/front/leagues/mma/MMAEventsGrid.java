@@ -9,7 +9,6 @@ import org.portal.front.events.EventsGrid;
  * data sets.
  */
 public class MMAEventsGrid extends EventsGrid {
-    private boolean isHistory=false;
     public MMAEventsGrid() {
         setSizeUndefined();
         addColumn(Event::getHome)

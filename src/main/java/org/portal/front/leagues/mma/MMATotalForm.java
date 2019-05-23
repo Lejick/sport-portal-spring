@@ -35,7 +35,7 @@ public class MMATotalForm extends TotalForm {
         buttonBar.setWidth("100%");
         buttonBar.setFlexGrow(1, mlButton);
         content.add(buttonBar);
-        Label homeHeader = new Label("Total");
+        Label homeHeader = new Label("Total Rounds");
         homeHeader.setWidth(stdWidth);
         Label maxHomeHeader = new Label("OVER");
         maxHomeHeader.setWidth(stdWidth);

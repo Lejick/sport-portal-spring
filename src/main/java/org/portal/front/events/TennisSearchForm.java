@@ -2,45 +2,47 @@ package org.portal.front.events;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.DataProvider;
-import org.portal.ContextProvider;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
-import org.portal.front.leagues.LeaguesDataProvider;
-import org.portal.front.leagues.LeaguesView;
+import org.portal.front.events.box_history.BoxEventsHistoryView;
+import org.portal.front.events.tennis_history.TennisEventsHistoryView;
 
-public class SearchForm extends Div {
-    String stdWidth = "100px";
+import java.util.Collection;
+
+public class TennisSearchForm extends Div {
     private HorizontalLayout content;
-    private LeaguesView view;
+    private TennisEventsHistoryView view;
     private TextField textField = new TextField();
+    private DataService ds;
 
-    public SearchForm(LeaguesView view) {
+    public TennisSearchForm(TennisEventsHistoryView view, DataService ds) {
+        this.ds = ds;
         this.view = view;
         setClassName("product-form");
         content = new HorizontalLayout();
         content.setSizeUndefined();
         textField.setWidth("300");
 
-        Button button = new Button("Find Event");
-        button.setWidth(stdWidth);
+        Button button = new Button("Find Player");
+        button.setWidth("300");
         button.addClickListener(event -> find());
+
+
         content.add(textField);
         content.add(button);
-
         add(content);
     }
 
     public void find() {
         if (textField.getValue().length() > 0) {
-            LeaguesDataProvider dataProvider = new LeaguesDataProvider(ContextProvider.getBean(DataService.class).
-                    findLeagueByName(view.getSportId(),textField.getValue()));
-            view.getGrid().setDataProvider(dataProvider);
+            Collection<Event> events = ds.getEventsByPlayer(textField.getValue(), Constants.TENNIS_ID);
+            EventsDataProvider dataProvider = new EventsDataProvider(events);
+            view.getEventGrid().setDataProvider(dataProvider);
         }
     }
+
 }
 

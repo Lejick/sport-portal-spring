@@ -6,10 +6,10 @@ import com.vaadin.flow.router.Route;
 import org.portal.MainLayout;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
-import org.portal.front.events.EventsDataProvider;
-import org.portal.front.events.EventsGrid;
-import org.portal.front.events.EventsView;
-import org.portal.front.leagues.StandartEventsGrid;
+import org.portal.front.events.*;
+import org.portal.front.leagues.mma.MMAEventsGrid;
+import org.portal.front.leagues.mma.MMAMoneyLineForm;
+import org.portal.front.leagues.mma.MMATotalForm;
 
 import java.util.Collection;
 
@@ -25,8 +25,18 @@ public class BoxEventsView extends EventsView {
         }
     }
     @Override
+    protected void initForms() {
+        moneyLineForm = new MMAMoneyLineForm(this);
+        totalForm = new MMATotalForm(this);
+        spreadForm = new SpreadForm(this);
+        linksForm = new LinksForm(noteRepository, this);
+        autoLinksForm = new AutoLinksForm(noteRepository, this);
+        notesForm = new NotesForm(noteRepository, this);
+    }
+
+    @Override
     protected EventsGrid getEventGrid() {
-        return new StandartEventsGrid();
+        return new MMAEventsGrid();
     }
 
 }

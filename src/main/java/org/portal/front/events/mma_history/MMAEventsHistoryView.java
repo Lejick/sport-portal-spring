@@ -6,9 +6,7 @@ import com.vaadin.flow.router.Route;
 import org.portal.MainLayout;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
-import org.portal.front.events.EventsDataProvider;
-import org.portal.front.events.EventsGrid;
-import org.portal.front.events.EventsView;
+import org.portal.front.events.*;
 import org.portal.front.leagues.mma.MMAEventsGrid;
 
 import java.util.Collection;
@@ -25,8 +23,20 @@ public class MMAEventsHistoryView extends EventsView {
         }
         isHistory=true;
     }
+
     @Override
-    protected EventsGrid getEventGrid() {
-        return new MMAEventsGrid();
+    protected void putSearchForm() {
+        MMASearchForm searchForm = new MMASearchForm(this,ds);
+        searchForm.setVisible(true);
+        barAndGridLayout.add(searchForm);
+        add(barAndGridLayout);
+    }
+
+    @Override
+    public EventsGrid getEventGrid() {
+        if (grid == null) {
+            return new MMAEventsGrid();
+        }
+        return grid;
     }
 }

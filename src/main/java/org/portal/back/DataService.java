@@ -68,6 +68,26 @@ public class DataService implements Serializable {
     }
 
     @Transactional
+    public Collection<Event> getEventsByPlayer(String player, int sportId) {
+        List<Event> events = em.createQuery(
+                "SELECT e FROM Event e where (home like :name OR away like :name ) AND sport_id=:sportId ORDER BY starts desc", Event.class)
+                .setParameter("name", "%"+player+"%")
+                .setParameter("sportId", sportId).setMaxResults(100)
+                .getResultList();
+        return events;
+    }
+
+    @Transactional
+    public Collection<Event> getEventsByAlterTitle(String title, int sportId) {
+        List<Event> events = em.createQuery(
+                "SELECT e FROM Event e where (alterTitle like :name) AND sport_id=:sportId ORDER BY starts desc", Event.class)
+                .setParameter("name", "%" + title + "%")
+                .setParameter("sportId", sportId).setMaxResults(100)
+                .getResultList();
+        return events;
+    }
+
+    @Transactional
     public Collection<Event> getEventsBySide(String team1, String team2, int sportId) {
         List<Event> result=new ArrayList<>();
         List<Event> events = em.createQuery(

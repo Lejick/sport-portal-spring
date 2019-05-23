@@ -15,7 +15,6 @@ import java.util.Collection;
 
 @Route(value = "MMA_Events", layout = MainLayout.class)
 public class MMAEventsView extends EventsView {
-
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String leagueName) {
         if (leagueName != null) {
@@ -35,8 +34,9 @@ public class MMAEventsView extends EventsView {
     }
 
 
+
     @Override
-    protected EventsGrid getEventGrid() {
+    public EventsGrid getEventGrid() {
         return new MMAEventsGrid();
     }
 }

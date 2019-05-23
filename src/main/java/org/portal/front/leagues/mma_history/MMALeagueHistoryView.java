@@ -25,9 +25,6 @@ public class MMALeagueHistoryView extends LeaguesView {
 
     @Override
     protected void initSearchForm() {
-        searchForm = new SearchForm(this);
-        searchForm.setVisible(true);
-        barAndGridLayout.add(searchForm);
     }
 
     @Override

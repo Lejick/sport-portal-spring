@@ -20,6 +20,7 @@ public abstract class EventsView extends HorizontalLayout
     protected SpreadForm spreadForm;
     protected LinksForm linksForm;
     protected AutoLinksForm autoLinksForm;
+    protected VerticalLayout barAndGridLayout = new VerticalLayout();
     protected NotesForm notesForm;
     protected boolean isHistory = false;
     protected DataService ds = ContextProvider.getBean(DataService.class);
@@ -38,12 +39,10 @@ public abstract class EventsView extends HorizontalLayout
             notesForm.setVisible(false);
             notesForm.showStat(event.getId());
         }
-
         spreadForm.setVisible(false);
         spreadForm.showOdds(event);
         totalForm.setVisible(false);
         totalForm.showOdds(event);
-
     }
 
     public EventsView() {
@@ -53,17 +52,21 @@ public abstract class EventsView extends HorizontalLayout
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
         initForms();
         putForms();
-
         viewLogic.init();
     }
 
     protected void putForms() {
-        VerticalLayout barAndGridLayout = new VerticalLayout();
+
+        putSearchForm();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
         barAndGridLayout.add(linksForm, autoLinksForm, notesForm);
         add(barAndGridLayout);
         add(totalForm, moneyLineForm, spreadForm);
+    }
+
+    protected void putSearchForm() {
+
     }
 
     protected void initForms() {
@@ -99,5 +102,9 @@ public abstract class EventsView extends HorizontalLayout
 
     public NotesForm getNotesForm() {
         return notesForm;
+    }
+
+    public EventsGrid getGrid() {
+        return grid;
     }
 }
