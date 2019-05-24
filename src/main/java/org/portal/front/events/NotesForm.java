@@ -58,7 +58,13 @@ public class NotesForm extends Div {
                 delButton.addClickListener(event ->deleteNote(note.getId()));
 
                 HorizontalLayout rows = new HorizontalLayout();
-                Label label = new Label(note.getDescr());
+                String descr = "";
+                try {
+                    descr = new String(Base64.getDecoder().decode(note.getDescr()), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Label label = new Label(descr);
                 Label label2 = new Label(format.format(note.getDate()) + ";" + note.getUser());
                 if (note.getUser().equals(userName)) {
                     rows.add(delButton);
@@ -102,7 +108,7 @@ public class NotesForm extends Div {
             Note note = new Note();
             note.setDate(calendar.getTime());
             note.setUser(CurrentUser.get());
-            note.setDescr(convertRus(descr));
+            note.setDescr(convert(descr));
             note.setEventId(eventId);
             note.setType(NoteType.NOTE);
             note.setPublictype(isPublic);
@@ -110,18 +116,15 @@ public class NotesForm extends Div {
         }
     }
 
-    private String convertRus(String text) {
-        for (int i = 0; i < text.length(); i++) {
-            if (Character.UnicodeBlock.of(text.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
-                try {
-                    byte[] arr=text.getBytes("UTF-8");
-                    return new String(arr, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                }
-            }
+    private String convert(String text) {
+        try {
+            byte[] arr = text.getBytes("UTF-8");
+            return Base64.getEncoder().encodeToString(arr);
+        } catch (UnsupportedEncodingException e) {
         }
-        return text;
+        return "";
     }
+
 
     public void deleteNote(Long noteId) {
             noteRepository.deleteById(noteId);
