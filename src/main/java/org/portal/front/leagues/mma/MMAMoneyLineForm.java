@@ -29,7 +29,7 @@ public class MMAMoneyLineForm extends MoneyLineForm {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
-        Button totalButton = new Button("Total");
+        Button totalButton = new Button("Total Rounds");
         totalButton.addClickListener(event -> changeToTotal());
 
         HorizontalLayout buttonBar=new HorizontalLayout(totalButton);

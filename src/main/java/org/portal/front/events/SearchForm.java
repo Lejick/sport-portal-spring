@@ -14,7 +14,7 @@ import org.portal.front.leagues.LeaguesDataProvider;
 import org.portal.front.leagues.LeaguesView;
 
 public class SearchForm extends Div {
-    String stdWidth = "100px";
+    String stdWidth = "300px";
     private HorizontalLayout content;
     private LeaguesView view;
     private TextField textField = new TextField();

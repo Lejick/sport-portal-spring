@@ -62,25 +62,25 @@ public class LoginScreen extends HorizontalLayout {
         loginForm.addFormItem(password = new PasswordField(), "Password");
         password.setWidth("15em");
         loginForm.add(new Html("<br/>"));
-        loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
-        email.setWidth("15em");
-        loginForm.add(new Html("<br/>"));
-        loginForm.addFormItem(promocode = new TextField(), "Promocode (optional)");
-        promocode.setWidth("15em");
 
 
-        HorizontalLayout buttons = new HorizontalLayout();
-        loginForm.add(new Html("<br/>"));
-        loginForm.add(buttons);
-
-        buttons.add(login = new Button("Login"));
+        loginForm.add(login = new Button("Login"));
         login.addClickListener(event -> login());
         loginForm.getElement().addEventListener("keypress", event -> login()).setFilter("event.key == 'Enter'");
         login.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
-        buttons.add(register = new Button("Register"));
+        loginForm.addFormItem(email = new EmailField(), "Email (only for registration)");
+        email.setWidth("15em");
+        loginForm.add(new Html("<br/>"));
+
+        loginForm.addFormItem(promocode = new TextField(), "Promo Code (optional for registration)");
+        promocode.setWidth("15em");
+        loginForm.add(new Html("<br/>"));
+
+        loginForm.add(register = new Button("Register"));
         register.addClickListener(event -> register());
         register.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
+
         VerticalLayout telegram = new VerticalLayout();
 
         Label telegramLabel = new Label("Join our telegram channel:");

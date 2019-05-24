@@ -16,7 +16,9 @@ import org.portal.back.model.NoteType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 
@@ -100,12 +102,25 @@ public class NotesForm extends Div {
             Note note = new Note();
             note.setDate(calendar.getTime());
             note.setUser(CurrentUser.get());
-            note.setDescr(descr);
+            note.setDescr(convertRus(descr));
             note.setEventId(eventId);
             note.setType(NoteType.NOTE);
             note.setPublictype(isPublic);
             noteRepository.save(note);
         }
+    }
+
+    private String convertRus(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.UnicodeBlock.of(text.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
+                try {
+                    byte[] arr=text.getBytes("UTF-8");
+                    return new String(arr, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                }
+            }
+        }
+        return text;
     }
 
     public void deleteNote(Long noteId) {

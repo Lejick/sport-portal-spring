@@ -59,7 +59,7 @@ public class DataService implements Serializable {
     public Collection<Event> getEventsHistory(String leagueName, int sportId) {
         Date current = Calendar.getInstance().getTime();
         List<Event> events = em.createQuery(
-                "SELECT e FROM Event e where league_name=:name AND starts<:now AND sport_id=:sportId ORDER BY starts, home", Event.class)
+                "SELECT e FROM Event e where league_name=:name AND starts<:now AND sport_id=:sportId ORDER BY starts desc", Event.class)
                 .setParameter("name", leagueName)
                 .setParameter("sportId", sportId)
                 .setParameter("now", current)

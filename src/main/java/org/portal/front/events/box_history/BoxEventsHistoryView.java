@@ -8,6 +8,8 @@ import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.*;
 import org.portal.front.leagues.mma.MMAEventsGrid;
+import org.portal.front.leagues.mma.MMAMoneyLineForm;
+import org.portal.front.leagues.mma.MMATotalForm;
 
 import java.util.Collection;
 
@@ -30,6 +32,16 @@ public class BoxEventsHistoryView extends EventsView {
         searchForm.setVisible(true);
         barAndGridLayout.add(searchForm);
         add(barAndGridLayout);
+    }
+
+    @Override
+    protected void initForms() {
+        moneyLineForm = new MMAMoneyLineForm(this);
+        totalForm = new MMATotalForm(this);
+        spreadForm = new SpreadForm(this);
+        linksForm = new LinksForm(noteRepository, this);
+        autoLinksForm = new AutoLinksForm(noteRepository, this);
+        notesForm = new NotesForm(noteRepository, this);
     }
 
     @Override
