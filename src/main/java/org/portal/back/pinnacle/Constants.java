@@ -5,4 +5,5 @@ public class Constants {
     public static final int SOCCER_ID = 29;
     public static final int MMA_ID = 22;
     public static final int BOXING_ID = 6;
+    public static final int DARTS_ID = 10;
 }
