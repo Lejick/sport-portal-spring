@@ -18,6 +18,8 @@ import org.portal.front.leagues.soccer.SoccerLeagueView;
 import org.portal.front.leagues.soccer_history.SoccerLeagueHistoryView;
 import org.portal.front.leagues.tennis_history.TennisLeagueHistoryView;
 import org.portal.front.leagues.tennis.TennisLeagueView;
+import org.portal.front.leagues.darts.DartsLeagueView;
+import org.portal.front.leagues.darts_history.DartsLeagueHistoryView;
 
 @HtmlImport("css/shared-styles.html")
 @Theme(value = Lumo.class)
@@ -51,6 +53,11 @@ public class MainLayout extends FlexLayout implements RouterLayout {
         if(accessControl.isUserSignedIn()) {
             menu.addView(BoxLeagueHistoryView.class, BoxLeagueHistoryView.VIEW_NAME);
         }
+        menu.addView(DartsLeagueView.class, DartsLeagueView.VIEW_NAME);
+        if(accessControl.isUserSignedIn()) {
+            menu.addView(DartsLeagueHistoryView.class, DartsLeagueHistoryView.VIEW_NAME);
+        }
+
         menu.addView(LoginScreen.class, "Login");
         if (!accessControl.isUserSignedIn()) {
             menu.add(new Label("DEMO!!! PLEASE CREATE ACCOUNT!!!"));
