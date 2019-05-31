@@ -19,6 +19,7 @@ public abstract class EventsView extends HorizontalLayout
     protected TotalForm totalForm;
     protected SpreadForm spreadForm;
     protected LinksForm linksForm;
+    protected PersonalNotesForm personalNotesForm;
     protected AutoLinksForm autoLinksForm;
     protected VerticalLayout barAndGridLayout = new VerticalLayout();
     protected NotesForm notesForm;
@@ -36,6 +37,8 @@ public abstract class EventsView extends HorizontalLayout
             linksForm.showStat(event.getId());
             autoLinksForm.setVisible(false);
             autoLinksForm.showStat(event.getId());
+            personalNotesForm.setVisible(false);
+            personalNotesForm.showStat(event);
             notesForm.setVisible(false);
             notesForm.showStat(event.getId());
         }
@@ -60,7 +63,7 @@ public abstract class EventsView extends HorizontalLayout
         putSearchForm();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);
-        barAndGridLayout.add(linksForm, autoLinksForm, notesForm);
+        barAndGridLayout.add(linksForm, autoLinksForm, notesForm, personalNotesForm);
         add(barAndGridLayout);
         add(totalForm, moneyLineForm, spreadForm);
     }
@@ -76,6 +79,7 @@ public abstract class EventsView extends HorizontalLayout
         linksForm = new LinksForm(noteRepository, this);
         autoLinksForm = new AutoLinksForm(noteRepository, this);
         notesForm = new NotesForm(noteRepository, this);
+        personalNotesForm=new PersonalNotesForm(noteRepository,this);
     }
 
     protected abstract EventsGrid getEventGrid();
@@ -106,5 +110,13 @@ public abstract class EventsView extends HorizontalLayout
 
     public EventsGrid getGrid() {
         return grid;
+    }
+
+    public PersonalNotesForm getPersonalNotesForm() {
+        return personalNotesForm;
+    }
+
+    public void setPersonalNotesForm(PersonalNotesForm personalNotesForm) {
+        this.personalNotesForm = personalNotesForm;
     }
 }

@@ -37,7 +37,12 @@ public class AutoLinksForm extends Div {
         Button notesButton = new Button("Notes");
         notesButton.addClickListener(event -> changeToNotes());
         notesButton.setWidth("200");
-        HorizontalLayout buttonBar = new HorizontalLayout(userLinkButton, notesButton);
+
+        Button personalButton = new Button("Personal");
+        personalButton.addClickListener(event -> changePersonal());
+        notesButton.setWidth("200");
+
+        HorizontalLayout buttonBar = new HorizontalLayout(userLinkButton, notesButton,personalButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
         for (Note note : listNote) {
@@ -55,13 +60,20 @@ public class AutoLinksForm extends Div {
         setVisible(false);
         eventsView.getLinksForm().setVisible(true);
         eventsView.getNotesForm().setVisible(false);
-
+        eventsView.getPersonalNotesForm().setVisible(false);
     }
     private void changeToNotes(){
         setVisible(false);
         eventsView.getLinksForm().setVisible(false);
         eventsView.getNotesForm().setVisible(true);
+        eventsView.getPersonalNotesForm().setVisible(false);
+    }
 
+    private void changePersonal() {
+        setVisible(false);
+        eventsView.getPersonalNotesForm().setVisible(true);
+        eventsView.getLinksForm().setVisible(false);
+        eventsView.getNotesForm().setVisible(false);
     }
 }
 

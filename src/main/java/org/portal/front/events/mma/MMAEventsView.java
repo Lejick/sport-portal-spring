@@ -31,6 +31,7 @@ public class MMAEventsView extends EventsView {
         linksForm = new LinksForm(noteRepository, this);
         autoLinksForm = new AutoLinksForm(noteRepository, this);
         notesForm = new NotesForm(noteRepository, this);
+        personalNotesForm=new PersonalNotesForm(noteRepository,this);
     }
 
 

@@ -30,6 +30,12 @@ public class Note {
     @Column
     String type;
 
+    @Column
+    private Integer sport_id;
+
+    @Column
+    String personName;
+
     public Note() {
     }
 
@@ -95,5 +101,21 @@ public class Note {
 
     public void setPublictype(boolean publictype) {
         this.publictype = publictype;
+    }
+
+    public Integer getSport_id() {
+        return sport_id;
+    }
+
+    public void setSport_id(Integer sport_id) {
+        this.sport_id = sport_id;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 }

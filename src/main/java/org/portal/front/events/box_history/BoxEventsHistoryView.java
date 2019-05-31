@@ -39,6 +39,7 @@ public class BoxEventsHistoryView extends EventsView {
         moneyLineForm = new MMAMoneyLineForm(this);
         totalForm = new MMATotalForm(this);
         spreadForm = new SpreadForm(this);
+        personalNotesForm=new PersonalNotesForm(noteRepository,this);
         linksForm = new LinksForm(noteRepository, this);
         autoLinksForm = new AutoLinksForm(noteRepository, this);
         notesForm = new NotesForm(noteRepository, this);
