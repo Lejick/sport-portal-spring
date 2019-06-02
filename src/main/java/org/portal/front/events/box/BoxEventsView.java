@@ -7,6 +7,7 @@ import org.portal.MainLayout;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.*;
+import org.portal.front.events.forms.*;
 import org.portal.front.leagues.mma.MMAEventsGrid;
 import org.portal.front.leagues.mma.MMAMoneyLineForm;
 import org.portal.front.leagues.mma.MMATotalForm;

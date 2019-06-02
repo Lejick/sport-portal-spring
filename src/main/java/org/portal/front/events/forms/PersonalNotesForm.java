@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.events.forms;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -14,6 +14,7 @@ import org.portal.back.model.Event;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
 import org.portal.back.model.NoteType;
+import org.portal.front.events.EventsView;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -51,8 +52,9 @@ public class PersonalNotesForm extends Div {
         personalButton.setWidth("200");
         HorizontalLayout buttonBar = new HorizontalLayout(userLinksButton, autoLinksButton, personalButton);
         grid.add(buttonBar);
-        List<Note> listNote = noteRepository.findByPersonName(eventP.getHome());
-        grid.add(new Label(eventP.getHome()));
+        final String personNameHome = getPlayerName(eventP.getHome());
+        List<Note> listNote = noteRepository.findByPersonName(personNameHome);
+        grid.add(new Label(personNameHome));
         for (Note note : listNote) {
             if (note.getType().equals(NoteType.PERSONAL) && note.getSport_id() == eventP.getSport_id() && (note.getUser().equals(userName) || note.isPublictype())) {
                 Button delButton = new Button("del");
@@ -79,7 +81,7 @@ public class PersonalNotesForm extends Div {
 
         HorizontalLayout rowsHome = new HorizontalLayout();
 
-        TextArea descrFieldHome = new TextArea("Note for "+eventP.getHome());
+        TextArea descrFieldHome = new TextArea("Note for " + personNameHome);
         descrFieldHome.setWidth("2000");
         descrFieldHome.setHeight("200");
         rowsHome.add(descrFieldHome);
@@ -88,12 +90,12 @@ public class PersonalNotesForm extends Div {
         HorizontalLayout buttonRowsHome = new HorizontalLayout();
 
         Button addPublicButtonHome = new Button("Add Public");
-        addPublicButtonHome.addClickListener(event -> createNote(descrFieldHome.getValue(), eventP, true, eventP.getHome()));
+        addPublicButtonHome.addClickListener(event -> createNote(descrFieldHome.getValue(), eventP, true, personNameHome));
         addPublicButtonHome.setWidth("300");
         addPublicButtonHome.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
         Button addPivateButtonHome = new Button("Add Private");
-        addPivateButtonHome.addClickListener(event -> createNote(descrFieldHome.getValue(), eventP, false, eventP.getHome()));
+        addPivateButtonHome.addClickListener(event -> createNote(descrFieldHome.getValue(), eventP, false, personNameHome));
         addPivateButtonHome.setWidth("300");
         addPivateButtonHome.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
@@ -101,9 +103,9 @@ public class PersonalNotesForm extends Div {
 
         grid.add(rowsHome);
         grid.add(buttonRowsHome);
-
-        listNote = noteRepository.findByPersonName(eventP.getAway());
-        grid.add(new Label(eventP.getAway()));
+        final String personNameAway = getPlayerName(eventP.getAway());
+        listNote = noteRepository.findByPersonName(personNameAway);
+        grid.add(new Label(personNameAway));
         for (Note note : listNote) {
             if (note.getType().equals(NoteType.PERSONAL) && note.getSport_id() == eventP.getSport_id() && (note.getUser().equals(userName) || note.isPublictype())) {
                 Button delButton = new Button("del");
@@ -128,7 +130,7 @@ public class PersonalNotesForm extends Div {
             }
         }
         HorizontalLayout rowsAway = new HorizontalLayout();
-        TextArea descrFieldAway = new TextArea("Note for "+eventP.getAway());
+        TextArea descrFieldAway = new TextArea("Note for " + personNameAway);
         descrFieldAway.setWidth("2000");
         descrFieldAway.setHeight("200");
         rowsAway.add(descrFieldAway);
@@ -137,12 +139,12 @@ public class PersonalNotesForm extends Div {
         HorizontalLayout buttonRowsAway = new HorizontalLayout();
 
         Button addPublicButtonAway = new Button("Add Public");
-        addPublicButtonAway.addClickListener(event -> createNote(descrFieldAway.getValue(), eventP, true, eventP.getAway()));
+        addPublicButtonAway.addClickListener(event -> createNote(descrFieldAway.getValue(), eventP, true, personNameAway));
         addPublicButtonAway.setWidth("300");
         addPublicButtonAway.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
         Button addPivateButtonAway = new Button("Add Private");
-        addPivateButtonAway.addClickListener(event -> createNote(descrFieldAway.getValue(), eventP, false, eventP.getAway()));
+        addPivateButtonAway.addClickListener(event -> createNote(descrFieldAway.getValue(), eventP, false, personNameAway));
         addPivateButtonAway.setWidth("300");
         addPivateButtonAway.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
 
@@ -200,6 +202,11 @@ public class PersonalNotesForm extends Div {
         eventsView.getLinksForm().setVisible(true);
         eventsView.getAutoLinksForm().setVisible(false);
 
+    }
+
+    private String getPlayerName(String srcName) {
+        String[] strArr = srcName.split(" ");
+        return strArr[0] + " " + strArr[1];
     }
 }
 

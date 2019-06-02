@@ -3,7 +3,7 @@ package org.portal.front.leagues;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
-import org.portal.front.events.SearchForm;
+import org.portal.front.events.forms.SearchForm;
 
 public abstract class LeaguesView extends HorizontalLayout
         implements HasUrlParameter<String> {

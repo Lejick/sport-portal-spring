@@ -1,4 +1,4 @@
-package org.portal.scheduler;
+package org.portal.back.scheduler;
 
 import org.portal.back.grabber.SherdogLinkGrabber;
 import org.portal.back.pinnacle.box.BoxLineGrabber;

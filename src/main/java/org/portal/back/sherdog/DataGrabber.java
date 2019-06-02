@@ -1,4 +1,4 @@
-package org.portal.sherdog;
+package org.portal.back.sherdog;
 
 import com.ftpix.sherdogparser.Constants;
 import com.ftpix.sherdogparser.Sherdog;
@@ -8,7 +8,6 @@ import com.ftpix.sherdogparser.models.Event;
 import com.ftpix.sherdogparser.models.Fight;
 import com.ftpix.sherdogparser.models.Fighter;
 import com.ftpix.sherdogparser.parsers.FighterParser;
-import org.portal.back.DataService;
 import org.portal.back.model.sherdog.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

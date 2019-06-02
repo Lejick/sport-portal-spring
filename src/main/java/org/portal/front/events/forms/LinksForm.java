@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.events.forms;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,6 +12,7 @@ import org.portal.authentication.CurrentUser;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
 import org.portal.back.model.NoteType;
+import org.portal.front.events.EventsView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

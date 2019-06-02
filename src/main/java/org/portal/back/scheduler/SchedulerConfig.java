@@ -1,4 +1,4 @@
-package org.portal.scheduler;
+package org.portal.back.scheduler;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

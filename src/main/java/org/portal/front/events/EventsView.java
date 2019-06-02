@@ -9,6 +9,7 @@ import org.portal.authentication.AccessControlFactory;
 import org.portal.back.DataService;
 import org.portal.back.model.Event;
 import org.portal.back.model.NoteRepository;
+import org.portal.front.events.forms.*;
 
 
 public abstract class EventsView extends HorizontalLayout

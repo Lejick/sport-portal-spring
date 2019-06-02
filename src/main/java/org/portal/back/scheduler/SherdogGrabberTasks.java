@@ -1,7 +1,7 @@
-package org.portal.scheduler;
+package org.portal.back.scheduler;
 
 import com.ftpix.sherdogparser.exceptions.SherdogParserException;
-import org.portal.sherdog.DataGrabber;
+import org.portal.back.sherdog.DataGrabber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

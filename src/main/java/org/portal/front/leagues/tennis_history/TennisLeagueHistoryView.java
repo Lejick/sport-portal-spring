@@ -5,7 +5,7 @@ import org.portal.ContextProvider;
 import org.portal.MainLayout;
 import org.portal.back.DataService;
 import org.portal.back.pinnacle.Constants;
-import org.portal.front.events.SearchForm;
+import org.portal.front.events.forms.SearchForm;
 import org.portal.front.leagues.LeaguesDataProvider;
 import org.portal.front.leagues.LeaguesLogic;
 import org.portal.front.leagues.LeaguesView;

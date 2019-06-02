@@ -1,9 +1,4 @@
-package org.portal.sherdog;
-
-import org.portal.back.model.League;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.portal.back.sherdog;
 
 public enum Organizations {
     UFC(1, "http://www.sherdog.com/organizations/Ultimate-Fighting-Championship-UFC-2"),

@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.events.forms;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
@@ -10,6 +10,7 @@ import org.portal.authentication.CurrentUser;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
 import org.portal.back.model.NoteType;
+import org.portal.front.events.EventsView;
 
 import java.util.Calendar;
 import java.util.List;

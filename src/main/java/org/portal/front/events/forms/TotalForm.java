@@ -1,4 +1,4 @@
-package org.portal.front.events;
+package org.portal.front.events.forms;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -6,6 +6,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.back.model.Event;
+import org.portal.front.events.CombineEventFactory;
+import org.portal.front.events.CombineTotalsOdds;
+import org.portal.front.events.EventsView;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

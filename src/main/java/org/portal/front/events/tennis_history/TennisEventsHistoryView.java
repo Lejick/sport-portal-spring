@@ -7,6 +7,7 @@ import org.portal.MainLayout;
 import org.portal.back.model.Event;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.*;
+import org.portal.front.events.forms.TennisSearchForm;
 import org.portal.front.leagues.StandartEventsGrid;
 
 import java.util.Collection;
