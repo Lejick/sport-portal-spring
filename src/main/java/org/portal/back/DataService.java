@@ -38,6 +38,20 @@ public class DataService implements Serializable {
         return events;
     }
 
+    @Transactional
+    public Collection<Event> getEvents(int sportId) {
+        java.math.BigInteger max = (java.math.BigInteger) em.createNativeQuery
+                ("select MAX(id) from Odds where sport_id=:sportId")
+                .setParameter("sportId", sportId)
+                .getSingleResult();
+        List<Event> events = em.createQuery(
+                "SELECT e FROM Event e where (actual_fix_id=:max OR actual_fix_id=:pre) AND sport_id=:sportId ORDER BY starts, home", Event.class)
+                .setParameter("max", max.intValue())
+                .setParameter("pre", max.intValue() - 1)
+                .setParameter("sportId", sportId)
+                .getResultList();
+        return events;
+    }
 
     @Transactional
     public List<EventModel> getUFCEventsByDate(Date aroundDate) {

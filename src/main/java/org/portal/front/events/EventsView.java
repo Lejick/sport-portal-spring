@@ -37,7 +37,7 @@ public abstract class EventsView extends HorizontalLayout
             linksForm.setVisible(true);
             linksForm.showStat(event.getId());
             autoLinksForm.setVisible(false);
-            autoLinksForm.showStat(event.getId());
+            autoLinksForm.showStat(event);
             personalNotesForm.setVisible(false);
             personalNotesForm.showStat(event);
             notesForm.setVisible(false);

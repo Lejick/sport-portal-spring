@@ -7,9 +7,11 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.authentication.CurrentUser;
+import org.portal.back.model.Event;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
 import org.portal.back.model.NoteType;
+import org.portal.back.pinnacle.Constants;
 import org.portal.front.events.EventsView;
 
 import java.util.Calendar;
@@ -22,16 +24,16 @@ public class AutoLinksForm extends Div {
     EventsView eventsView;
 
     public AutoLinksForm(NoteRepository noteRepository, EventsView eventsView) {
-        this.eventsView=eventsView;
+        this.eventsView = eventsView;
         setClassName("product-form");
         grid.setSizeUndefined();
-        this.noteRepository=noteRepository;
+        this.noteRepository = noteRepository;
         add(grid);
     }
 
-    public void showStat(Long eventId) {
+    public void showStat(Event eventP) {
         grid.removeAll();
-
+        Long eventId = eventP.getId();
         Button userLinkButton = new Button("User Links");
         userLinkButton.addClickListener(event -> changeToUserLinks());
         userLinkButton.setWidth("200");
@@ -43,27 +45,49 @@ public class AutoLinksForm extends Div {
         personalButton.addClickListener(event -> changePersonal());
         notesButton.setWidth("200");
 
-        HorizontalLayout buttonBar = new HorizontalLayout(userLinkButton, notesButton,personalButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(userLinkButton, notesButton, personalButton);
         grid.add(buttonBar);
         List<Note> listNote = noteRepository.findByEventId(eventId);
+        HorizontalLayout homeRow = new HorizontalLayout();
+        HorizontalLayout awayRow = new HorizontalLayout();
+        Label homeLabel = new Label(eventP.getHome());
+        Label awayLabel = new Label(eventP.getAway());
+        homeRow.add(homeLabel);
+        awayRow.add(awayLabel);
         for (Note note : listNote) {
             if (note.getType().equals(NoteType.AUTOLINK)) {
-                HorizontalLayout rows = new HorizontalLayout();
-                Label label = new Label(note.getDescr());
-                Anchor link = new Anchor(note.getLink(), "Link");
-                rows.add(label, link);
-                grid.add(rows);
+                String descr = note.getDescr();
+                if (descr.contains(eventP.getHome())) {
+                    if (descr.contains("Sherdog")) {
+                        Anchor link = new Anchor(note.getLink(), "Sherdog");
+                        homeRow.add(link);
+                    }
+                }
+                if (descr.contains(eventP.getAway())) {
+                    if (descr.contains("Sherdog")) {
+                        Anchor link = new Anchor(note.getLink(), "Sherdog");
+                        awayRow.add(link);
+                    }
+                }
             }
+        }
+        grid.add(homeRow, awayRow);
+        if (eventP.getSport_id() == Constants.TENNIS_ID) {
+            Anchor link = new Anchor("https://matchstat.com/tennis/h2h-odds-bets/" +
+                    getPlayerName(eventP.getHome()) + "/" + getPlayerName(eventP.getAway()),
+                    "matchstat H2H");
+            grid.add(link);
         }
     }
 
-    private void changeToUserLinks(){
+    private void changeToUserLinks() {
         setVisible(false);
         eventsView.getLinksForm().setVisible(true);
         eventsView.getNotesForm().setVisible(false);
         eventsView.getPersonalNotesForm().setVisible(false);
     }
-    private void changeToNotes(){
+
+    private void changeToNotes() {
         setVisible(false);
         eventsView.getLinksForm().setVisible(false);
         eventsView.getNotesForm().setVisible(true);
@@ -76,6 +100,12 @@ public class AutoLinksForm extends Div {
         eventsView.getLinksForm().setVisible(false);
         eventsView.getNotesForm().setVisible(false);
     }
+
+    private String getPlayerName(String srcName) {
+        String[] strArr = srcName.split(" ");
+        return strArr[0] + " " + strArr[1];
+    }
+
 }
 
 

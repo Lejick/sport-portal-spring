@@ -28,7 +28,6 @@ public class SherdogLinkGrabber extends GoogleGrabber{
 
     public void getSherdogUrl() {
         Collection<Event> eventList = ds.getEvents("UFC", Constants.MMA_ID);
-        eventList.addAll(ds.getEventsHistory("UFC", Constants.MMA_ID));
         for (Event event : eventList) {
             if (event.getAlterTitle() == null) {
                 List<EventModel> eventModelList = ds.getUFCEventsByDate(event.getStarts());
