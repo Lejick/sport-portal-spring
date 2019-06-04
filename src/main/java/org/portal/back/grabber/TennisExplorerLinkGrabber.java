@@ -25,27 +25,25 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
     protected DataService ds;
     @Autowired
     NoteRepository noteRepository;
-    @Autowired
-    FighterRepository fighterRepository;
-    @Autowired
-    EventRepository eventRepository;
 
-    public void getExplorerUrl() throws IOException {
+    public void getExplorerUrl() {
         Collection<Event> eventList = ds.getEvents(Constants.TENNIS_ID);
-        for (Event event : eventList) {
-            if (!containExplorerLinks(event.getId())) {
-                String homePlayer = event.getHome();
-                String url = getUrlFromExplorer(getPlayerName(homePlayer));
-                if (url.contains("sherdog")) {
-                    saveExplorerNote(event, homePlayer, url);
-                }
-            }
-            String awayPlayer = event.getAway();
-            String url = getUrlFromExplorer(getPlayerName(awayPlayer));
-            if (url.contains("sherdog")) {
-                saveExplorerNote(event, awayPlayer, url);
-            }
+        try {
+            for (Event event : eventList) {
+                if (!containExplorerLinks(event.getId())) {
+                    String homePlayer = event.getHome();
+                    String url = getUrlFromExplorer(getPlayerName(homePlayer));
 
+                    saveExplorerNote(event, homePlayer, url);
+                    String awayPlayer = event.getAway();
+                    url = getUrlFromExplorer(getPlayerName(awayPlayer));
+                    saveExplorerNote(event, awayPlayer, url);
+                }
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

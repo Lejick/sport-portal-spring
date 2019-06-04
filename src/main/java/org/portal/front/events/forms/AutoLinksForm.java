@@ -69,15 +69,31 @@ public class AutoLinksForm extends Div {
                         awayRow.add(link);
                     }
                 }
+
+                if (descr.contains(eventP.getHome())) {
+                    if (descr.contains("TennisExplorer")) {
+                        Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+                        homeRow.add(link);
+                    }
+                }
+                if (descr.contains(eventP.getAway())) {
+                    if (descr.contains("TennisExplorer")) {
+                        Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+                        awayRow.add(link);
+                    }
+                }
+
             }
         }
-        grid.add(homeRow, awayRow);
         if (eventP.getSport_id() == Constants.TENNIS_ID) {
             Anchor link = new Anchor("https://matchstat.com/tennis/h2h-odds-bets/" +
                     getPlayerName(eventP.getHome()) + "/" + getPlayerName(eventP.getAway()),
-                    "matchstat H2H");
+                    "Match Stat H2H");
             grid.add(link);
         }
+
+        grid.add(homeRow, awayRow);
+
     }
 
     private void changeToUserLinks() {
