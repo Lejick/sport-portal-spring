@@ -28,38 +28,41 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
 
     public void getExplorerUrl() {
         Collection<Event> eventList = ds.getEvents(Constants.TENNIS_ID);
-        try {
-            for (Event event : eventList) {
-                if (!containExplorerLinks(event.getId())) {
-                    String homePlayer = event.getHome();
-                    String url = getUrlFromExplorer(getPlayerName(homePlayer));
 
-                    saveExplorerNote(event, homePlayer, url);
-                    String awayPlayer = event.getAway();
-                    url = getUrlFromExplorer(getPlayerName(awayPlayer));
-                    saveExplorerNote(event, awayPlayer, url);
+        for (Event event : eventList) {
+            try {
+                String homePlayer = getPlayerName(event.getHome());
+                String awayPlayer = getPlayerName(event.getAway());
+                if (!containExplorerLinks(homePlayer)) {
+                    String url = getUrlFromExplorer(homePlayer);
+                    saveExplorerNote(homePlayer, url);
                 }
-
-
+                if (!containExplorerLinks(awayPlayer)) {
+                    String url = getUrlFromExplorer(awayPlayer);
+                    saveExplorerNote(awayPlayer, url);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
+
     }
 
 
-    private void saveExplorerNote(Event event, String name, String url) {
+    private void saveExplorerNote(String name, String url) {
         Note note = new Note();
-        note.setEventId(event.getId());
+        note.setSport_id(Constants.TENNIS_ID);
         note.setPublictype(true);
         note.setDescr(name + DELIM + "TennisExplorer");
+        note.setPersonName(name);
         note.setLink(url);
         note.setType(NoteType.AUTOLINK);
         noteRepository.save(note);
     }
 
-    private boolean containExplorerLinks(Long eventId) {
-        List<Note> explorerNotes = noteRepository.findByEventId(eventId);
+    private boolean containExplorerLinks(String name) {
+        List<Note> explorerNotes = noteRepository.findByPersonName(name);
         for (Note note : explorerNotes) {
             if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
                 return true;
@@ -79,7 +82,7 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
 
     private String getPlayerName(String srcName) {
         String[] strArr = srcName.split(" ");
-        return strArr[0] + "+" + strArr[1];
+        return strArr[0] + " " + strArr[1];
     }
 
 }

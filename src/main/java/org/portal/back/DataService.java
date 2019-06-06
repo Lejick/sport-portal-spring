@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.portal.back.model.Event;
 import org.portal.back.model.League;
+import org.portal.back.model.Note;
 import org.portal.back.model.sherdog.EventModel;
 import org.portal.back.pinnacle.Constants;
 import org.portal.front.leagues.LeaguesDataProvider;
@@ -65,6 +66,16 @@ public class DataService implements Serializable {
                 "SELECT e FROM EventModel e where startDate<:post AND startDate>:pre", EventModel.class)
                 .setParameter("post", post)
                 .setParameter("pre", pre)
+                .getResultList();
+        return events;
+    }
+
+    @Transactional
+    public List<Note> getNoteByName(int sportId, String name) {
+           List<Note> events = em.createQuery(
+                "SELECT e FROM Note e where sport_id=:sportId AND descr like :name", Note.class)
+                   .setParameter("name", "%"+name+"%")
+                   .setParameter("sportId", sportId)
                 .getResultList();
         return events;
     }

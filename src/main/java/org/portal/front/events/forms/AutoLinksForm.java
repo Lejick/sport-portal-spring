@@ -50,8 +50,10 @@ public class AutoLinksForm extends Div {
         List<Note> listNote = noteRepository.findByEventId(eventId);
         HorizontalLayout homeRow = new HorizontalLayout();
         HorizontalLayout awayRow = new HorizontalLayout();
-        Label homeLabel = new Label(eventP.getHome());
-        Label awayLabel = new Label(eventP.getAway());
+        String homeName=getPlayerName(eventP.getHome());
+        String awayName=getPlayerName(eventP.getAway());
+        Label homeLabel = new Label(homeName);
+        Label awayLabel = new Label(awayName);
         homeRow.add(homeLabel);
         awayRow.add(awayLabel);
         for (Note note : listNote) {
@@ -69,22 +71,26 @@ public class AutoLinksForm extends Div {
                         awayRow.add(link);
                     }
                 }
-
-                if (descr.contains(eventP.getHome())) {
-                    if (descr.contains("TennisExplorer")) {
-                        Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
-                        homeRow.add(link);
-                    }
-                }
-                if (descr.contains(eventP.getAway())) {
-                    if (descr.contains("TennisExplorer")) {
-                        Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
-                        awayRow.add(link);
-                    }
-                }
-
             }
         }
+
+        List<Note> explorerNotes = noteRepository.findByPersonName(homeName);
+        for (Note note : explorerNotes) {
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
+                Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+                homeRow.add(link);
+            }
+        }
+
+        explorerNotes = noteRepository.findByPersonName(awayName);
+        for (Note note : explorerNotes) {
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
+                Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+                awayRow.add(link);
+            }
+        }
+
+
         if (eventP.getSport_id() == Constants.TENNIS_ID) {
             Anchor link = new Anchor("https://matchstat.com/tennis/h2h-odds-bets/" +
                     getPlayerName(eventP.getHome()) + "/" + getPlayerName(eventP.getAway()),

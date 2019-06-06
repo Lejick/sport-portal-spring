@@ -75,7 +75,7 @@ public class SchedulerTasks {
         sherdogLinkGrabber.getSherdogUrl();
     }
 
-    @Scheduled(fixedRate = 60*1000)
+    @Scheduled(fixedRate = 10*60*1000)
     public void grabTennisExplorerLink() {
         tennisExplorerLinkGrabber.getExplorerUrl();
     }
