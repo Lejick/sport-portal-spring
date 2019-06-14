@@ -80,12 +80,22 @@ public class AutoLinksForm extends Div {
                 Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
                 homeRow.add(link);
             }
+
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sofascore")) {
+                Anchor link = new Anchor(note.getLink(), "SofaScore");
+                homeRow.add(link);
+            }
+
         }
 
         explorerNotes = noteRepository.findByPersonName(awayName);
         for (Note note : explorerNotes) {
             if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
                 Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+                awayRow.add(link);
+            }
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sofascore")) {
+                Anchor link = new Anchor(note.getLink(), "SofaScore");
                 awayRow.add(link);
             }
         }

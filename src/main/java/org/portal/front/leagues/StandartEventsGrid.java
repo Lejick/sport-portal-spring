@@ -6,7 +6,7 @@ import org.portal.front.events.EventsGrid;
 
 public class StandartEventsGrid  extends EventsGrid {
     public StandartEventsGrid() {
-            setSizeUndefined();
+            setSizeFull();
             addColumn(Event::getHome)
                     .setHeader("Home")
                     .setFlexGrow(20)

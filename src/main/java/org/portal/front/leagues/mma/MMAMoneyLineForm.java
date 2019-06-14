@@ -35,13 +35,13 @@ public class MMAMoneyLineForm extends MoneyLineForm {
         buttonBar.setFlexGrow(1, totalButton);
         content.add(buttonBar);
         Label homeHeader = new Label("Fighter 1");
-        homeHeader.setWidth(stdWidth);
+     //   homeHeader.setWidth(stdWidth);
         Label awayHeader = new Label("Fighter 2");
-        awayHeader.setWidth(stdWidth);
+      //  awayHeader.setWidth(stdWidth);
         Label dateHeader = new Label("Date(MSK)");
         dateHeader.setWidth(dateWidth);
 
-        dateHeader.setWidth(stdWidth);
+      //  dateHeader.setWidth(stdWidth);
         HorizontalLayout horizontalLayout = new HorizontalLayout( homeHeader, awayHeader, dateHeader);
         horizontalLayout.setWidth("100%");
         horizontalLayout.setFlexGrow(1, homeHeader, awayHeader, dateHeader);
@@ -72,18 +72,18 @@ public class MMAMoneyLineForm extends MoneyLineForm {
                 max_home = new Label(homeMax != null ? String.valueOf(homeMax) : "");
                 max_away = new Label(awayMax != null ? String.valueOf(awayMax) : "");
                 max_home.getStyle().set("color", "black");
-                max_home.setWidth(stdWidth);
+           //     max_home.setWidth(stdWidth);
 
                 home = new Label(String.valueOf(homePrice));
-                home.setWidth(stdWidth);
-                home.getStyle().set("color", "black");
+             //   home.setWidth(stdWidth);
+               home.getStyle().set("color", "black");
 
                 away = new Label(String.valueOf(awayPrice));
-                away.setWidth(stdWidth);
+               // away.setWidth(stdWidth);
 
 
                 max_away.getStyle().set("color", "black");
-                max_away.setWidth(stdWidth);
+              //  max_away.setWidth(stdWidth);
 
                 if (homeNextPrice != null && homePrice.compareTo(homeNextPrice) < 0) {
                     home.setText(home.getText() + "(" + homePrice.subtract(homeNextPrice) + ")");

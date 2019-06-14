@@ -52,6 +52,8 @@ public abstract class EventsView extends HorizontalLayout
     public EventsView() {
         setSizeFull();
         grid = getEventGrid();
+        grid.getStyle().set("font-size","15px");
+        grid.setSizeFull();
         grid.setHistory(isHistory);
         grid.asSingleSelect().addValueChangeListener(event -> viewLogic.rowSelected(event.getValue()));
         initForms();
@@ -60,7 +62,6 @@ public abstract class EventsView extends HorizontalLayout
     }
 
     protected void putForms() {
-
         putSearchForm();
         barAndGridLayout.add(grid);
         barAndGridLayout.setFlexGrow(1, grid);

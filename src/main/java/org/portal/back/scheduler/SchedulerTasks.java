@@ -1,6 +1,7 @@
 package org.portal.back.scheduler;
 
 import org.portal.back.grabber.SherdogLinkGrabber;
+import org.portal.back.grabber.SofaScoreLinkGrabber;
 import org.portal.back.grabber.TennisExplorerLinkGrabber;
 import org.portal.back.pinnacle.box.BoxLineGrabber;
 import org.portal.back.pinnacle.darts.DartsLineGrabber;
@@ -32,6 +33,8 @@ public class SchedulerTasks {
     SherdogLinkGrabber sherdogLinkGrabber;
     @Autowired
     TennisExplorerLinkGrabber tennisExplorerLinkGrabber;
+    @Autowired
+    SofaScoreLinkGrabber sofascoreLinkGrabber;
    @Autowired
    DartsLineGrabber dartsLineGrabber;
    @Autowired
@@ -78,6 +81,11 @@ public class SchedulerTasks {
     @Scheduled(fixedRate = 10*60*1000)
     public void grabTennisExplorerLink() {
         tennisExplorerLinkGrabber.getExplorerUrl();
+    }
+
+    @Scheduled(fixedRate = 10*60*1000)
+    public void grabSofaScoreLink() {
+        sofascoreLinkGrabber.getUrl();
     }
 
    @Scheduled(fixedRate = 4*60*1000)
