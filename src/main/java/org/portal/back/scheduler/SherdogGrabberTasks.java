@@ -12,7 +12,7 @@ public class SherdogGrabberTasks {
     DataGrabber dataGrabber;
 
     @Scheduled(fixedRate = 5*60*60*1000)
-    public void grabTennisLine() {
+    public void grabSherdogLinks() {
         try {
             dataGrabber.grab();
         } catch (SherdogParserException e) {

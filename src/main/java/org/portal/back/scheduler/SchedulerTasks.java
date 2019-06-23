@@ -2,6 +2,7 @@ package org.portal.back.scheduler;
 
 import org.portal.back.grabber.SherdogLinkGrabber;
 import org.portal.back.grabber.SofaScoreLinkGrabber;
+import org.portal.back.grabber.TapologyLinkGrabber;
 import org.portal.back.grabber.TennisExplorerLinkGrabber;
 import org.portal.back.pinnacle.box.BoxLineGrabber;
 import org.portal.back.pinnacle.darts.DartsLineGrabber;
@@ -35,66 +36,74 @@ public class SchedulerTasks {
     TennisExplorerLinkGrabber tennisExplorerLinkGrabber;
     @Autowired
     SofaScoreLinkGrabber sofascoreLinkGrabber;
-   @Autowired
-   DartsLineGrabber dartsLineGrabber;
-   @Autowired
-   DartsLineGrabberLive dartsLineGrabberLive;
+    @Autowired
+    TapologyLinkGrabber tapologyLinkGrabber;
 
-    @Scheduled(fixedRate = 4*60*1000)
+    @Autowired
+    DartsLineGrabber dartsLineGrabber;
+    @Autowired
+    DartsLineGrabberLive dartsLineGrabberLive;
+
+    @Scheduled(fixedRate = 4 * 60 * 1000)
     public void grabTennisLine() {
         tennisLineGrabber.grab();
     }
 
-    @Scheduled(fixedRate = 4*60*1000, initialDelay = 60*1000)
+    @Scheduled(fixedRate = 4 * 60 * 1000, initialDelay = 60 * 1000)
     public void grabSoccerLine() {
         soccerLineGrabber.grab();
     }
 
-    @Scheduled(fixedRate = 4*60*1000, initialDelay = 2*60*1000)
+    @Scheduled(fixedRate = 4 * 60 * 1000, initialDelay = 2 * 60 * 1000)
     public void grabTennisLineLive() {
         tennisLineGrabberLive.grab();
     }
 
-    @Scheduled(fixedRate = 4*60*1000, initialDelay = 3*60*1000)
+    @Scheduled(fixedRate = 4 * 60 * 1000, initialDelay = 3 * 60 * 1000)
     public void grabSoccerLineLive() {
         soccerLineGrabberLive.grab();
     }
 
 
-    @Scheduled(fixedRate = 15*60*1000, initialDelay = 2*60*1000)
+    @Scheduled(fixedRate = 15 * 60 * 1000, initialDelay = 2 * 60 * 1000)
     public void grabMMALine() {
         mmaLineGrabber.grab();
     }
 
 
-
-    @Scheduled(fixedRate = 30*60*1000, initialDelay = 3*60*1000)
+    @Scheduled(fixedRate = 30 * 60 * 1000, initialDelay = 3 * 60 * 1000)
     public void grabBoxLine() {
         boxLineGrabber.grab();
     }
 
-    @Scheduled(fixedRate = 60*1000)
+    @Scheduled(fixedRate = 60 * 1000)
     public void grabSherdogLinks() {
         sherdogLinkGrabber.getSherdogUrl();
     }
 
-    @Scheduled(fixedRate = 10*60*1000)
+    @Scheduled(fixedRate = 10 * 60 * 1000)
     public void grabTennisExplorerLink() {
         tennisExplorerLinkGrabber.getExplorerUrl();
     }
 
-    @Scheduled(fixedRate = 10*60*1000)
+    @Scheduled(fixedRate = 10 * 60 * 1000)
     public void grabSofaScoreLink() {
         sofascoreLinkGrabber.getUrl();
     }
 
-   @Scheduled(fixedRate = 4*60*1000)
-   public void grabDartsLine() {
-       dartsLineGrabber.grab();
-   }
+    @Scheduled(fixedRate = 2 * 60 * 60 * 1000)
+    public void grabTapology() {
+        tapologyLinkGrabber.getUrls();
+    }
 
-   @Scheduled(fixedRate = 4*60*1000, initialDelay = 2*60*1000)
-   public void grabDartsLineLive() {
+    @Scheduled(fixedRate = 4 * 60 * 1000)
+    public void grabDartsLine() {
+        dartsLineGrabber.grab();
+    }
+
+
+    @Scheduled(fixedRate = 4 * 60 * 1000, initialDelay = 2 * 60 * 1000)
+    public void grabDartsLineLive() {
         dartsLineGrabberLive.grab();
     }
 

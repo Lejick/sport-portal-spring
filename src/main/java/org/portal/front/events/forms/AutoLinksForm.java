@@ -64,10 +64,20 @@ public class AutoLinksForm extends Div {
                         Anchor link = new Anchor(note.getLink(), "Sherdog");
                         homeRow.add(link);
                     }
+
+                    if (descr.contains("Tapology")) {
+                        Anchor link = new Anchor(note.getLink(), "Tapology");
+                        homeRow.add(link);
+                    }
+
                 }
                 if (descr.contains(eventP.getAway())) {
                     if (descr.contains("Sherdog")) {
                         Anchor link = new Anchor(note.getLink(), "Sherdog");
+                        awayRow.add(link);
+                    }
+                    if (descr.contains("Tapology")) {
+                        Anchor link = new Anchor(note.getLink(), "Tapology");
                         awayRow.add(link);
                     }
                 }
