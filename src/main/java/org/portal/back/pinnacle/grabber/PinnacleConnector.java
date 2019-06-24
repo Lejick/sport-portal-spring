@@ -29,7 +29,7 @@ public class PinnacleConnector {
             Fixtures fixtures = api.getFixturesAsObject(parameter);
             return fixtures;
         } catch (PinnacleException ex) {
-            LOGGER.error(ex.getMessage(),ex);
+            LOGGER.error("Pinnacle Sucks Exception: " + ex.getMessage());
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class PinnacleConnector {
             Odds odds = api.getOddsAsObject(parameter);
             return odds;
         } catch (PinnacleException ex) {
-            LOGGER.error(ex.getMessage(),ex);
+            LOGGER.error("Pinnacle Sucks Exception: "+ex.getMessage());
         }
         return null;
     }

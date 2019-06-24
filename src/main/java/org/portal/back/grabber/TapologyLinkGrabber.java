@@ -30,14 +30,14 @@ public class TapologyLinkGrabber extends GoogleGrabber {
 
         for (Event event : eventList) {
             try {
-                String homePlayer = getPlayerName(event.getHome());
-                String awayPlayer = getPlayerName(event.getAway());
+                String homePlayer = event.getHome();
+                String awayPlayer = event.getAway();
                 if (!containTapologyLinks(homePlayer)) {
-                    String url = getUrlFromExplorer(homePlayer);
+                    String url = getUrl(getPlayerName(event.getHome()));
                     saveTapologyNote(homePlayer, url);
                 }
                 if (!containTapologyLinks(awayPlayer)) {
-                    String url = getUrlFromExplorer(awayPlayer);
+                    String url = getUrl(getPlayerName(event.getAway()));
                     saveTapologyNote(awayPlayer, url);
                 }
             } catch (Exception e) {
@@ -50,6 +50,9 @@ public class TapologyLinkGrabber extends GoogleGrabber {
 
 
     private void saveTapologyNote(String name, String url) {
+        if(url==null){
+            return;
+        }
         Note note = new Note();
         note.setSport_id(Constants.MMA_ID);
         note.setPublictype(true);
@@ -70,7 +73,7 @@ public class TapologyLinkGrabber extends GoogleGrabber {
         return false;
     }
 
-    protected  String getUrlFromExplorer(String query) throws IOException {
+    protected  String getUrl(String query) throws IOException {
         String refword = query.replace("+", "-").toLowerCase();
         String userAgent = "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
         Elements links = Jsoup.connect("https://www.tapology.com/search?term=" +

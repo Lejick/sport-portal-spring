@@ -50,8 +50,8 @@ public class AutoLinksForm extends Div {
         List<Note> listNote = noteRepository.findByEventId(eventId);
         HorizontalLayout homeRow = new HorizontalLayout();
         HorizontalLayout awayRow = new HorizontalLayout();
-        String homeName=getPlayerName(eventP.getHome());
-        String awayName=getPlayerName(eventP.getAway());
+        String homeName = getPlayerName(eventP.getHome());
+        String awayName = getPlayerName(eventP.getAway());
         Label homeLabel = new Label(homeName);
         Label awayLabel = new Label(awayName);
         homeRow.add(homeLabel);
@@ -64,20 +64,10 @@ public class AutoLinksForm extends Div {
                         Anchor link = new Anchor(note.getLink(), "Sherdog");
                         homeRow.add(link);
                     }
-
-                    if (descr.contains("Tapology")) {
-                        Anchor link = new Anchor(note.getLink(), "Tapology");
-                        homeRow.add(link);
-                    }
-
                 }
                 if (descr.contains(eventP.getAway())) {
                     if (descr.contains("Sherdog")) {
                         Anchor link = new Anchor(note.getLink(), "Sherdog");
-                        awayRow.add(link);
-                    }
-                    if (descr.contains("Tapology")) {
-                        Anchor link = new Anchor(note.getLink(), "Tapology");
                         awayRow.add(link);
                     }
                 }
@@ -96,6 +86,11 @@ public class AutoLinksForm extends Div {
                 homeRow.add(link);
             }
 
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Tapology")) {
+                Anchor link = new Anchor(note.getLink(), "Tapology");
+                homeRow.add(link);
+            }
+
         }
 
         explorerNotes = noteRepository.findByPersonName(awayName);
@@ -106,6 +101,10 @@ public class AutoLinksForm extends Div {
             }
             if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sofascore")) {
                 Anchor link = new Anchor(note.getLink(), "SofaScore");
+                awayRow.add(link);
+            }
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Tapology")) {
+                Anchor link = new Anchor(note.getLink(), "Tapology");
                 awayRow.add(link);
             }
         }

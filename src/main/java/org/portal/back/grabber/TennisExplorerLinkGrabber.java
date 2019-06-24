@@ -35,11 +35,11 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
                 String awayPlayer = getPlayerName(event.getAway());
                 if (!containExplorerLinks(homePlayer)) {
                     String url = getUrlFromExplorer(homePlayer);
-                    saveExplorerNote(homePlayer, url);
+                    saveNote(homePlayer, url);
                 }
                 if (!containExplorerLinks(awayPlayer)) {
                     String url = getUrlFromExplorer(awayPlayer);
-                    saveExplorerNote(awayPlayer, url);
+                    saveNote(awayPlayer, url);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -50,7 +50,10 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
     }
 
 
-    private void saveExplorerNote(String name, String url) {
+    private void saveNote(String name, String url) {
+        if(url==null){
+            return;
+        }
         Note note = new Note();
         note.setSport_id(Constants.TENNIS_ID);
         note.setPublictype(true);
@@ -76,8 +79,10 @@ public class TennisExplorerLinkGrabber extends GoogleGrabber {
         Elements links = Jsoup.connect("https://www.tennisexplorer.com/list-players/?search-text-pl=" +
                 URLEncoder.encode(query, "UTF-8")).
                 userAgent(userAgent).get().select(".flags>.two a");
-        String result = links.get(0).absUrl("href");
-        return result;
+        if(links.size()>0) {
+            return links.get(0).absUrl("href");
+        }
+        return null;
     }
 
     private String getPlayerName(String srcName) {

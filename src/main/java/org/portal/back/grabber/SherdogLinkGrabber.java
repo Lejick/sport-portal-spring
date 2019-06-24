@@ -42,7 +42,7 @@ public class SherdogLinkGrabber extends GoogleGrabber{
                 List<Fighter> fList = fighterRepository.findByName(homeFighter);
                 for (Fighter fighter : fList) {
                     String url = fighter.getSherdogUrl();
-                    saveSherdogNote(event,homeFighter, url);
+                    saveSherdogNote(event, homeFighter, url);
                 }
 
                 if (fList.isEmpty()) {

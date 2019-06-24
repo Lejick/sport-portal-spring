@@ -1,6 +1,7 @@
 package org.portal.back.pinnacle.grabber;
 
 import org.portal.back.model.*;
+import org.portal.back.pinnacle.api.PinnacleException;
 import org.portal.back.pinnacle.api.dataobjects.Fixtures;
 import org.portal.back.pinnacle.api.dataobjects.Odds;
 import org.portal.back.pinnacle.api.enums.*;
@@ -24,12 +25,12 @@ public class LineGrabber extends AbstractGrabber {
     @Autowired
     OddsRepository oddsRepository;
 
-  protected ArrayList<Long> allowedLeagues=new ArrayList<>();
+    protected ArrayList<Long> allowedLeagues = new ArrayList<>();
 
     @Autowired
     PinaccRepository pinaccRepository;
 
-    private boolean isLive=false;
+    private boolean isLive = false;
 
     private final Logger LOGGER = LoggerFactory.getLogger(LineGrabber.class);
 
@@ -39,15 +40,19 @@ public class LineGrabber extends AbstractGrabber {
 
 
     public void grab() {
-        String credentials=pinaccRepository.findById(1L).get().getPassed();
+        String credentials = pinaccRepository.findById(1L).get().getPassed();
         now = getCurrentTime();
-        LOGGER.info("Start to get fixtures for sportId="+sportId);
+        LOGGER.info("Start to get fixtures for sportId=" + sportId);
         PinnacleConnector connector = new PinnacleConnector(credentials);
         Fixtures fixtures = connector.getFixtures(sportId);
 
         LOGGER.info("Start to get odds for sportId=" + sportId);
         Odds odds = connector.getOdds(sportId, isLive);
 
+        if (odds != null || fixtures == null) {
+            LOGGER.info("Finish Line Grabber cause or error");
+            return;
+        }
 
         org.portal.back.model.Odds modelOdds = new org.portal.back.model.Odds();
         modelOdds.setOddsDate(now);
@@ -68,10 +73,10 @@ public class LineGrabber extends AbstractGrabber {
                         }
                     }
 
+                    }
                 }
             }
-        }
-        LOGGER.info("Line Grabber loop finish ");
+         LOGGER.info("Line Grabber loop finish ");
     }
 
     private Fixtures.League findLeagueById(Fixtures fix, long id) {
@@ -152,8 +157,8 @@ public class LineGrabber extends AbstractGrabber {
 
     private void createSpread(Odds.Event oddsEvent, Event emh) {
         for (Odds.Spread spread : oddsEvent.periods().get(0).spreads()) {
-            LineEvent spreadHome = LineEntityFactory.createSpread(spread.home(), now, spread.hdp(),TEAM_TYPE.TEAM_1, emh);
-            LineEvent spreadAway = LineEntityFactory.createSpread(spread.away(), now, spread.hdp(),TEAM_TYPE.TEAM_2, emh);
+            LineEvent spreadHome = LineEntityFactory.createSpread(spread.home(), now, spread.hdp(), TEAM_TYPE.TEAM_1, emh);
+            LineEvent spreadAway = LineEntityFactory.createSpread(spread.away(), now, spread.hdp(), TEAM_TYPE.TEAM_2, emh);
             LineEvent spreadHomeDB = emh.getLastSpread(spread.hdp(), TEAM_TYPE.TEAM_1.toAPI());
             LineEvent spreadAwayDB = emh.getLastSpread(spread.hdp(), TEAM_TYPE.TEAM_2.toAPI());
             if (spreadHomeDB == null || spreadHome.getPrice().compareTo(spreadHomeDB.getPrice()) != 0) {
