@@ -49,7 +49,7 @@ public class LineGrabber extends AbstractGrabber {
         LOGGER.info("Start to get odds for sportId=" + sportId);
         Odds odds = connector.getOdds(sportId, isLive);
 
-        if (odds != null || fixtures == null) {
+        if (odds == null || fixtures == null) {
             LOGGER.info("Finish Line Grabber cause or error");
             return;
         }
