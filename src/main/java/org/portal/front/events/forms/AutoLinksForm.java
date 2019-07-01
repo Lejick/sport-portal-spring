@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.portal.authentication.CurrentUser;
+import org.portal.back.grabber.*;
 import org.portal.back.model.Event;
 import org.portal.back.model.Note;
 import org.portal.back.model.NoteRepository;
@@ -56,38 +57,25 @@ public class AutoLinksForm extends Div {
         Label awayLabel = new Label(awayName);
         homeRow.add(homeLabel);
         awayRow.add(awayLabel);
-        for (Note note : listNote) {
-            if (note.getType().equals(NoteType.AUTOLINK)) {
-                String descr = note.getDescr();
-                if (descr.contains(eventP.getHome())) {
-                    if (descr.contains("Sherdog")) {
-                        Anchor link = new Anchor(note.getLink(), "Sherdog");
-                        homeRow.add(link);
-                    }
-                }
-                if (descr.contains(eventP.getAway())) {
-                    if (descr.contains("Sherdog")) {
-                        Anchor link = new Anchor(note.getLink(), "Sherdog");
-                        awayRow.add(link);
-                    }
-                }
-            }
-        }
-
         List<Note> explorerNotes = noteRepository.findByPersonName(homeName);
         for (Note note : explorerNotes) {
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
-                Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(TennisExplorerLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), TennisExplorerLinkGrabber.SITE_NAME);
                 homeRow.add(link);
             }
 
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sofascore")) {
-                Anchor link = new Anchor(note.getLink(), "SofaScore");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(SofaScoreLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), SofaScoreLinkGrabber.SITE_NAME);
                 homeRow.add(link);
             }
 
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Tapology")) {
-                Anchor link = new Anchor(note.getLink(), "Tapology");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(TapologyLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), TapologyLinkGrabber.SITE_NAME);
+                homeRow.add(link);
+            }
+
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(FightMatrixLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), FightMatrixLinkGrabber.SITE_NAME);
                 homeRow.add(link);
             }
 
@@ -95,17 +83,40 @@ public class AutoLinksForm extends Div {
 
         explorerNotes = noteRepository.findByPersonName(awayName);
         for (Note note : explorerNotes) {
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("TennisExplorer")) {
-                Anchor link = new Anchor(note.getLink(), "Tennis Explorer");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(TennisExplorerLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), TennisExplorerLinkGrabber.SITE_NAME);
                 awayRow.add(link);
             }
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sofascore")) {
-                Anchor link = new Anchor(note.getLink(), "SofaScore");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(SofaScoreLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), SofaScoreLinkGrabber.SITE_NAME);
                 awayRow.add(link);
             }
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Tapology")) {
-                Anchor link = new Anchor(note.getLink(), "Tapology");
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(TapologyLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), TapologyLinkGrabber.SITE_NAME);
                 awayRow.add(link);
+            }
+            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains(FightMatrixLinkGrabber.SITE_NAME)) {
+                Anchor link = new Anchor(note.getLink(), FightMatrixLinkGrabber.SITE_NAME);
+                awayRow.add(link);
+            }
+
+        }
+
+        for (Note note : listNote) {
+            if (note.getType().equals(NoteType.AUTOLINK)) {
+                String descr = note.getDescr();
+                if (descr.contains(eventP.getHome())) {
+                    if (descr.contains(SherdogLinkGrabber.SITE_NAME)) {
+                        Anchor link = new Anchor(note.getLink(), SherdogLinkGrabber.SITE_NAME);
+                        homeRow.add(link);
+                    }
+                }
+                if (descr.contains(eventP.getAway())) {
+                    if (descr.contains(SherdogLinkGrabber.SITE_NAME)) {
+                        Anchor link = new Anchor(note.getLink(), SherdogLinkGrabber.SITE_NAME);
+                        awayRow.add(link);
+                    }
+                }
             }
         }
 

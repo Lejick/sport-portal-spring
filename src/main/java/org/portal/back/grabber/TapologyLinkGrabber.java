@@ -18,69 +18,28 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class TapologyLinkGrabber extends GoogleGrabber {
-    private static String DELIM = " ";
-    @Autowired
-    protected DataService ds;
-    @Autowired
-    NoteRepository noteRepository;
+public class TapologyLinkGrabber extends LinkGrabber {
+    public static String SITE_NAME = "Tapology";
 
-    public void getUrls() {
-        Collection<Event> eventList = ds.getEvents(Constants.MMA_ID);
-
-        for (Event event : eventList) {
-            try {
-                String homePlayer = event.getHome();
-                String awayPlayer = event.getAway();
-                if (!containTapologyLinks(homePlayer)) {
-                    String url = getUrl(getPlayerName(event.getHome()));
-                    saveTapologyNote(homePlayer, url);
-                }
-                if (!containTapologyLinks(awayPlayer)) {
-                    String url = getUrl(getPlayerName(event.getAway()));
-                    saveTapologyNote(awayPlayer, url);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-
+    @Override
+    protected String getSiteName() {
+        return SITE_NAME;
     }
 
-
-    private void saveTapologyNote(String name, String url) {
-        if(url==null){
-            return;
-        }
-        Note note = new Note();
-        note.setSport_id(Constants.MMA_ID);
-        note.setPublictype(true);
-        note.setDescr(name + DELIM + "Tapology");
-        note.setPersonName(name);
-        note.setLink(url);
-        note.setType(NoteType.AUTOLINK);
-        noteRepository.save(note);
+    @Override
+    protected int getSportId() {
+        return Constants.MMA_ID;
     }
 
-    private boolean containTapologyLinks(String name) {
-        List<Note> explorerNotes = noteRepository.findByPersonName(name);
-        for (Note note : explorerNotes) {
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Tapology")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected  String getUrl(String query) throws IOException {
+    @Override
+    protected String getUrl(String query) throws IOException {
         String refword = query.replace("+", "-").toLowerCase();
         String userAgent = "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6";
         Elements links = Jsoup.connect("https://www.tapology.com/search?term=" +
                 URLEncoder.encode(query, "UTF-8")).
                 userAgent(userAgent).get().select(".altA a");
         for (Element elem : links) {
-          String url=  elem.absUrl("href");
+            String url = elem.absUrl("href");
             if (url.contains(refword)) {
                 return url;
             }
@@ -88,9 +47,7 @@ public class TapologyLinkGrabber extends GoogleGrabber {
         return null;
     }
 
-    private String getPlayerName(String srcName) {
-        String[] strArr = srcName.split(" ");
-        return strArr[0] + "+" + strArr[1];
+    protected String getPlayerName(String srcName) {
+        return srcName.replace(" ", "+");
     }
-
 }

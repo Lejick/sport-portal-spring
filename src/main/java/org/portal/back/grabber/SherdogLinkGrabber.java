@@ -1,6 +1,5 @@
 package org.portal.back.grabber;
 
-import org.portal.back.DataService;
 import org.portal.back.model.*;
 import org.portal.back.model.sherdog.EventModel;
 import org.portal.back.model.sherdog.Fighter;
@@ -9,24 +8,19 @@ import org.portal.back.pinnacle.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.util.EventReaderDelegate;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class SherdogLinkGrabber extends GoogleGrabber{
-    private static String DELIM = " ";
-    @Autowired
-    protected DataService ds;
-    @Autowired
-    NoteRepository noteRepository;
+public class SherdogLinkGrabber extends LinkGrabber {
     @Autowired
     FighterRepository fighterRepository;
     @Autowired
     EventRepository eventRepository;
+    public static String SITE_NAME = "Sherdog";
 
-    public void getSherdogUrl() {
+    public void getLinks() {
         Collection<Event> eventList = ds.getEvents("UFC", Constants.MMA_ID);
         for (Event event : eventList) {
             if (event.getAlterTitle() == null) {
@@ -37,12 +31,15 @@ public class SherdogLinkGrabber extends GoogleGrabber{
                     eventRepository.save(dbEvent);
                 }
             }
-            if (!containSherdogLinks(event.getId())) {
-                String homeFighter = event.getHome();
+            String homeFighter = event.getHome();
+            String awayFighter = event.getAway();
+
+            if (!containLinks(homeFighter)) {
+
                 List<Fighter> fList = fighterRepository.findByName(homeFighter);
                 for (Fighter fighter : fList) {
                     String url = fighter.getSherdogUrl();
-                    saveSherdogNote(event, homeFighter, url);
+                    saveNote(homeFighter, url);
                 }
 
                 if (fList.isEmpty()) {
@@ -54,12 +51,15 @@ public class SherdogLinkGrabber extends GoogleGrabber{
                         url = "";
                     }
                     if (url.contains("sherdog")) {
-                        saveSherdogNote(event,homeFighter, url);
+                        saveNote(homeFighter, url);
                     }
                 }
+            }
 
-                String awayFighter = event.getAway();
-                fList = fighterRepository.findByName(awayFighter);
+
+            if (!containLinks(awayFighter)) {
+
+                List<Fighter> fList = fighterRepository.findByName(awayFighter);
 
                 if (fList.isEmpty()) {
                     String searchWord = "sherdog " + awayFighter;
@@ -70,13 +70,13 @@ public class SherdogLinkGrabber extends GoogleGrabber{
                         url = "";
                     }
                     if (url.contains("sherdog")) {
-                        saveSherdogNote(event,awayFighter, url);
+                        saveNote(awayFighter, url);
                     }
                 }
 
                 for (Fighter fighter : fList) {
                     String url = fighter.getSherdogUrl();
-                    saveSherdogNote(event,awayFighter, url);
+                    saveNote(awayFighter, url);
                 }
 
 
@@ -85,23 +85,23 @@ public class SherdogLinkGrabber extends GoogleGrabber{
 
     }
 
-    private void saveSherdogNote(Event event,String name, String url){
-        Note note = new Note();
-        note.setEventId(event.getId());
-        note.setPublictype(true);
-        note.setDescr(name + DELIM + "Sherdog");
-        note.setLink(url);
-        note.setType(NoteType.AUTOLINK);
-        noteRepository.save(note);
+    @Override
+    protected String getSiteName() {
+        return SITE_NAME;
     }
 
-    private boolean containSherdogLinks(Long eventId) {
-        List<Note> sherdogNotes = noteRepository.findByEventId(eventId);
-        for (Note note : sherdogNotes) {
-            if (note.getType().equals(NoteType.AUTOLINK) && note.getDescr().contains("Sherdog")) {
-                return true;
-            }
-        }
-        return false;
+    @Override
+    protected int getSportId() {
+        return Constants.MMA_ID;
+    }
+
+    @Override
+    protected String getUrl(String query) throws IOException {
+        return null;
+    }
+
+    @Override
+    protected String getPlayerName(String query) {
+        return null;
     }
 }

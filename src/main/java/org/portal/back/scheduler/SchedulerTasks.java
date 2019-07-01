@@ -1,9 +1,6 @@
 package org.portal.back.scheduler;
 
-import org.portal.back.grabber.SherdogLinkGrabber;
-import org.portal.back.grabber.SofaScoreLinkGrabber;
-import org.portal.back.grabber.TapologyLinkGrabber;
-import org.portal.back.grabber.TennisExplorerLinkGrabber;
+import org.portal.back.grabber.*;
 import org.portal.back.pinnacle.box.BoxLineGrabber;
 import org.portal.back.pinnacle.darts.DartsLineGrabber;
 import org.portal.back.pinnacle.darts.DartsLineGrabberLive;
@@ -38,6 +35,8 @@ public class SchedulerTasks {
     SofaScoreLinkGrabber sofascoreLinkGrabber;
     @Autowired
     TapologyLinkGrabber tapologyLinkGrabber;
+    @Autowired
+    FightMatrixLinkGrabber fightMatrixLinkGrabber;
 
     @Autowired
     DartsLineGrabber dartsLineGrabber;
@@ -76,24 +75,29 @@ public class SchedulerTasks {
         boxLineGrabber.grab();
     }
 
-    @Scheduled(fixedRate = 60 * 1000)
+    @Scheduled(fixedRate = 30*60 * 1000)
     public void grabSherdogLinks() {
-        sherdogLinkGrabber.getSherdogUrl();
+        sherdogLinkGrabber.getLinks();
+    }
+
+    @Scheduled(fixedRate = 30*60 * 1000)
+    public void grabFightMatrixLinks() {
+        fightMatrixLinkGrabber.getLinks();
     }
 
     @Scheduled(fixedRate = 10 * 60 * 1000)
     public void grabTennisExplorerLink() {
-        tennisExplorerLinkGrabber.getExplorerUrl();
+        tennisExplorerLinkGrabber.getLinks();
     }
 
     @Scheduled(fixedRate = 10 * 60 * 1000)
     public void grabSofaScoreLink() {
-        sofascoreLinkGrabber.getUrl();
+        sofascoreLinkGrabber.getLinks();
     }
 
     @Scheduled(fixedRate = 2 * 60 * 60 * 1000)
     public void grabTapology() {
-        tapologyLinkGrabber.getUrls();
+        tapologyLinkGrabber.getLinks();
     }
 
     @Scheduled(fixedRate = 4 * 60 * 1000)
